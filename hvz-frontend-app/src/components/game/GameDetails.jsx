@@ -1,19 +1,28 @@
 import React from 'react';
 import '../../styles/custom.css';
+import CustomBtn from '../common/CustomButton';
 
 const GameDetails = ({ imageSrc, title, description, state }) => {
     return (
-        <div className="flex flex-col md:flex-row " >
-            <img className="mx-6 mt-6 rounded aspect-square justify-center sm:w-auto md:mb-6 md:h-36" src={imageSrc} alt={title} />
-            <div className="flex flex-col m-6">
-                <h5 className="text-xl font-medium text-white mb-2">
-                    {title}
-                </h5>
-                <p class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300 h-10 w-fit" >{state}</p>
-                <p className="text-base text-white block">
+        <div className="flex flex-col md:flex-row">
+            <div className="flex flex-row md:flex-col">
+                <img className="mx-6 mt-6 rounded aspect-square sm:w-auto md:mb-6 md:h-36" src={imageSrc} alt={title} />
+            </div>
+            <div className="flex flex-col md:flex-col m-6 relative w-full">
+                <div className="flex flex-row w-full justify-between">
+                    <h5 className="text-xl font-medium text-white mb-2">
+                        {title}
+                    </h5>
+                    <p className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300 self-start">
+                        {state}
+                    </p>
+                </div>
+                <p className="text-base text-white">
                     {description}
                 </p>
-
+                <div className="absolute bottom-0 right-0 mt-auto">
+                    <CustomBtn href="https://flowbite.com/docs/components/card/" label={"Join"} className="w-fit" />
+                </div>
             </div>
         </div>
     );
