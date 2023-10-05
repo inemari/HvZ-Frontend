@@ -3,16 +3,12 @@
 import React from 'react';
 
 const Button = ({ label, onClick }) => {
-  // Determine the background color based on the button type
-  const backgroundColorClass = 'bg-customOrange hover:bg-customDarkOrange';
 
-  // Determine the text color based on the button type
-  const textColorClass = 'text-customWhite';
 
   return (
     <button
       onClick={onClick}
-      className={`font-bold py-2 px-4 rounded-full ${backgroundColorClass} ${textColorClass} md:py-3 md:px-5 md:text-lg lg:py-4 lg:px-6 lg:text-xl`}
+      className={`flex box-border md:max-w-xs w-full justify-center font-bold h-fit py-2 rounded-full bg-customOrange hover:bg-opacity-90 text-customWhite  md:px-5 md:text-lg  lg:px-6 lg:text-xl`}
     >
       {label}
     </button>

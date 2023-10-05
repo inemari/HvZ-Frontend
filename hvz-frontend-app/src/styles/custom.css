@@ -1,3 +1,28 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+/* Set HTML and body height to 100% */
+html,
+body {
+    height: 100%;
+}
+
+/* custom.css */
+.background-image {
+    background-image: url('../assets/images/bg-landingpage.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    opacity: 0.5; /* Adjust opacity as needed */
+    z-index: -1; /* Place it behind other content */
+  }
+  
+  .App {
+    height: 100vh;
+    overflow: hidden;
+    align-items: self-start;
+    z-index: 1; /* Place it in front of the background */
+
+  }
+  
