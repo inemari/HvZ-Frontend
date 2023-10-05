@@ -18,10 +18,11 @@ const App = () => {
     }, []);
 
   return (
-    <div className="App relative bg-black">
-      <div className="background-image absolute top-0 left-0 w-full h-full "></div>
-      <LandingPage />
-    </div>
+    <div className="relative">
+    <div className="dark-bg absolute"></div>
+    <div className="background-image absolute top-0 left-0"></div>
+    <LandingPage />
+  </div>
   );
 };
 

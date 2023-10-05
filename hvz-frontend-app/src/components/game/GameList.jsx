@@ -23,16 +23,18 @@ const games = [
 
 const GameList = () => {
     return (
-        <div className="container mx-auto ">
-            {games.map((game) => (
-                <GameCard
-                    key={game.id}
-                    imageSrc={game.imageSrc}
-                    title={game.title}
-                    description={game.description}
-                    state={game.state}
-                />
-            ))}
+        <div className="container mx-auto  flex flex-row justify-center min-w-full box-border w-auto bg-black h-fit min-h-full bg-opacity-60 p-10 hover:overflow-scroll">
+            <div className="">
+                {games.map((game) => (
+                    <GameCard
+                        key={game.id}
+                        imageSrc={game.imageSrc}
+                        title={game.title}
+                        description={game.description}
+                        state={game.state}
+                    />
+                ))}
+            </div>
         </div>
     );
 };
