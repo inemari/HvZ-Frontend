@@ -9,12 +9,14 @@ const games = [
         imageSrc: image1,
         title: 'Supergame',
         description: 'Amet consequat deserunt culpa eiusmod ea exercitation labore mollit nonAmet consequat deserunt culpa eiusmod ea exercitation labore mollit non,Amet consequat deserunt culpa eiusmod ea exercitation labore mollit non.',
+        state: 'Completed'
     },
     {
         id: 2,
         imageSrc: image1,
         title: 'Game 2',
         description: 'Amet consequat deserunt culpa eiusmod ea exercitation labore mollit non',
+        state: 'In progress'
     },
     // Add more game objects as needed
 ];
@@ -28,6 +30,7 @@ const GameList = () => {
                     imageSrc={game.imageSrc}
                     title={game.title}
                     description={game.description}
+                    state={game.state}
                 />
             ))}
         </div>
