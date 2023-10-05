@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "keycloak-js": "^22.0.4"
+  }
+}
