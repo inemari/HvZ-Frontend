@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-const Button = ({ label, onClick }) => {
+const CustomButton = ({ label, onClick }) => {
 
 
   return (
@@ -15,4 +15,4 @@ const Button = ({ label, onClick }) => {
   );
 };
 
-export default Button;
+export default CustomButton;
