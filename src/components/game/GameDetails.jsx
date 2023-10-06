@@ -2,7 +2,16 @@ import React from 'react';
 import '../../styles/custom.css';
 import CustomBtn from '../common/CustomButton';
 
+import { useNavigate } from 'react-router-dom';
+
 const GameDetails = ({ imageSrc, title, description, state }) => {
+    const navigate = useNavigate(); // Initialize the useNavigate hook
+
+    const handleButtonClick = () => {
+        // Navigate to the "/AboutGame" route when the button is clicked
+        navigate('/AboutGame');
+    };
+
     return (
         <div className="flex flex-col md:flex-row">
             <div className="flex flex-row md:flex-col">
@@ -21,7 +30,7 @@ const GameDetails = ({ imageSrc, title, description, state }) => {
                     {description}
                 </p>
                 <div className="absolute bottom-0 right-0 mt-auto">
-                    <CustomBtn href="https://flowbite.com/docs/components/card/" label={"Join"} className="w-fit" />
+                    <CustomBtn onClick={handleButtonClick} label={"Join"} className="w-fit" />
                 </div>
             </div>
         </div>
