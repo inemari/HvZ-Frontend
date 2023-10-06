@@ -17,7 +17,7 @@ const App = () => {
     <div className="relative">
       <div className="dark-bg absolute"></div>
       <div className="background-image absolute top-0 left-0"></div>
-      <LandingPage />
+
 
       <Routes>
         {/* Defining routes using the Routes component */}
