@@ -1,28 +1,31 @@
 import React from 'react';
-import './styles/custom.css'; // Import your custom CSS
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from 'react-router-dom';
+import './styles/custom.css';
 import LandingPage from './views/LandingPage';
-// import { initialize } from './keycloak';
+import AboutGame from './views/AboutGamePage';
+import Game from './views/Game';
 
 const App = () => {
-  // const [authenticated, setAuthenticated] = useState(false);
 
-  // useEffect(() => {
-  //   // Initialize Keycloak when the component mounts
-  //   initialize()
-  //     .then((authenticated) => {
-  //       setAuthenticated(authenticated);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Keycloak initialization error', error);
-  //     });
-  // }, []);
 
   return (
+
     <div className="relative">
       <div className="dark-bg absolute"></div>
       <div className="background-image absolute top-0 left-0"></div>
       <LandingPage />
-    </div>
+
+      <Routes>
+        {/* Defining routes using the Routes component */}
+        <Route path='/' element={<LandingPage />} /> {/* Route for the LandingPage view */}
+        <Route path='/AboutGame' element={<AboutGame />} /> {/* Route for the GameDetails view */}
+        <Route path='/Game' element={<Game />} /> {/* Route for the Game view */}
+      </Routes></div>
+
   );
 };
 
