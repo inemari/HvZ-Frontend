@@ -1,16 +1,9 @@
 import React from 'react';
 import '../../styles/custom.css';
-import CustomBtn from '../common/CustomButton';
 
-import { useNavigate } from 'react-router-dom';
 
 const GameDetails = ({ imageSrc, title, description, state }) => {
-    const navigate = useNavigate(); // Initialize the useNavigate hook
 
-    const handleButtonClick = () => {
-        // Navigate to the "/AboutGame" route when the button is clicked
-        navigate('/AboutGame');
-    };
 
     return (
         <div className="flex flex-col md:flex-row">
@@ -29,9 +22,7 @@ const GameDetails = ({ imageSrc, title, description, state }) => {
                 <p className="text-base text-white">
                     {description}
                 </p>
-                <div className="absolute bottom-0 right-0 mt-auto">
-                    <CustomBtn onClick={handleButtonClick} label={"Join"} className="w-fit" />
-                </div>
+
             </div>
         </div>
     );
