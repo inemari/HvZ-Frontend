@@ -1,8 +1,9 @@
 import React from 'react';
 import CustomBtn from './CustomButton';
-import keycloak from '../../Keycloak';
+import { useKeycloak } from "@react-keycloak/web";
 
 const ButtonGroup = () => {
+    const { keycloak } = useKeycloak();
 
     return (
         <div className="flex flex-row space-x-6 w-full justify-between md:justify-end md:max-w-xs">
@@ -14,7 +15,6 @@ const ButtonGroup = () => {
             {keycloak.authenticated && (
                 <CustomBtn label="Logout" onClick={() => keycloak.logout()} />
             )}
-
         </div>
     );
 };
