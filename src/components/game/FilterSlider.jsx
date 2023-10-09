@@ -10,7 +10,7 @@ const FilterSlider = ({ activeTab, handleTabChange }) => {
   ];
 
   return (
-    <div className="bg-custom-green rounded-lg border-4 border-customBrown p-4 flex items-center">
+    <div className="bg-custom-green rounded-lg border-4 border-customBrown flex items-center container mx-auto">
       {/* Map over each filter option and create buttons and separators */}
       {filterOptions.map((option, index) => (
         <React.Fragment key={option.value}>
@@ -22,7 +22,7 @@ const FilterSlider = ({ activeTab, handleTabChange }) => {
               activeTab === option.value
                 ? 'bg-customBrown text-white'
                 : 'bg-custom-green text-customWhite'
-            } py-2 px-4 rounded-md flex-1 text-center relative`}
+              } py-2 px-4 rounded-md flex-1 text-center relative`}
           >
             {option.label}
           </button>

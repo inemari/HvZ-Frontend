@@ -10,7 +10,7 @@ body {
 
 /* custom.css */
 .background-image {
-  background-image: url('../assets/images/bg-landingpage.jpg');
+  background-image: url('../assets/images/app-bg.png');
   background-size: cover;
   background-position: center;
   height: 100vh;
