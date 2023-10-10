@@ -1,44 +1,41 @@
-import React from 'react';
+// FilterSlider.jsx
 
-// FilterSlider component with activeTab and handleTabChange props
+import React, { useEffect, useState } from 'react';
+import { getGameStatusValues } from '../../services/gameService';
+
 const FilterSlider = ({ activeTab, handleTabChange }) => {
-  // Define an array of filter options with label and value
-  const filterOptions = [
-    { label: 'In Progress', value: 'In Progress' },
-    { label: 'Registration', value: 'Registration' },
-    { label: 'Complete', value: 'Complete' },
-  ];
+  const [filterOptions, setFilterOptions] = useState([]);
+
+  useEffect(() => {
+    async function fetchGameStatusValues() {
+      try {
+        // Use the service function to fetch game status values
+        const gameStatusValues = await getGameStatusValues();
+        setFilterOptions(gameStatusValues);
+      } catch (error) {
+        console.error('There has been a problem with fetching game status values:', error);
+      }
+    }
+    fetchGameStatusValues();
+  }, []); // Empty dependency array means this effect runs once on component mount
 
   return (
     <div className="container mx-auto bg-customLightBrown flex rounded-md">
-      {/* Map over each filter option and create buttons and separators */}
-      {
-        filterOptions.map((option, index) => (
-          <React.Fragment key={option.value}>
-            <button
-              // Handle click event for changing the active tab
-              onClick={() => handleTabChange(option.value)}
-              className={`${
-                // Apply background and text color based on activeTab state
-                activeTab === option.value
-                  ? 'bg-customBrown text-white rounded-md '
-                  : ' text-customWhite hover:bg-customBrown hover:bg-opacity-80 hover:rounded-md '
-                } py-2 px-4 flex-1 text-center relative`}
-            >
-              {option.label}
-            </button>
-            {/* Add a separator (vertical line) after each option except the last one */}
-            {index < filterOptions.length - 1 && (
-              <div
-                className="w-1 h-6 bg-customBrown fixed right-0 bottom-0 mt-3 px-3"
-                style={{ marginLeft: '8px', marginRight: '8px' }}
-              ></div>
-            )}
-          </React.Fragment>
-        ))
-      }
-    </div >
+      {filterOptions.map((option) => (
+        <React.Fragment key={option}>
+          <button
+            onClick={() => handleTabChange(option)}
+            className={`${activeTab === option
+              ? 'bg-customBrown text-white rounded-md '
+              : ' text-customWhite hover:bg-customBrown hover:bg-opacity-80 hover:rounded-md '
+              } py-2 px-4 flex-1 text-center relative`}
+          >
+            {option}
+          </button>
+        </React.Fragment>
+      ))}
+    </div>
   );
 };
 
-export default FilterSlider; // Export the FilterSlider component
+export default FilterSlider;

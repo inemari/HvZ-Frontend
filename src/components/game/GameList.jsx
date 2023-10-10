@@ -1,39 +1,28 @@
+// GameList.jsx
+
 import React, { useState, useEffect } from 'react';
 import GameCard from './GameCard';
+import { getGamesByState } from '../../services/gameService';
 
 const GameList = ({ activeTab }) => {
-    const API_URL = process.env.REACT_APP_API_URL;
     const [games, setGames] = useState([]);
 
-    const gameStateMap = {
-        'In Progress': 'InProgress',  // Adjust these values to match your backend enum strings
-        'Registration': 'Registration',
-        'Complete': 'Complete',
-    };
-
-    const getGameStateValue = (tab) => gameStateMap[tab] || tab;
-
     useEffect(() => {
-        async function fetchGames() {
+        async function fetchGamesData() {
             try {
-                const gameStateValue = getGameStateValue(activeTab);
-                const response = await fetch(`${API_URL}/game/filterbystates/${gameStateValue}`);
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok: ${response.statusText}`);
-                }
-                const data = await response.json();
-                setGames(data);
+                const gamesData = await getGamesByState(activeTab);
+                setGames(gamesData);
             } catch (error) {
                 console.error('There has been a problem with your fetch operation:', error);
             }
         }
-        fetchGames();
-    }, [activeTab, API_URL]);
+        fetchGamesData();
+    }, [activeTab]);
 
     return (
         <div className='container mx-auto  relative' style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
             {games.map(game => (
-                <GameCard key={game.id} game={game} />
+                <GameCard game={game} key={game.id} />
             ))}
         </div>
     );
