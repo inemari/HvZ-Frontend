@@ -31,7 +31,7 @@ const GameList = ({ activeTab }) => {
     }, [activeTab, API_URL]);
 
     return (
-        <div className='container mx-auto'>
+        <div className='container mx-auto  relative' style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
             {games.map(game => (
                 <GameCard key={game.id} game={game} />
             ))}

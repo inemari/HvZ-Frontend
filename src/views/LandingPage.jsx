@@ -12,11 +12,9 @@ const LandingPage = () => {
   };
 
   return (
-    <div className='flex flex-col m-6 min-h-full '>
+    <div className='flex flex-col fixed justify-center mx-auto w-full'>
       <NavBar />
-      <div className="pb-6 justify-center mt-3">
-        <FilterSlider activeTab={activeTab} handleTabChange={handleTabChange} />
-      </div>
+      <FilterSlider activeTab={activeTab} handleTabChange={handleTabChange} />
       <GameContainer activeTab={activeTab} />
     </div>
   );

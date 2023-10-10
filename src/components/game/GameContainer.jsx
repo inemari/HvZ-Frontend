@@ -17,7 +17,7 @@ const GameContainer = ({ activeTab }) => {  // Receive activeTab prop
     }, []);
 
     return (
-        <div className="container mx-auto px-auto flex flex-row justify-center box-border bg-black h-fit min-h-full bg-opacity-60 hover:overflow-scroll rounded-lg">
+        <div className="container mx-auto px-auto justify-center bg-black bg-opacity-60  rounded-lg mt-3">
             <GameList games={games} activeTab={activeTab} />
         </div>
     );

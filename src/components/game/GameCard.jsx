@@ -6,8 +6,16 @@ import { useNavigate } from 'react-router-dom';
 // GameCard Component
 const GameCard = ({ game }) => {  // Fixed prop passing
     const navigate = useNavigate();
+
+    const handleGameClick = () => {
+        // Save game information to localStorage when a game is clicked
+        localStorage.setItem('selectedGame', JSON.stringify(game));
+
+        // Navigate to the "/AboutGame" route
+        navigate('/AboutGame');
+    };
     return (
-        <div className='bg-customLightOrange bg-opacity-20 shadow-md m-10 rounded-xl cursor-pointer' onClick={() => navigate('/AboutGame')} >
+        <div className='bg-customLightBrown bg-opacity-70 shadow-md m-10 rounded-xl cursor-pointer' onClick={handleGameClick}>
             <GameDetails game={game} />
         </div>
     );

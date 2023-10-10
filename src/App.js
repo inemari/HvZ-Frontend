@@ -27,7 +27,7 @@ const App = () => {
     <BrowserRouter>
       <div className="relative">
         <div className="dark-bg absolute"></div>
-        <div className="background-image absolute top-0 left-0"></div>
+        <div className="background-image absolute top-0 left-0 "></div>
         <Routes>
           <Route path='/' element={<LandingPage />} />
           <Route path='/AboutGame' element={<AboutGame />} />
