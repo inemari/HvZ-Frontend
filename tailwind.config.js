@@ -9,6 +9,7 @@ module.exports = {
         customLightOrange: 'hsl(25, 19%, 86%)',
         customBrown: '#453435',
         customDarkOrange: '#AE5C2E',
+        customLightBrown: '#555',
       },
     },
   },

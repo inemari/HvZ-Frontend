@@ -1,55 +1,42 @@
-import React from 'react';
-import '../../styles/custom.css'; // Import custom CSS styles
-import GameCard from './GameCard'; // Import the GameCard component
-import image1 from '../../assets/images/bg-landingpage.jpg'; // Import image assets
+import React, { useState, useEffect } from 'react';
+import GameCard from './GameCard';
 
-// Array of game objects with details
-const games = [
-    {
-        id: 1,
-        imageSrc: image1,
-        title: 'Supergame',
-        description:
-            'Amet consequat deserunt culpa eiusmod ea exercitation labore mollit nonAmet consequat deserunt culpa eiusmod ea exercitation labore mollit non,Amet consequat deserunt culpa eiusmod ea exercitation labore mollit non.',
-        state: 'Completed',
-    },
-    {
-        id: 2,
-        imageSrc: image1,
-        title: 'Game 2',
-        description: 'Amet consequat deserunt culpa eiusmod ea exercitation labore mollit non',
-        state: 'In Progress',
-    },
-    // Add more game objects as needed
-];
-
-// GameList component that takes an 'activeTab' prop
 const GameList = ({ activeTab }) => {
-    let filteredGames;
+    const API_URL = process.env.REACT_APP_API_URL;
+    const [games, setGames] = useState([]);
 
-    // Check if 'activeTab' is 'Complete' to filter games with 'Completed' state
-    if (activeTab === 'Complete') {
-        filteredGames = games.filter((game) => game.state === 'Completed');
-    } else {
-        // Filter games based on 'activeTab' state
-        filteredGames = games.filter((game) => game.state === activeTab);
-    }
+    const gameStateMap = {
+        'In Progress': 'InProgress',  // Adjust these values to match your backend enum strings
+        'Registration': 'Registration',
+        'Complete': 'Complete',
+    };
+
+    const getGameStateValue = (tab) => gameStateMap[tab] || tab;
+
+    useEffect(() => {
+        async function fetchGames() {
+            try {
+                const gameStateValue = getGameStateValue(activeTab);
+                const response = await fetch(`${API_URL}/game/filterbystates/${gameStateValue}`);
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+                const data = await response.json();
+                setGames(data);
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+        fetchGames();
+    }, [activeTab, API_URL]);
 
     return (
-        <div className="container mx-auto  flex flex-row justify-center min-w-full box-border w-auto bg-black h-fit min-h-full bg-opacity-60 p-10 hover:overflow-scroll">
-            <div className="">
-                {filteredGames.map((game) => (
-                    <GameCard
-                        key={game.id}
-                        imageSrc={game.imageSrc}
-                        title={game.title}
-                        description={game.description}
-                        state={game.state}
-                    />
-                ))}
-            </div>
+        <div className='container mx-auto  relative' style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
+            {games.map(game => (
+                <GameCard key={game.id} game={game} />
+            ))}
         </div>
     );
 };
 
-export default GameList; // Export the GameList component
+export default GameList;
