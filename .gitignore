@@ -19,7 +19,10 @@
 .env.production.local
 .env
 
+keycloak.json
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+public/keycloak.json
