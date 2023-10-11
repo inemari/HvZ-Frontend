@@ -5,7 +5,7 @@ import FilterSlider from '../components/game/FilterSlider'; // Import the Filter
 import NavBar from '../components/common/NavBar';
 
 const LandingPage = () => {
-  const [activeTab, setActiveTab] = useState('In Progress');
+  const [activeTab, setActiveTab] = useState("1");
 
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
