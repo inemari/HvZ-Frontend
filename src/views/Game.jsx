@@ -2,8 +2,7 @@ import React from 'react'
 
 function Game() {
     return (
-        <h1>GAME</h1>
-        
+        <h1 className='text-5xl justify-center'>GAMEPAGE</h1>
     )
 }
 

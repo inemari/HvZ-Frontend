@@ -17,7 +17,7 @@ function AboutGame() {
 
     return (
         <div className='flex flex-col m-6 min-h-full justify-center py-auto'>
-            <NavBar />
+
 
             {/* Game Box */}
             <div className="container mx-auto p-6 bg-black bg-opacity-60  rounded-lg text-white">

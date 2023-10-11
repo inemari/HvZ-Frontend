@@ -13,7 +13,7 @@ const LandingPage = () => {
 
   return (
     <div className='flex flex-col fixed justify-center mx-auto w-full'>
-      <NavBar />
+      
       <FilterSlider activeTab={activeTab} handleTabChange={handleTabChange} />
       <GameContainer activeTab={activeTab} />
     </div>
