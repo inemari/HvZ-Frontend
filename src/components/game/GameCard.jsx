@@ -15,7 +15,7 @@ const GameCard = ({ game }) => {  // Fixed prop passing
         navigate('/AboutGame');
     };
     return (
-        <div className='bg-customLightBrown bg-opacity-70 shadow-md m-10 rounded-xl cursor-pointer' onClick={handleGameClick}>
+        <div className='bg-customLightBrown bg-opacity-70 shadow-md m-10 rounded-xl cursor-pointer p-6' onClick={handleGameClick}>
             <GameDetails game={game} />
         </div>
     );

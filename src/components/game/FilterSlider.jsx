@@ -1,22 +1,23 @@
 // FilterSlider.jsx
 
 import React, { useEffect, useState } from 'react';
-import { getGameStatusValues } from '../../services/gameService';
+import { fetchAllGameStates, getGames } from '../../services/gameService';
 
 const FilterSlider = ({ activeTab, handleTabChange }) => {
   const [filterOptions, setFilterOptions] = useState([]);
 
   useEffect(() => {
-    async function fetchGameStatusValues() {
+    async function fetchGameStates() {
       try {
         // Use the service function to fetch game status values
-        const gameStatusValues = await getGameStatusValues();
+        const gameStatusValues = await fetchAllGameStates();
         setFilterOptions(gameStatusValues);
+        console.log(gameStatusValues);
       } catch (error) {
         console.error('There has been a problem with fetching game status values:', error);
       }
     }
-    fetchGameStatusValues();
+    fetchGameStates();
   }, []); // Empty dependency array means this effect runs once on component mount
 
   return (
