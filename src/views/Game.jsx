@@ -2,7 +2,8 @@ import React from 'react'
 
 function Game() {
     return (
-        <div>Game</div>
+        <h1>GAME</h1>
+        
     )
 }
 
