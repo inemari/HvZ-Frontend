@@ -19,10 +19,7 @@
 .env.production.local
 .env
 
-<<<<<<< HEAD
 /public/keycloak.json
-=======
->>>>>>> SCRUM-146-interactive-map
 keycloak.json
 
 npm-debug.log*
