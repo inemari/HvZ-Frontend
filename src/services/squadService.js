@@ -17,3 +17,8 @@ export const createNewSquad = async (squadName) => {
         throw error;
     }
 }
+
+export default {
+    getSquads,
+    createNewSquad
+}; 

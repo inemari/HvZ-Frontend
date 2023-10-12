@@ -35,9 +35,9 @@ export const fetchSquads = async () => {
 
 export const createSquad = async (squadName) => {
     try {
-      const response = await api.post('/Squad', { name: squadName }); // Replace '/Squad' with your API endpoint
-      return response.data;
+        const response = await api.post('/Squad', { SquadName: squadName });
+        return response.data;
     } catch (error) {
-      throw error;
+        throw error;
     }
-  };
+};
