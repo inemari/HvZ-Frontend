@@ -1,19 +1,28 @@
+// MissionList.js
 import React from 'react';
+import MissionMarker from './MissionMarker';
 
-const MissionList = ({ missions }) => {
+const MissionList = ({ missionData }) => {
+  // Log information before rendering
+
+
   return (
-    <div className="bg-white p-4 rounded shadow">
-      <h2 className="text-lg font-semibold">Missions</h2>
-      <ul className="list-disc pl-4">
-        {missions.map((mission) => (
-          <li key={mission.id}>
-            <h3 className="text-xl font-medium">{mission.name}</h3>
-            <p className="text-gray-600">{mission.description}</p>
-            {/* Add more mission details here */}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul>
+      {missionData.map((mission) => (
+        <li key={mission.id}>
+          {/* <h3>{mission.name}</h3>
+          <p>LocationId: {mission.locationId}</p>
+          <p>xCoordinate: {mission.location?.xCoordinate || 'N/A'}</p> */}
+          <MissionMarker
+            missionId={mission.id}
+            x={mission.location?.xCoordinate / 10 || 'N/A'}
+            y={mission.location?.yCoordinate / 10 || 'N/A'}
+            missionTitle={mission.name}
+            missionDescription={mission.description}
+          />
+        </li>
+      ))}
+    </ul>
   );
 };
 

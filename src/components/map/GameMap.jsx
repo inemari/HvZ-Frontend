@@ -1,33 +1,31 @@
-import React, { useState } from "react";
-import CoordinateMaker from "./CoordinateMaker";
+// GameMap.js
+import React, { useState, useEffect } from 'react';
+import { fetchMissionsForGame } from '../../services/mapService';
+import MissionList from '../missions/MissionList';
 
-const GameMap = () => {
-  const [coordinates, setCoordinates] = useState([]);
+const GameMap = ({ gameData }) => {
+  // Retrieve the game information from localStorage
+  const selectedGame = JSON.parse(localStorage.getItem('selectedGame'));
+  const missionIds = selectedGame.missionIds;
 
-  const addCoordinate = (newCoordinate) => {
-    setCoordinates([...coordinates, newCoordinate]);
-  };
+  const [missionData, setMissionData] = useState([]);
+
+  useEffect(() => {
+    async function fetchMissionData() {
+      try {
+        const missionData = await fetchMissionsForGame(missionIds);
+        setMissionData(missionData);
+      } catch (error) {
+        console.error('Failed to fetch missions:', error);
+      }
+    }
+
+    fetchMissionData();
+  }, [missionIds]);
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="container mx-auto p-8 bg-gray-600 rounded-lg">
-        <div className="relative aspect-square bg-gray-600">
-          {/* Render the coordinates as red dots */}
-          {coordinates.map((coordinate, index) => (
-            <div
-              key={index}
-              className="absolute bg-red-500 text-white w-6 h-6 rounded-full text-center"
-              style={{
-                left: `${coordinate.x}%`,
-                top: `${coordinate.y}%`,
-              }}
-            >
-              {index + 1}
-            </div>
-          ))}
-        </div>
-        <CoordinateMaker onAddCoordinate={addCoordinate} />
-      </div>
+    <div className='text-white'>
+      <MissionList missionData={missionData} />
     </div>
   );
 };

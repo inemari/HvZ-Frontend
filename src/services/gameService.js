@@ -1,5 +1,3 @@
-// gameService.js
-
 import { fetchGames, fetchGamesByState } from "./api";
 
 function removeDuplicates(arr, prop) {
@@ -42,9 +40,8 @@ export const getGameStatusValues = async () => {
         }));
         // Remove duplicate values and return them
         const uniqueGameStatusValues = removeDuplicates(gameStatusValues, 'gameState');
-        return uniqueGameStatusValues
+        return uniqueGameStatusValues;
     } catch (error) {
         throw error;
     }
 };
-

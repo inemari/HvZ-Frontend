@@ -45,4 +45,5 @@ const CoordinateMaker = ({ onAddCoordinate }) => {
     </div>
   );
 };
+
 export default CoordinateMaker;
