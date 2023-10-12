@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import CustomBtn from './CustomButton.jsx';
 import Dropdown from './DropDownBtn.jsx';
 
+
 const NavBar = () => {
     const location = useLocation(); // Get the current location (route)
     const navigate = useNavigate(); // Get the navigation function
@@ -17,15 +18,19 @@ const NavBar = () => {
                     {/* Add your game-related buttons here */}
                     {/* Example: */}
                     <Dropdown
-                        label="Dropdown"
-                        options={['Option1', 'Option2', 'Option3']}
+                        label="Manage Squad"
+                        options={['Squad registration', 'Squad details']}
                         onClickOption={(option) => {
                             // Handle what happens when an option is clicked
-                            console.log(`Clicked option: ${option}`);
+                            if (option === 'Squad registration') {
+                                navigate('/SquadRegistration');
+                            } else if (option === 'Squad details') {
+                                navigate('/SquadDetails');
+                            }
                         }}
                     />
-                    <CustomBtn label="Option1" onClick={() => navigate('/Option1')} />
-                    <CustomBtn label="Option2" onClick={() => navigate('/Option2')} />
+                    <CustomBtn label="Map" onClick={() => navigate('/Map')} />
+                    <CustomBtn label="Bite code actions" onClick={() => navigate('/BiteCode')} />
                     {/* Add more buttons as needed */}
                 </>
             );

@@ -1,5 +1,5 @@
 import React from 'react';
-import GameMap from '../components/map/GameMap'; // Adjust the import path
+import GameMap from '../../components/map/GameMap'; // Adjust the import path
 
 function Game() {
   return (
