@@ -23,3 +23,21 @@ export const fetchGamesByState = async (gameState) => {
         throw error;
     }
 };
+
+export const fetchSquads = async () => {
+    try {
+        const response = await api.get('/Squad');
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const createSquad = async (squadName) => {
+    try {
+      const response = await api.post('/Squad', { name: squadName }); // Replace '/Squad' with your API endpoint
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
