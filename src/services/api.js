@@ -36,14 +36,31 @@ export async function fetchGames() {
   }
 }
 
-// Function to fetch games by state
-export async function fetchGamesByState(gameState) {
+
+
+export const fetchGamesByState = async (gameState) => {
   try {
     const response = await api.get(`/game/filterbystates/${gameState}`);
     return response.data;
   } catch (error) {
     throw error;
   }
+};
+
+export const fetchSquads = async () => {
+  try {
+    const response = await api.get('/Squad');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 }
 
-export default api;
+export const createSquad = async (squadName) => {
+  try {
+    const response = await api.post('/Squad', { SquadName: squadName });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}; export default api;
