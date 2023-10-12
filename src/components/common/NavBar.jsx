@@ -1,7 +1,7 @@
 import AuthButtons from './AuthButtons.jsx';
 import logo from '../../assets/icons/LogoHVZ.png'
 import { useLocation, useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
+
 import CustomBtn from './CustomButton.jsx';
 import Dropdown from './DropDownBtn.jsx';
 
