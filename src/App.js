@@ -41,7 +41,7 @@ const App = () => {
           <Route path='/Map' element={<Map />} />
           <Route path='/SquadRegistration' element={<SquadRegistration />} />
           <Route path='/SquadDetails' element={<SquadDetails />} />
-          <Route path='/Bitecode' element={<BiteCode />} />
+          <Route path='/BiteCode' element={<BiteCode />} />
         </Routes>
       </div>
     </BrowserRouter>

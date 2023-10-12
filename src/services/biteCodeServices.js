@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import ZombieFeatures from '../../components/biteCode/ZombieFeatures';
-import { fetchPlayerInfo } from '../../services/api';
+import ZombieFeatures from '../components/biteCode/ZombieFeatures';
+import { fetchPlayerInfo } from './api';
+
 
 const BiteCode = ({ userRole }) => {
   const [biteCode, setBiteCode] = useState(null);
 
   useEffect(() => {
     const playerId = 1; // Set the player ID you want to fetch
-  
+
     // Fetch the player's bite code
     fetchPlayerInfo(playerId)
       .then((response) => {
-        console.log('API Response:', response); // Debugging
         setBiteCode(response.biteCode);
       })
       .catch((error) => {
         console.error('Error fetching player info', error);
       });
   }, []);
-  
 
   return (
     <div>
