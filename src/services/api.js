@@ -7,7 +7,7 @@ const api = axios.create({
 // Function to fetch player information
 export async function fetchPlayerInfo(playerId) {
   try {
-    const response = await api.get(`/api/players/${playerId}`);
+    const response = await api.get(`/players/${playerId}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching player info', error);
@@ -18,10 +18,25 @@ export async function fetchPlayerInfo(playerId) {
 // Function to update player information (turn a human into a zombie)
 export async function modifyPlayer(playerId, playerData) {
   try {
-    const response = await api.put(`/api/players/${playerId}`, playerData);
+    const response = await api.put(`/players/${playerId}`, playerData);
     return response.data;
   } catch (error) {
     console.error('Error updating player info', error);
+    throw error;
+  }
+}
+
+// Function to turn a human into a zombie
+export async function turnHumanIntoZombie(playerId) {
+  try {
+    const playerData = {
+      zombie: true,
+      // You can add other fields to update as needed
+    };
+    const response = await api.put(`/players/${playerId}`, playerData);
+    return response.data;
+  } catch (error) {
+    console.error('Error turning a human into a zombie', error);
     throw error;
   }
 }
@@ -35,8 +50,6 @@ export async function fetchGames() {
     throw error;
   }
 }
-
-
 
 export const fetchGamesByState = async (gameState) => {
   try {
