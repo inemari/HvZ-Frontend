@@ -1,10 +1,10 @@
+// api.js
 import axios from 'axios';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 
-// Function to fetch player information
 export async function fetchPlayerInfo(playerId) {
   try {
     const response = await api.get(`/players/${playerId}`);
@@ -15,7 +15,6 @@ export async function fetchPlayerInfo(playerId) {
   }
 }
 
-// Function to update player information (turn a human into a zombie)
 export async function modifyPlayer(playerId, playerData) {
   try {
     const response = await api.put(`/players/${playerId}`, playerData);
@@ -26,14 +25,14 @@ export async function modifyPlayer(playerId, playerData) {
   }
 }
 
-// Function to turn a human into a zombie
-export async function turnHumanIntoZombie(playerId) {
+//NOTE: Not complete, check back-end aswell
+
+export async function turnHumanIntoZombie(playerId) { 
   try {
-    const playerData = {
-      zombie: true,
-      // You can add other fields to update as needed
-    };
-    const response = await api.put(`/players/${playerId}`, playerData);
+    // Send a PUT request to update the player's zombie status
+    const response = await api.put(`/players/${playerId}`, {
+      zombie: true, // Set the zombie field to true to turn the human into a zombie
+    });
     return response.data;
   } catch (error) {
     console.error('Error turning a human into a zombie', error);
@@ -41,7 +40,7 @@ export async function turnHumanIntoZombie(playerId) {
   }
 }
 
-// Function to fetch games
+
 export async function fetchGames() {
   try {
     const response = await api.get('/game');
@@ -76,7 +75,7 @@ export const fetchSquads = async () => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const getSquadById = async (squadId) => {
   try {
@@ -95,8 +94,5 @@ export const createSquad = async (squadName) => {
     throw error;
   }
 }
-
-
-
 
 export default api;

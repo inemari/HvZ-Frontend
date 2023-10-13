@@ -11,14 +11,13 @@ const BiteCode = ({ userRole }) => {
     // Fetch the player's bite code
     fetchPlayerInfo(playerId)
       .then((response) => {
-        console.log('API Response:', response); // Debugging
+        console.log('API Response:', response); // Debugging | To see if the API is responding, which it currently does
         setBiteCode(response.biteCode);
       })
       .catch((error) => {
         console.error('Error fetching player info', error);
       });
   }, []);
-  
 
   return (
     <div>
@@ -30,8 +29,10 @@ const BiteCode = ({ userRole }) => {
           <p className="text-white">{biteCode}</p>
         </div>
       )}
+
+      {<ZombieFeatures />}
   
-      {userRole === 'zombie' && <ZombieFeatures />}
+      {/*{userRole === 'zombie' && <ZombieFeatures />}*/}
     </div>
   );  
 };
