@@ -1,4 +1,4 @@
-import { fetchSquads, createSquad } from "./api";
+import { fetchSquads, createSquad, getSquadById, getPlayerById } from "./api";
 
 export const getSquads = async () => {
     try {
@@ -18,7 +18,30 @@ export const createNewSquad = async (squadName) => {
     }
 }
 
+export const getSquadDetailsById = async (squadId) => {
+    try {
+      const squadDetails = await getSquadById(squadId);
+      
+      const squadMembers = await Promise.all(
+        squadDetails.playerIds.map(async (playerId) => {
+          const playerDetails = await getPlayerById(playerId);
+          return {
+            username: playerDetails.username,
+            zombie: playerDetails.zombie,
+          };
+        })
+      );
+      
+      squadDetails.playerIds = squadMembers;
+  
+      return squadDetails;
+    } catch (error) {
+      throw error;
+    }
+  };
+
 export default {
     getSquads,
-    createNewSquad
+    createNewSquad,
+    getSquadDetailsById
 }; 
