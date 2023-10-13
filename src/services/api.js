@@ -60,6 +60,15 @@ export const fetchGamesByState = async (gameState) => {
   }
 };
 
+export const getPlayerById = async (playerId) => {
+  try {
+    const response = await api.get(`/players/${playerId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const fetchSquads = async () => {
   try {
     const response = await api.get('/Squad');
@@ -69,6 +78,15 @@ export const fetchSquads = async () => {
   }
 }
 
+export const getSquadById = async (squadId) => {
+  try {
+    const response = await api.get(`/Squad/${squadId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const createSquad = async (squadName) => {
   try {
     const response = await api.post('/Squad', { SquadName: squadName });
@@ -76,4 +94,9 @@ export const createSquad = async (squadName) => {
   } catch (error) {
     throw error;
   }
-}; export default api;
+}
+
+
+
+
+export default api;
