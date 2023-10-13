@@ -9,7 +9,6 @@ const FilterSlider = ({ activeTab, handleTabChange }) => {
   useEffect(() => {
     async function fetchGameStatusValues() {
       try {
-        // Use the service function to fetch game status values
         const gameStatusValues = await getGameStatusValues();
         setFilterOptions(gameStatusValues);
       } catch (error) {
@@ -17,23 +16,24 @@ const FilterSlider = ({ activeTab, handleTabChange }) => {
       }
     }
     fetchGameStatusValues();
-  }, []); // Empty dependency array means this effect runs once on component mount
+  }, []);
 
   return (
     <div className="container mx-auto bg-customLightBrown flex rounded-md">
       {filterOptions.map((option) => (
-        <React.Fragment key={option}>
+        <React.Fragment key={option.gameState}>
           <button
-            onClick={() => handleTabChange(option)}
-            className={`${activeTab === option
+            onClick={() => handleTabChange(option.gameState)}
+            className={`${activeTab === option.gameState
               ? 'bg-customBrown text-white rounded-md '
               : ' text-customWhite hover:bg-customBrown hover:bg-opacity-80 hover:rounded-md '
               } py-2 px-4 flex-1 text-center relative`}
           >
-            {option}
+            {option.gameStateString}
           </button>
         </React.Fragment>
       ))}
+
     </div>
   );
 };

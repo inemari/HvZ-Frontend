@@ -8,7 +8,7 @@ module.exports = {
         customWhite: '#FFFFFF',
         customLightOrange: 'hsl(25, 19%, 86%)',
         customBrown: '#453435',
-        customDarkOrange: '#AE5C2E',
+        customDarkOrange: '#914E27',
         customLightBrown: '#555',
       },
     },
