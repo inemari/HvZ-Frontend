@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PopOver from '../common/PopOver';
 import { getMission, getLocation } from '../../services/mapService';
 
 const MissionMarker = ({ missionId }) => {
@@ -43,7 +42,6 @@ const MissionMarker = ({ missionId }) => {
                 <div
                     className="absolute bg-red-500 text-white aspect-square text-center flex flex-col justify-center p-1 rounded-full cursor-pointer transition-all hover:shadow-lg hover:shadow-pink-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     data-ripple-light="true"
-                    data-popover-target="popover"
                     style={{
                         left: `${x}%`,
                         top: `${y}%`,
@@ -51,17 +49,24 @@ const MissionMarker = ({ missionId }) => {
                     onClick={handleMarkerClick}
                 >
                     M{missionId}
-                    
-                    {/* Popover-in progress below */}
-                    {/* <div
-                        data-popover="popover"
-                        class="displ absolute w-max whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-white p-4 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
-                    >
-                        This is a very beautiful popover, show some love.
-                    </div> */}
-                    
-                </div>
+                    {isPopOverVisible && missionData && (
+                        <div
+                            className="text-black absolute whitespace-normal bg-white  border-gray-200  dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 break-words rounded-lg border font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
+                            style={{
+                                left: `${x}px`, // Adjust the popover position if needed
+                                top: `${y + 30}px`, // Adjust the popover position if needed
+                            }}
+                        >
+                            <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                                <h3 className="font-semibold text-gray-900 dark:text-white"> {missionData.name}</h3>
+                            </div>
+                            <div className="px-3 py-2">
+                                <p>{missionData.description}</p>
+                            </div>
 
+                        </div>
+                    )}
+                </div>
             )}
         </div>
     );
