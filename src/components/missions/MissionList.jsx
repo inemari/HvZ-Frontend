@@ -1,24 +1,35 @@
 // MissionList.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MissionMarker from './MissionMarker';
+import { fetchMissionsForGame } from '../../services/mapService';
 
-const MissionList = ({ missionData }) => {
+const MissionList = () => {
   // Log information before rendering
+  // Retrieve the game information from localStorage
+  const selectedGame = JSON.parse(localStorage.getItem('selectedGame'));
+  const missionIds = selectedGame.missionIds;
 
+  const [missionData, setMissionData] = useState([]);
+
+  useEffect(() => {
+    async function fetchMissionData() {
+      try {
+        const missionData = await fetchMissionsForGame(missionIds);
+        setMissionData(missionData);
+      } catch (error) {
+        console.error('Failed to fetch missions:', error);
+      }
+    }
+
+    fetchMissionData();
+  }, [missionIds]);
 
   return (
     <ul>
       {missionData.map((mission) => (
         <li key={mission.id}>
-          {/* <h3>{mission.name}</h3>
-          <p>LocationId: {mission.locationId}</p>
-          <p>xCoordinate: {mission.location?.xCoordinate || 'N/A'}</p> */}
           <MissionMarker
             missionId={mission.id}
-            x={mission.location?.xCoordinate / 10 || 'N/A'}
-            y={mission.location?.yCoordinate / 10 || 'N/A'}
-            missionTitle={mission.name}
-            missionDescription={mission.description}
           />
         </li>
       ))}
