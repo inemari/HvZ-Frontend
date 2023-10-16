@@ -1,5 +1,5 @@
 // userService.js
-
+import { createPlayer, createUser, checkUserExistence } from "./api"; 
 import axios from 'axios';
 
 const BASE_URL = process.env.REACT_APP_API_URL; // Replace with your API URL
@@ -29,6 +29,31 @@ export const saveUsername = async (username, gameId) => {
     }
 };
 
+export const checkIfExists = async () => {
+    try {
+        const user = await checkUserExistence();
+        if (user === null) {
+            const user = await createUser();
+            return user;
+        } else {
+            return user;
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const createNewPlayer = async (userName, gameId) => {
+    try {
+        const newPlayer = await createPlayer(userName, gameId);
+        return newPlayer;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export default {
     saveUsername,
+    createNewPlayer,
+    checkIfExists,
 };
