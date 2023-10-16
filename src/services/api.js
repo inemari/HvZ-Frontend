@@ -1,7 +1,16 @@
 import axios from 'axios';
+import keycloak from '../Keycloak';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
+});
+
+api.interceptors.request.use((config) => {
+  const token = keycloak.token;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 // Function to fetch player information
@@ -60,6 +69,15 @@ export const fetchGamesByState = async (gameState) => {
   }
 };
 
+export const createPlayer = async (userName, gameId ) => {
+  try {
+    const response = await api.post('/players', { username: userName, gameId: gameId});
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const getPlayerById = async (playerId) => {
   try {
     const response = await api.get(`/players/${playerId}`);
@@ -90,6 +108,29 @@ export const getSquadById = async (squadId) => {
 export const createSquad = async (squadName) => {
   try {
     const response = await api.post('/Squad', { SquadName: squadName });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const checkUserExistence = async () => {
+  try {
+    const response = await api.get('/AppUser/exists');
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      // User not found, return null or any appropriate value
+      return null;
+    }
+    // For other errors, you can re-throw the error or handle it as needed.
+    throw error;
+  }
+}
+
+export const createUser = async () => {
+  try {
+    const response = await api.post('/AppUser/register');
     return response.data;
   } catch (error) {
     throw error;
