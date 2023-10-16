@@ -1,11 +1,12 @@
-// GameList.jsx
-
 import React, { useState, useEffect } from 'react';
-import GameCard from './GameCard';
-import { getGamesByState } from '../../services/gameService';
 
-const GameList = ({ activeTab }) => {
+import { getGamesByState } from '../../services/gameService';
+import GameCard from './GameCard';
+import { useNavigate } from 'react-router-dom';
+
+const Games = ({ activeTab }) => {
     const [games, setGames] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchGamesData() {
@@ -19,13 +20,16 @@ const GameList = ({ activeTab }) => {
         fetchGamesData();
     }, [activeTab]);
 
+
+
     return (
-        <div className='p-5' style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
-            {games.map(game => (
-                <GameCard game={game} key={game.id} />
-            ))}
-        </div>
+        <div className=" grid grid-cols-1 lg:grid-cols-2  gap-2" >
+            {
+                games.map((game) => (
+                    <GameCard game={game} key={game.id} />))
+            }   </div >
+
     );
 };
 
-export default GameList;
+export default Games;
