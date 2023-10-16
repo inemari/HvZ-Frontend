@@ -26,4 +26,4 @@ const HumanFeatures = () => {
   );
 };
 
-export default HumanFeatures;
+export default HumanFeatures; 

@@ -3,7 +3,7 @@ import ZombieFeatures from '../../components/biteCode/ZombieFeatures';
 import { fetchPlayerInfo } from '../../services/api';
 
 const BiteCode = ({ userRole }) => {
-  const [biteCode, setBiteCode] = useState(null);
+  const [biteCode, setBiteCode] = useState(null); 
 
   useEffect(() => {
     const playerId = 1; // Set the player ID you want to fetch
@@ -22,18 +22,18 @@ const BiteCode = ({ userRole }) => {
 
   return (
     <div>
-      <h1>Bite Code Feature</h1>
-
+      <h1 className="text-white">Bite Code Feature</h1>
+  
       {userRole === 'human' && (
         <div>
-          <h2>Your Bite Code:</h2>
-          <p>{biteCode}</p>
+          <h2 className="text-white">Your Bite Code:</h2>
+          <p className="text-white">{biteCode}</p>
         </div>
       )}
-
+  
       {userRole === 'zombie' && <ZombieFeatures />}
     </div>
-  );
+  );  
 };
 
 export default BiteCode;
