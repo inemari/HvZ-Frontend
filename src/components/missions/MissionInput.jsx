@@ -1,39 +1,37 @@
 import React, { useState } from 'react';
-import { createMission } from '../../services/mapService'; // Import createMission function
-import AddMarker from '../map/markers/addMarker';
+import AddMarker from '../map/markers/AddMarker';
+import { postMission } from '../../services/missionService';
 
-
-
-
-const MissionInput = ({ gameId, onAddCoordinate }) => {
+const MissionInput = ({ gameId, onAddMission, closeModal }) => {
   const [missionName, setMissionName] = useState('');
   const [missionDescription, setMissionDescription] = useState('');
 
   // Handler for when a marker is added
-  const handleMarkerAdded = (markerData) => {
-    // You can perform any action you need with the marker data here
-    // For example, creating a mission with the marker data
-    createMission({
-      name: missionName,
-      description: missionDescription,
-      gameId: gameId,
-      locationId: markerData.locationId,
-    });
+  const handleMarkerAdded = async (markerData) => {
+    try {
+      const response = await postMission({
+        name: missionName,
+        description: missionDescription,
+      });
 
-    // Notify the parent component that a coordinate has been added
-    onAddCoordinate(markerData);
+      // Notify the parent component that a mission has been added
+      onAddMission(response); // Pass the response data to the parent
+
+      // Close the modal after successfully creating the mission
+      closeModal();
+    } catch (error) {
+      console.error('Failed to post mission:', error);
+    }
   };
 
   return (
     <div>
-      {/* Add the AddMarker component */}
-      <AddMarker gameId={gameId} onAddMarker={handleMarkerAdded} />
-
       <div className="mb-2">
         <label className="block font-semibold">Mission Name:</label>
         <input
           type="text"
           value={missionName}
+          className="w-2/3 border rounded py-2 px-3 text-black"
           onChange={(e) => setMissionName(e.target.value)}
         />
       </div>
@@ -42,9 +40,11 @@ const MissionInput = ({ gameId, onAddCoordinate }) => {
         <input
           type="text"
           value={missionDescription}
+          className="w-2/3 border rounded py-2 px-3 text-black"
           onChange={(e) => setMissionDescription(e.target.value)}
         />
       </div>
+      <AddMarker gameId={gameId} onAddMarker={handleMarkerAdded} />
     </div>
   );
 };
