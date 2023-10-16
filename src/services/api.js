@@ -25,7 +25,7 @@ export async function modifyPlayer(playerId, playerData) {
   }
 }
 
-//NOTE: Not complete, check back-end aswell
+//NOTE: Not complete, check back-end aswell.
 
 export async function turnHumanIntoZombie(playerId, updatedData) {
   try {

@@ -4,6 +4,8 @@ import { turnHumanIntoZombie } from '../../services/api';
 const ZombieFeatures = ({ playerId, onBiteCodeSubmit }) => {
   const [biteCode, setBiteCode] = useState('');
 
+
+  // NOTE: Look threw it.
   const handleBiteCodeSubmit = () => {
     // Create an object to update the player's status
     const updatedData = {

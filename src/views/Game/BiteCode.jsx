@@ -4,7 +4,7 @@ import { fetchPlayerInfo } from '../../services/api';
 
 const BiteCode = ({ userRole }) => {
   const [biteCode, setBiteCode] = useState(null); 
-  const [playerId, setPlayerId] = useState(1); // Set the player ID you want to fetch
+  const [playerId, setPlayerId] = useState(1); // Set the player ID you want to fetch. NOTE: Not complete yet.
 
   useEffect(() => {
     // Fetch the player's bite code
