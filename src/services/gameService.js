@@ -1,3 +1,4 @@
+//gameService.js
 import { fetchGames, fetchGamesByState } from "./api";
 
 function removeDuplicates(arr, prop) {

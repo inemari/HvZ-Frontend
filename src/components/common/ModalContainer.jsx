@@ -16,7 +16,7 @@ const ModalContainer = ({ children, showModal, closeModal }) => {
                     } w-full h-full flex items-center justify-center`}
             >
                 <div className="relative w-full max-w-md">
-                    <div className="relative bg-white rounded-lg shadow dark:bg-customLightBrown">
+                    <div className="relative rounded-lg shadow bg-customLightBrown">
                         {/* Close (X) Button */}
                         <button
                             type="button"

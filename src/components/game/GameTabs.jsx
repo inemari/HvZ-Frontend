@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { getGameStatusValues } from '../../services/gameService';
 
-const FilterSlider = ({ activeTab, handleTabChange }) => {
+const GameTabs = ({ activeTab, handleTabChange }) => {
   const [filterOptions, setFilterOptions] = useState([]);
 
   useEffect(() => {
@@ -19,15 +19,15 @@ const FilterSlider = ({ activeTab, handleTabChange }) => {
   }, []);
 
   return (
-    <div className="container mx-auto bg-customLightBrown flex rounded-md">
+    <div className="w-full bg-customLightBrown flex rounded-md ">
       {filterOptions.map((option) => (
         <React.Fragment key={option.gameState}>
           <button
             onClick={() => handleTabChange(option.gameState)}
             className={`${activeTab === option.gameState
-              ? 'bg-customBrown text-white rounded-md '
+              ? 'bg-customBrown text-white rounded-t-md'
               : ' text-customWhite hover:bg-customBrown hover:bg-opacity-80 hover:rounded-md '
-              } py-2 px-4 flex-1 text-center relative`}
+              } py-2 space-x-4 flex-1 text-center relative`}
           >
             {option.gameStateString}
           </button>
@@ -38,4 +38,4 @@ const FilterSlider = ({ activeTab, handleTabChange }) => {
   );
 };
 
-export default FilterSlider;
+export default GameTabs;
