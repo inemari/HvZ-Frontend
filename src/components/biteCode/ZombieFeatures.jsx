@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { turnHumanIntoZombie } from '../../services/api';
 
-const ZombieFeatures = ({ onBiteCodeSubmit }) => {
+const ZombieFeatures = ({ playerId, onBiteCodeSubmit }) => {
   const [biteCode, setBiteCode] = useState('');
 
   const handleBiteCodeSubmit = () => {
+    // Create an object to update the player's status
+    const updatedData = {
+      zombie: true,
+    };
+
     // Send a request to the server to turn a human into a zombie
-    turnHumanIntoZombie(biteCode) // Use the defined API function
+    turnHumanIntoZombie(playerId, updatedData) // Use the defined API function
       .then((response) => {
         // Handle the response from the server if needed
         console.log('Player modification response:', response);

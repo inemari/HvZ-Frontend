@@ -4,20 +4,19 @@ import { fetchPlayerInfo } from '../../services/api';
 
 const BiteCode = ({ userRole }) => {
   const [biteCode, setBiteCode] = useState(null); 
+  const [playerId, setPlayerId] = useState(1); // Set the player ID you want to fetch
 
   useEffect(() => {
-    const playerId = 1; // Set the player ID you want to fetch
-  
     // Fetch the player's bite code
     fetchPlayerInfo(playerId)
       .then((response) => {
-        console.log('API Response:', response); // Debugging | To see if the API is responding, which it currently does
+        console.log('API Response:', response);
         setBiteCode(response.biteCode);
       })
       .catch((error) => {
         console.error('Error fetching player info', error);
       });
-  }, []);
+  }, [playerId]);
 
   return (
     <div>
@@ -29,10 +28,11 @@ const BiteCode = ({ userRole }) => {
           <p className="text-white">{biteCode}</p>
         </div>
       )}
+       
+       {/*Debugging*/}
+       {<ZombieFeatures />}
 
-      {<ZombieFeatures />}
-  
-      {/*{userRole === 'zombie' && <ZombieFeatures />}*/}
+       {/*{userRole === 'zombie' && (<ZombieFeatures playerId={playerId} debug={true} />)} */}
     </div>
   );  
 };

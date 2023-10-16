@@ -27,19 +27,16 @@ export async function modifyPlayer(playerId, playerData) {
 
 //NOTE: Not complete, check back-end aswell
 
-export async function turnHumanIntoZombie(playerId) { 
+export async function turnHumanIntoZombie(playerId, updatedData) {
   try {
-    // Send a PUT request to update the player's zombie status
-    const response = await api.put(`/players/${playerId}`, {
-      zombie: true, // Set the zombie field to true to turn the human into a zombie
-    });
+    // Send a PUT request to update the player's status to zombie
+    const response = await api.put(`/api/v1/players/${playerId}`, updatedData);
     return response.data;
   } catch (error) {
-    console.error('Error turning a human into a zombie', error);
+    console.error('Error updating player status', error);
     throw error;
   }
 }
-
 
 export async function fetchGames() {
   try {
@@ -95,4 +92,4 @@ export const createSquad = async (squadName) => {
   }
 }
 
-export default api;
+export default api; 
