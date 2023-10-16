@@ -1,3 +1,4 @@
+//squadService.js
 import { fetchSquads, createSquad, getSquadById, getPlayerById } from "./api";
 
 export const getSquads = async () => {

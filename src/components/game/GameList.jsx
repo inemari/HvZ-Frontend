@@ -20,7 +20,7 @@ const GameList = ({ activeTab }) => {
     }, [activeTab]);
 
     return (
-        <div className='container mx-auto  relative' style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
+        <div className='p-5' style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
             {games.map(game => (
                 <GameCard game={game} key={game.id} />
             ))}

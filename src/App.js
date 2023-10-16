@@ -31,10 +31,11 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className="relative p-10">
-        <div className="dark-bg absolute"></div>
-        <div className="background-image absolute top-0 left-0 "></div>
-        <NavBar />
+      <div className="dark-bg absolute"></div>
+      <div className="background-image absolute top-0 left-0 "></div>
+      <NavBar />
+      <div className="py-10 px-24">
+
         <Routes>
           <Route path='/' element={<LandingPage />} />
           <Route path='/AboutGame' element={<AboutGame />} />
@@ -43,8 +44,8 @@ const App = () => {
           <Route path='/SquadRegistration' element={<SquadRegistration />} />
           <Route path='/SquadDetails' element={<SquadDetails />} />
           <Route path='/BiteCode' element={<BiteCode />} />
-        </Routes>
-      </div>
+        </Routes></div>
+
     </BrowserRouter>
   );
 };

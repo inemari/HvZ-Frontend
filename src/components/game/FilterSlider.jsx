@@ -19,7 +19,7 @@ const FilterSlider = ({ activeTab, handleTabChange }) => {
   }, []);
 
   return (
-    <div className="container mx-auto bg-customLightBrown flex rounded-md">
+    <div className="w-full bg-customLightBrown flex rounded-md ">
       {filterOptions.map((option) => (
         <React.Fragment key={option.gameState}>
           <button
@@ -27,7 +27,7 @@ const FilterSlider = ({ activeTab, handleTabChange }) => {
             className={`${activeTab === option.gameState
               ? 'bg-customBrown text-white rounded-md '
               : ' text-customWhite hover:bg-customBrown hover:bg-opacity-80 hover:rounded-md '
-              } py-2 px-4 flex-1 text-center relative`}
+              } py-2 space-x-4 flex-1 text-center relative`}
           >
             {option.gameStateString}
           </button>

@@ -6,6 +6,7 @@ import { useKeycloak } from '@react-keycloak/web';
 import GameImage from '../components/game/GameImage';
 import UserNameModal from '../components/game/UserNameModal'; // Import the UserNameModal component
 import ModalContainer from '../components/common/ModalContainer';
+import GameContainer from '../components/game/GameContainer';
 
 function AboutGame() {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ function AboutGame() {
     const selectedGame = JSON.parse(localStorage.getItem('selectedGame'));
 
     return (
-        <div className='flex flex-col m-6 min-h-full justify-center py-auto'>
+        <GameContainer >
             {/* Game Box */}
             <div className="container mx-auto p-6 bg-black bg-opacity-60  rounded-lg text-white">
                 <h1 className="text-3xl md:text-4xl font-bold  mb-3 ">{selectedGame.title}</h1>
@@ -57,7 +58,7 @@ function AboutGame() {
                     <UserNameModal onClose={handleCloseModal} />
                 </ModalContainer>
             )}
-        </div>
+        </GameContainer>
     );
 }
 

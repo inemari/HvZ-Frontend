@@ -19,18 +19,37 @@ const Dropdown = ({ label, options, onClickOption }) => {
     };
 
     return (
-        <div className="relative inline-block text-left">
+        <div className="relative inline-block text-left text-white font-semibold">
             <div onClick={toggleDropdown}>
-                <CustomButton label={label} className="w-full" />
+                <button className=" flex justify-between items-center">
+                    {label}
+                    <span className="inline-flex items-center font-semibold">
+                        <svg
+                            className={`ml-2 w-4 h-4 transition-transform transform ${isOpen ? 'rotate-180' : 'rotate-0'
+                                }`}
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 10 6"
+                        >
+                            <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M1 1 4 4 7 1"
+                            />
+                        </svg>
+                    </span>
+                </button>
             </div>
             {isOpen && (
-                <div className="origin-top-right absolute mx-auto justify-center mt-2 w-full rounded-xl shadow-lg bg-white divide-y divide-gray-100">
-                    <ul className='rounded-xl py-2'>
+                <div className="origin-top-right absolute mt-2 w-full rounded-xl shadow-lg bg-customLightBrown divide-y divide-gray-100">
+                    <ul className="rounded-xl py-2">
                         {options.map((option) => (
                             <li
                                 key={option}
                                 onClick={() => handleOptionClick(option)}
-                                className="px-4 py-2 text-sm hover:bg-customOrange hover:text-white cursor-pointer "
+                                className="px-4 py-2 text-sm cursor-pointer hover:bg-white hover:bg-opacity-10 "
                             >
                                 {option}
                             </li>
@@ -40,12 +59,12 @@ const Dropdown = ({ label, options, onClickOption }) => {
             )}
             {selectedOption && (
                 <div className="absolute right-0 mt-2">
-                    <p className="px-4 py-2 text-lg font-semibold bg-customOrange text-customWhite rounded-md">
+                    <p className="px-4 py-2 text-lg font-semibold text-customWhite rounded-md">
                         {selectedOption}
                     </p>
                 </div>
             )}
-        </div>
+        </div >
     );
 };
 

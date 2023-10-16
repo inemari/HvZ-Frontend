@@ -5,7 +5,7 @@ const GameDetails = ({ game }) => {
     const { title, gameStateString, description } = game;
 
     return (
-        <div className="flex flex-col md:flex-row  justify-between">
+        <div className="flex flex-col md:flex-row justify-between">
             <div className="flex flex-row md:flex-col md:w-1/6">
                 <GameImage game={game} />
             </div>
