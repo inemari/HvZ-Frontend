@@ -1,3 +1,4 @@
+//api.js
 import axios from 'axios';
 import keycloak from '../Keycloak';
 
@@ -24,7 +25,6 @@ export async function fetchPlayerInfo(playerId) {
   }
 }
 
-// Function to update player information (turn a human into a zombie)
 export async function modifyPlayer(playerId, playerData) {
   try {
     const response = await api.put(`/players/${playerId}`, playerData);
@@ -35,22 +35,19 @@ export async function modifyPlayer(playerId, playerData) {
   }
 }
 
-// Function to turn a human into a zombie
-export async function turnHumanIntoZombie(playerId) {
+//NOTE: Not sure if completed, checked back-end but might be wrong.
+
+export async function turnHumanIntoZombie(playerId, updatedData) {
   try {
-    const playerData = {
-      zombie: true,
-      // You can add other fields to update as needed
-    };
-    const response = await api.put(`/players/${playerId}`, playerData);
+    // Send a PUT request to update the player's status to zombie
+    const response = await api.put(`/players/${playerId}`, updatedData);
     return response.data;
   } catch (error) {
-    console.error('Error turning a human into a zombie', error);
+    console.error('Error updating player status', error);
     throw error;
   }
 }
 
-// Function to fetch games
 export async function fetchGames() {
   try {
     const response = await api.get('/game');
@@ -94,7 +91,7 @@ export const fetchSquads = async () => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const getSquadById = async (squadId) => {
   try {

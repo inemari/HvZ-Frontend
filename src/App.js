@@ -15,6 +15,7 @@ import BiteCode from './views/Game/BiteCode';
 // import AuthenticatedRoute from './helpers/AuthenticatedRoute';
 import { useKeycloak } from '@react-keycloak/web';  // Import useKeycloak
 import NavBar from './components/common/NavBar';
+import AdminPage from './views/AdminPage';
 
 
 const App = () => {
@@ -31,10 +32,11 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className="relative p-10">
-        <div className="dark-bg absolute"></div>
-        <div className="background-image absolute top-0 left-0 "></div>
-        <NavBar />
+      <div className="dark-bg absolute">
+        <div className="background-image absolute top-0 left-0 "></div></div>
+      <NavBar />
+      <div className="py-10 px-24">
+
         <Routes>
           <Route path='/' element={<LandingPage />} />
           <Route path='/AboutGame' element={<AboutGame />} />
@@ -43,6 +45,7 @@ const App = () => {
           <Route path='/SquadRegistration' element={<SquadRegistration />} />
           <Route path='/SquadDetails' element={<SquadDetails />} />
           <Route path='/BiteCode' element={<BiteCode />} />
+          <Route path='/Admin' element={<AdminPage />} />
         </Routes>
       </div>
     </BrowserRouter>
