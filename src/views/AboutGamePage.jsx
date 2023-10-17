@@ -5,11 +5,13 @@ import { useKeycloak } from '@react-keycloak/web';
 import GameImage from '../components/game/GameIMG';
 import UserNameModal from '../components/game/UserNameModal';
 import ModalContainer from '../components/common/ModalContainer';
+import clearLocalStorageData from '../helpers/LocalStorageUtils';
 import Container from '../components/common/Container';
 import Map from '../components/map/Map';
 import Carousel from '../components/common/Carousel';
 
 function AboutGame() {
+    clearLocalStorageData();
     const navigate = useNavigate();
     const { keycloak } = useKeycloak();
 
