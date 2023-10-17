@@ -23,10 +23,10 @@ const Games = ({ activeTab }) => {
 
 
     return (
-        <div className=" grid grid-cols-1 lg:grid-cols-2  gap-2" >
+        <div className="mx-auto grid grid-cols-1 lg:grid-cols-2 my-auto max-h-36 gap-5 h-full mx-auto" >
             {
                 games.map((game) => (
-                    <GameCard game={game} key={game.id} />))
+                    <GameCard game={game} key={game.id} className='' />))
             }   </div >
 
     );
