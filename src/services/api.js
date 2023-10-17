@@ -25,12 +25,12 @@ export async function modifyPlayer(playerId, playerData) {
   }
 }
 
-//NOTE: Not complete, check back-end aswell.
+//NOTE: Not sure if completed, checked back-end but might be wrong.
 
 export async function turnHumanIntoZombie(playerId, updatedData) {
   try {
     // Send a PUT request to update the player's status to zombie
-    const response = await api.put(`/api/v1/players/${playerId}`, updatedData);
+    const response = await api.put(`/players/${playerId}`, updatedData);
     return response.data;
   } catch (error) {
     console.error('Error updating player status', error);

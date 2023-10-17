@@ -19,7 +19,7 @@ const ZombieFeatures = ({ playerId, onBiteCodeSubmit }) => {
         console.log('Player modification response:', response);
         if (response.success) {
           alert('Player turned into a zombie successfully!');
-          onBiteCodeSubmit(); // Call the parent component's function to refresh data
+          onBiteCodeSubmit(); // Call component's function to refresh data
         } else {
           alert('Invalid bite code. Player not turned into a zombie.');
         }
