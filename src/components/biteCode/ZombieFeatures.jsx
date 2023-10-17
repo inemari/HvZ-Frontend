@@ -1,36 +1,22 @@
 import React, { useState } from 'react';
-import { turnHumanIntoZombie } from '../../services/api';
+import { changeZombieStateOfPlayer, turnHumanIntoZombie } from '../../services/api';
 
 const ZombieFeatures = ({ playerId, onBiteCodeSubmit }) => {
   const [biteCode, setBiteCode] = useState('');
 
-
-  // NOTE: Look threw it.
+  // Handle the submission of the bite code
   const handleBiteCodeSubmit = () => {
     // Create an object to update the player's status
-    const updatedData = {
-      zombie: true,
-    };
+const updatedData = {
+  zombie: false,
+  biteCode: biteCode, // Add biteCode to the request
+};
 
-    // Send a request to the server to turn a human into a zombie
-    turnHumanIntoZombie(playerId, updatedData) // Use the defined API function
-      .then((response) => {
-        // Handle the response from the server if needed
-        console.log('Player modification response:', response);
-        if (response.success) {
-          alert('Player turned into a zombie successfully!');
-          onBiteCodeSubmit(); // Call component's function to refresh data
-        } else {
-          alert('Invalid bite code. Player not turned into a zombie.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error turning a player into a zombie', error);
-        alert('An error occurred. Player not turned into a zombie.');
-      });
+changeZombieStateOfPlayer(playerId, updatedData)
 
-    // Clear the biteCode field
-    setBiteCode('');
+// Clear the biteCode field
+setBiteCode('');
+
   };
 
   return (

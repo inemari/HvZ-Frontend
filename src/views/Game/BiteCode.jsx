@@ -29,11 +29,11 @@ const BiteCode = ({ userRole }) => {
       )}
 
       {/* Debugging */}
-      {<ZombieFeatures />}
+      {<ZombieFeatures playerId={1}/>}
 
       {/* {userRole === 'zombie' && (<ZombieFeatures playerId={1} debug={true} />)} */}
     </div>
   );
 };
 
-export default BiteCode;
+export default BiteCode; 
