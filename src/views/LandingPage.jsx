@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-
+import clearLocalStorageData from '../helpers/LocalStorageUtils';
 import GameContainer from '../components/game/GameContainer';
 import FilterSlider from '../components/game/FilterSlider'; // Import the FilterSlider component
 
 const LandingPage = () => {
+  clearLocalStorageData();
   const [activeTab, setActiveTab] = useState('Registration');
 
   const handleTabChange = (tabName) => {

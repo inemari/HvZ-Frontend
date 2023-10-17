@@ -114,6 +114,26 @@ export const createSquad = async (squadName) => {
   }
 }
 
+export const addPlayerToSquad = async (id, playerId) => {
+  try {
+    const response = await api.put(`/Squad/${id}/add-player/${playerId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error adding player to squad:', error);
+    throw error;
+  }
+}
+
+export const removePlayerFromSquad = async (id, playerId) => {
+  try {
+    const response = await api.put(`/Squad/${id}/remove-player/${playerId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error removing player from squad:', error);
+    throw error;
+  }
+}
+
 export const checkUserExistence = async () => {
   try {
     const response = await api.get('/AppUser/exists');

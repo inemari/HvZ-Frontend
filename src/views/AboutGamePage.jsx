@@ -6,8 +6,10 @@ import { useKeycloak } from '@react-keycloak/web';
 import GameImage from '../components/game/GameImage';
 import UserNameModal from '../components/game/UserNameModal'; // Import the UserNameModal component
 import ModalContainer from '../components/common/ModalContainer';
+import clearLocalStorageData from '../helpers/LocalStorageUtils';
 
 function AboutGame() {
+    clearLocalStorageData();
     const navigate = useNavigate();
     const { keycloak } = useKeycloak();
 
