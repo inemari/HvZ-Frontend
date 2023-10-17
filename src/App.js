@@ -15,6 +15,7 @@ import BiteCode from './views/Game/BiteCode';
 // import AuthenticatedRoute from './helpers/AuthenticatedRoute';
 import { useKeycloak } from '@react-keycloak/web';  // Import useKeycloak
 import NavBar from './components/common/NavBar';
+import AdminPage from './views/AdminPage';
 
 
 const App = () => {
@@ -44,6 +45,7 @@ const App = () => {
           <Route path='/SquadRegistration' element={<SquadRegistration />} />
           <Route path='/SquadDetails' element={<SquadDetails />} />
           <Route path='/BiteCode' element={<BiteCode />} />
+          <Route path='/Admin' element={<AdminPage />} />
         </Routes>
       </div>
     </BrowserRouter>
