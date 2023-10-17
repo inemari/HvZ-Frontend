@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
 import clearLocalStorageData from '../helpers/LocalStorageUtils';
-import GameContainer from '../components/game/GameContainer';
-import FilterSlider from '../components/game/FilterSlider'; // Import the FilterSlider component
 import React, { useState, useEffect } from 'react';
 import Games from '../components/game/Games'; // Adjust the import path
-import FilterSlider from '../components/game/GameTabs';
+import GameTabs from '../components/game/GameTabs';
 import { fetchGamesByState } from '../services/api'; // Adjust the import path
-import GameContainer from '../components/common/Container';
+import Container from '../components/common/Container';
 
 const LandingPage = () => {
   clearLocalStorageData();
@@ -31,11 +28,11 @@ const LandingPage = () => {
 
   return (
     <>
-      <FilterSlider activeTab={activeTab} handleTabChange={handleTabChange} />
-      <GameContainer >
+      <GameTabs activeTab={activeTab} handleTabChange={handleTabChange} />
+      <Container >
 
         <Games activeTab={activeTab} />
-      </GameContainer>
+      </Container>
     </>
   );
 };
