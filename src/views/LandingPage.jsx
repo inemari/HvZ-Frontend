@@ -28,7 +28,6 @@ const LandingPage = () => {
     <>
       <FilterSlider activeTab={activeTab} handleTabChange={handleTabChange} />
       <GameContainer >
-
         <Games activeTab={activeTab} />
       </GameContainer>
     </>

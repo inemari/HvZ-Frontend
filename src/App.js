@@ -33,21 +33,23 @@ const App = () => {
   return (
     <BrowserRouter>
       <div className="dark-bg absolute">
-        <div className="background-image absolute top-0 left-0 "></div></div>
-      <NavBar />
-      <div className="py-10 px-24">
-
-        <Routes>
-          <Route path='/' element={<LandingPage />} />
-          <Route path='/AboutGame' element={<AboutGame />} />
-          <Route path='/Game' element={<Game />} />
-          <Route path='/Map' element={<MapPage />} />
-          <Route path='/SquadRegistration' element={<SquadRegistration />} />
-          <Route path='/SquadDetails' element={<SquadDetails />} />
-          <Route path='/BiteCode' element={<BiteCode />} />
-          <Route path='/Admin' element={<AdminPage />} />
-        </Routes>
+        <div className="background-image absolute top-0 left-0"></div>
       </div>
+     
+        <NavBar />
+
+        <div className='m-10 space-y-5 break-words'>
+          <Routes >
+            <Route path='/' element={<LandingPage />} />
+            <Route path='/AboutGame' element={<AboutGame />} />
+            <Route path='/Game' element={<Game />} />
+            <Route path='/Map' element={<MapPage />} />
+            <Route path='/SquadRegistration' element={<SquadRegistration />} />
+            <Route path='/SquadDetails' element={<SquadDetails />} />
+            <Route path='/BiteCode' element={<BiteCode />} />
+            <Route path='/Admin' element={<AdminPage />} />
+          </Routes>
+        </div>
     </BrowserRouter>
   );
 };
