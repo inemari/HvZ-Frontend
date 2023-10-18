@@ -58,7 +58,7 @@ const NavBar = () => {
     };
 
     return (
-        <nav className="bg-customLightBrown sticky inset-0 z-10 block w-full max-w-full mb-5">
+        <nav className="bg-black bg-opacity-70 sticky inset-0 z-10 block w-full max-w-full mb-5 shadow-lg">
             <div className=" flex flex-wrap md:flex-row md:flex-nowrap items-center mx-10">
                 <div className='flex '>
                     <img src={logo} className=" max-h-24 md:max-h-24 py-5" alt="App Logo" />
