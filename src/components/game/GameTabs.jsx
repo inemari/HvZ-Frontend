@@ -19,14 +19,14 @@ const GameTabs = ({ activeTab, handleTabChange }) => {
   }, []);
 
   return (
-    <div className="w-full bg-customLightBrown flex rounded-md ">
+    <div className="w-full bg-black bg-opacity-60 flex rounded-md ">
       {filterOptions.map((option) => (
         <React.Fragment key={option.gameState}>
           <button
             onClick={() => handleTabChange(option.gameState)}
             className={`${activeTab === option.gameState
-              ? 'bg-customBrown text-white rounded-t-md'
-              : ' text-customWhite hover:bg-customBrown hover:bg-opacity-80 hover:rounded-md '
+              ? 'bg-customDarkOrange text-white rounded-md'
+              : ' text-customWhite hover:bg-customDarkOrange hover:bg-opacity-40 border-'
               } py-2 space-x-4 flex-1 text-center relative`}
           >
             {option.gameStateString}
