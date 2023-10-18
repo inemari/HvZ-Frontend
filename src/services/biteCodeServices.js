@@ -17,7 +17,7 @@ const BiteCode = ({ userRole }) => {
       })
       .catch((error) => {
         console.error('Error fetching player info', error);
-      });
+      }); 
   }, []);
 
   return (
