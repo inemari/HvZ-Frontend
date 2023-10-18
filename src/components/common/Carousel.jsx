@@ -1,16 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const Carousel = ({ children }) => {
     const [activeSlide, setActiveSlide] = useState(0);
     const totalSlides = React.Children.count(children);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setActiveSlide((prevSlide) => (prevSlide + 1) % totalSlides);
-        }, 15000); // Change the slide every 15 seconds
-
-        return () => clearInterval(interval);
-    }, [totalSlides]);
 
     const handleSlideChange = () => {
         setActiveSlide((prevSlide) => (prevSlide + 1) % totalSlides);
@@ -25,7 +17,7 @@ const Carousel = ({ children }) => {
     };
 
     return (
-        <div className="relative aspect-square ">
+        <div className="relative aspect-square">
             <div className="relative overflow-hidden rounded-lg aspect-square ">
                 {React.Children.map(children, (child, index) => (
                     <div key={index} className={`duration-700 ease-in-out ${index === activeSlide ? '' : 'hidden'}`} data-carousel-item style={{ width: '100%', height: '100%' }}>

@@ -21,7 +21,7 @@ const CreateGameContainer = () => {
 
   const [missionObjects, setMissionObjects] = useState([]);
   const [locationObjects, setLocationObjects] = useState([]);
-  
+
   const [ruleObjects, setRuleObjects] = useState([]);
   // State to control the modal visibility
   const [isMissionModalOpen, setIsMissionModalOpen] = useState(false);
@@ -77,10 +77,10 @@ const CreateGameContainer = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Step 1: Create the game
     const { title, description, pictureURL } = formData;
-  
+
     const gameResponse = await postGame({ title, description, pictureURL });
 
     const missionsToCreate = [];
@@ -88,12 +88,12 @@ const CreateGameContainer = () => {
       const missionData = missionObjects[i];
       missionsToCreate.push(missionData);
     }
-  
+
     // Call your API to create missions in the database
     for (const missionData of missionsToCreate) {
       try {
         const response = await postMission(missionData);
-  
+
         // Handle the response, e.g., update state or perform other actions
         // ...
       } catch (error) {
@@ -102,70 +102,70 @@ const CreateGameContainer = () => {
     }
 
     const locationsToCreate = [];
-  for (let i = 0; i < locationObjects.length; i++) {
-    const locationData = locationObjects[i];
-    locationsToCreate.push(locationData);
-  }
-
-  // Call your API to create locations in the database
-  for (const locationData of locationsToCreate) {
-    try {
-      await postLocation(locationData);
-
-      // Handle the response or errors as needed
-      // ...
-    } catch (error) {
-      console.error('Failed to add location:', error);
+    for (let i = 0; i < locationObjects.length; i++) {
+      const locationData = locationObjects[i];
+      locationsToCreate.push(locationData);
     }
+
+    // Call your API to create locations in the database
+    for (const locationData of locationsToCreate) {
+      try {
+        await postLocation(locationData);
+
+        // Handle the response or errors as needed
+        // ...
+      } catch (error) {
+        console.error('Failed to add location:', error);
+      }
     }
-    
 
-  // Create rules
-  const rulesToCreate = [];
-  for (let i = 0; i < ruleObjects.length; i++) {
-    const ruleData = ruleObjects[i];
-    rulesToCreate.push(ruleData);
-  }
 
-  // Call your API to create rules in the database
-  for (const ruleData of rulesToCreate) {
-    try {
-      await postRule(ruleData); // Replace postRule with your actual API call
-
-      // Handle the response or errors as needed
-      // ...
-    } catch (error) {
-      console.error('Failed to add rule:', error);
+    // Create rules
+    const rulesToCreate = [];
+    for (let i = 0; i < ruleObjects.length; i++) {
+      const ruleData = ruleObjects[i];
+      rulesToCreate.push(ruleData);
     }
-  }
+
+    // Call your API to create rules in the database
+    for (const ruleData of rulesToCreate) {
+      try {
+        await postRule(ruleData); // Replace postRule with your actual API call
+
+        // Handle the response or errors as needed
+        // ...
+      } catch (error) {
+        console.error('Failed to add rule:', error);
+      }
+    }
 
 
     if (gameResponse && gameResponse.id) {
       const gameId = gameResponse.id;
-  
+
       setGameCreated(true);
       setGameId(gameId);
-  
+
       // Show the success message
       setShowSuccessMessage(true);
-  
+
       // Update the title and description placeholders
       setFormData({
         title: "",
         description: "",
         pictureURL: "",
       });
-  
+
       setMissionObjects([]);
       setRuleObjects([]);
-  
+
       // Hide the success message after 3 seconds
       setTimeout(() => {
         setShowSuccessMessage(false);
       }, 3000); // 3000 milliseconds = 3 seconds
     }
   };
-  
+
 
   useEffect(() => {
     // You can use this effect to clear the page or perform any additional actions
@@ -274,7 +274,7 @@ const CreateGameContainer = () => {
         showModal={isRuleModalOpen}
         closeModal={closeModal}
       />
-       {showSuccessMessage && (
+      {showSuccessMessage && (
         <div className="text-center text-green-500 mt-4">
           Game created successfully! Clearing the page in 3 seconds...
         </div>

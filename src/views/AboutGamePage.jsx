@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+// AboutGame.js
+
+import React, { useState, useEffect } from 'react';
 import CustomBtn from '../components/common/CustomButton';
 import { useNavigate } from 'react-router-dom';
 import { useKeycloak } from '@react-keycloak/web';
@@ -10,15 +12,13 @@ import Container from '../components/common/Container';
 import Map from '../components/map/Map';
 import arrow from '../assets/icons/arrow.png';
 import Carousel from '../components/common/Carousel';
-import { fetchGameRules } from '../services/ruleService';
-
+import { useFetchGameRules } from '../services/ruleService';
 function AboutGame() {
-    clearLocalStorageData();
-    const navigate = useNavigate();
     const { keycloak } = useKeycloak();
     const selectedGame = JSON.parse(localStorage.getItem('selectedGame'));
     const [showModal, setShowModal] = useState(false);
-    const [gameRules, setGameRules] = useState([]);
+    const gameRules = useFetchGameRules(selectedGame?.ruleIds || []); // Using the custom hook
+
     const handleButtonClick = () => {
         setShowModal(true);
     };
@@ -28,32 +28,21 @@ function AboutGame() {
     };
 
     useEffect(() => {
-        const fetchRules = async () => {
-            try {
-                const rules = await fetchGameRules(selectedGame.ruleIds);
-                setGameRules(rules);
-            } catch (error) {
-                console.error('Error fetching rules', error);
-            }
-        };
-        fetchRules();
-    }, [selectedGame.ruleIds]);
-
+        clearLocalStorageData();
+    }, []);
 
     return (
         <Container>
             <div className='flex flex-row w-full justify-between '>
-                <h1 className="text-3xl md:text-4xl font-bold col-span-4 ">{selectedGame.title}</h1>
-                <p className="bg-customGreen text-xs  self-center font-medium px-2.5 py-1 rounded-full ">{selectedGame.gameStateString}</p>
+                <h1 className="text-3xl md:text-4xl font-bold col-span-4 ">{selectedGame?.title}</h1>
+                <p className="bg-customGreen text-xs  self-center font-medium px-2.5 py-1 rounded-full ">{selectedGame?.gameStateString}</p>
             </div>
 
             <div className="lg:grid md:grid-cols-3 gap-5 w-full relative p-5">
-
                 <Carousel className="lg:col-span-full ">
                     <GameImage game={selectedGame} />
                     <Map />
                 </Carousel>
-
 
                 {selectedGame && (
                     <div className="bg-customLightBrown rounded lg:col-span-2 ">
@@ -64,41 +53,36 @@ function AboutGame() {
                             </div>
 
                             {gameRules.map((rule, index) => (
-                                <div className='space-y-2'>
+                                <div className='space-y-2' key={index}>
                                     <h2 className="text-lg font-bold">Rules</h2>
-
-                                    <ul class="list-disc list-inside pl-5">
-                                        <p><b>{rule.title} </b></p>
-                                        <li key={index}>
+                                    <ul className="list-disc list-inside pl-5">
+                                        <p><b>{rule.title}</b></p>
+                                        <li>
                                             {rule.description}
-                                        </li></ul>
+                                        </li>
+                                    </ul>
                                 </div>
                             ))}
 
                         </div>
 
-                        {
-                            keycloak.authenticated && (
-                                <div className="absolute bottom-0 right-0 w-full m-5">
-                                    <div dir="rtl" className="static mb-0 p-5 w-full">
-                                        <CustomBtn onClick={handleButtonClick} label="Join Game" className="start-0 mb-0 static text-lg" icon={arrow} />
-                                    </div>
+                        {keycloak.authenticated && (
+                            <div className="absolute bottom-0 right-0 w-full m-5">
+                                <div dir="rtl" className="static mb-0 p-5 w-full">
+                                    <CustomBtn onClick={handleButtonClick} label="Join Game" className="start-0 mb-0 static text-lg" icon={arrow} />
                                 </div>
-                            )
-                        }
-                    </div >
-                )
-                }
-            </div >
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
 
-            {
-                showModal && (
-                    <ModalContainer showModal={showModal} closeModal={handleCloseModal}>
-                        <UserNameModal onClose={handleCloseModal} />
-                    </ModalContainer>
-                )
-            }
-        </Container >
+            {showModal && (
+                <ModalContainer showModal={showModal} closeModal={handleCloseModal}>
+                    <UserNameModal onClose={handleCloseModal} />
+                </ModalContainer>
+            )}
+        </Container>
     );
 }
 
