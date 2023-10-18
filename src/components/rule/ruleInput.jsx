@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
 import { postRule } from '../../services/ruleService';
 
-const RuleInput = ({ gameId, onAddRule, closeModal }) => {
+const RuleInput = ({ onAddRule, closeModal }) => {
   const [ruleTitle, setRuleTitle] = useState('');
   const [ruleDescription, setRuleDescription] = useState('');
 
   // Handler for submitting the rule
-  const handleSubmitRule = async () => {
-    try {
-      const response = await postRule({
-        title: ruleTitle,
-        description: ruleDescription,
-      });
+  const handleSubmitRule = () => {
+    // Create a rule object
+    const ruleData = {
+      title: ruleTitle,
+      description: ruleDescription,
+    };
 
-      // Notify the parent component that a rule has been added
-      onAddRule(response); // Pass the response data to the parent
+    // Notify the parent component that a rule has been added
+    onAddRule(ruleData); // Pass the rule data to the parent
 
-      // Close the modal after successfully creating the rule
-      closeModal();
-    } catch (error) {
-      console.error('Failed to post rule:', error);
-    }
+    // Close the modal after successfully creating the rule
+    closeModal();
   };
 
   return (

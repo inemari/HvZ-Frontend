@@ -58,14 +58,11 @@ const NavBar = () => {
     };
 
     return (
-        <nav className="bg-customLightBrown sticky inset-0 z-10 block w-full max-w-full">
+        <nav className="bg-customLightBrown sticky inset-0 z-10 block w-full max-w-full mb-5">
             <div className=" flex flex-wrap md:flex-row md:flex-nowrap items-center mx-10">
                 <div className='flex '>
-                    <img src={logo} className=" max-h-28 md:max-h-36 py-5" alt="App Logo" />
+                    <img src={logo} className=" max-h-24 md:max-h-24 py-5" alt="App Logo" />
                 </div>
-
-
-
                 <button
                     onClick={toggleMenu}
                     className="md:hidden text-gray-700 focus:outline-none rounded p-3 mr-0 ml-auto"

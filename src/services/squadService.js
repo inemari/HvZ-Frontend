@@ -1,5 +1,4 @@
-//squadService.js
-import { fetchSquads, createSquad, getSquadById, getPlayerById } from "./api";
+import { fetchSquads, createSquad, getSquadById, getPlayerById, addPlayerToSquad, removePlayerFromSquad } from "./api";
 
 export const getSquads = async () => {
     try {
@@ -19,30 +18,57 @@ export const createNewSquad = async (squadName) => {
     }
 }
 
+export const joinSquad = async (id, playerId) => {
+    try {
+        const squad = await addPlayerToSquad(id, playerId);
+        return squad;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const leaveSquad = async (id, playerId) => {
+    try {
+        const squad = await removePlayerFromSquad(id, playerId);
+        return squad;
+    } catch (error) {
+        throw error;
+    }
+}
 export const getSquadDetailsById = async (squadId) => {
     try {
-      const squadDetails = await getSquadById(squadId);
-      
-      const squadMembers = await Promise.all(
-        squadDetails.playerIds.map(async (playerId) => {
-          const playerDetails = await getPlayerById(playerId);
-          return {
+        const squadDetails = await getSquadById(squadId);
+        
+        // Fetch all player details for the squad's player IDs
+        const squadMembers = await fetchPlayerDetails(squadDetails.playerIds);
+
+        // Include playerIds in squadDetails
+        squadDetails.playerIds = squadMembers;
+
+        return squadDetails;
+    } catch (error) {
+        console.error('Error fetching squad details:', error);
+        throw error;
+    }
+};
+  // Function to fetch player details for an array of player IDs
+const fetchPlayerDetails = async (playerIds) => {
+    const playerDetailsPromises = playerIds.map(async (playerId) => {
+        const playerDetails = await getPlayerById(playerId);
+        return {
+            playerId,
             username: playerDetails.username,
             zombie: playerDetails.zombie,
-          };
-        })
-      );
-      
-      squadDetails.playerIds = squadMembers;
-  
-      return squadDetails;
-    } catch (error) {
-      throw error;
-    }
-  };
+        };
+    });
+
+    return Promise.all(playerDetailsPromises);
+};
 
 export default {
     getSquads,
     createNewSquad,
-    getSquadDetailsById
+    getSquadDetailsById,
+    joinSquad,
+    leaveSquad,
 }; 

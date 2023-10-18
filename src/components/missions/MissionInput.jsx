@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
 import AddMarker from '../map/markers/AddMarker';
-import { postMission } from '../../services/missionService';
 
 const MissionInput = ({ gameId, onAddMission, closeModal }) => {
   const [missionName, setMissionName] = useState('');
   const [missionDescription, setMissionDescription] = useState('');
+  const [currentCoordinate, setCurrentCoordinate] = useState({ x: 0, y: 0 });
 
   // Handler for when a marker is added
-  const handleMarkerAdded = async (markerData) => {
-    try {
-      const response = await postMission({
-        name: missionName,
-        description: missionDescription,
-      });
+  const handleMarkerAdded = (locationData) => {
+    // Create a mission object
+    const missionData = {
+      name: missionName,
+      description: missionDescription,
+    };
 
-      // Notify the parent component that a mission has been added
-      onAddMission(response); // Pass the response data to the parent
+    // Pass the mission object to the parent component
+    onAddMission(missionData, locationData);
 
-      // Close the modal after successfully creating the mission
-      closeModal();
-    } catch (error) {
-      console.error('Failed to post mission:', error);
-    }
+    // Close the modal and reset the form
+    closeModal();
+    setMissionName('');
+    setMissionDescription('');
+    setCurrentCoordinate({ x: 0, y: 0 });
   };
 
   return (
@@ -44,7 +44,7 @@ const MissionInput = ({ gameId, onAddMission, closeModal }) => {
           onChange={(e) => setMissionDescription(e.target.value)}
         />
       </div>
-      <AddMarker gameId={gameId} onAddMarker={handleMarkerAdded} />
+      <AddMarker gameId={gameId} onAddMarker={handleMarkerAdded} closeModal={closeModal} />
     </div>
   );
 };

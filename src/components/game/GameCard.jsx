@@ -15,11 +15,13 @@ const GameCard = ({ game }) => {
     };
 
     return (
-        <div className="flex flex-col md:flex-row justify-between bg-customLightBrown bg-opacity-70 shadow-md rounded-xl cursor-pointer w-full max-w-4xl p-3 space-x-3" onClick={() => handleGameClick(game)} >
-            <div className="flex flex-row md:flex-col md:w-1/5">
+        <div className="grid md:grid-cols-4 grid-cols-1 bg-customLightBrown bg-opacity-70 shadow-md rounded-xl cursor-pointer w-full  p-3 space-x-3 " onClick={() => handleGameClick(game)} >
+            
+            <div className="md:col-span-1">
                 <GameIMG game={game} />
             </div>
-            <div className="flex flex-col  w-full">
+
+            <div className="md:col-span-3">
                 <div className="flex flex-col md:flex-row w-full justify-between">
                     <h5 className="text-xl font-medium text-white ">
                         {title}
@@ -32,6 +34,7 @@ const GameCard = ({ game }) => {
                     {description}
                 </p>
             </div>
+
         </div >
     );
 };

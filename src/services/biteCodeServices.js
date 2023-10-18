@@ -1,7 +1,7 @@
 //biteCodeService.js
 import React, { useEffect, useState } from 'react';
 import ZombieFeatures from '../components/biteCode/ZombieFeatures';
-import { fetchPlayerInfo } from './api'; 
+import { fetchPlayerInfo } from './api';
 
 
 const BiteCode = ({ userRole }) => {
@@ -36,4 +36,4 @@ const BiteCode = ({ userRole }) => {
   );
 };
 
-export default BiteCode;
+export default BiteCode; 
