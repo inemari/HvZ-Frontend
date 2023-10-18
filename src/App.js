@@ -17,7 +17,6 @@ import { useKeycloak } from '@react-keycloak/web';  // Import useKeycloak
 import NavBar from './components/common/NavBar';
 import ChatComponent from './components/chat/Chat';
 import TestChat from './components/testChat/testChat';
-import { HubConnection } from '@microsoft/signalr';
 import * as signalR from "@microsoft/signalr";
 
 const App = () => {
