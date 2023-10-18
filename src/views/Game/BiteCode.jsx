@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import ZombieFeatures from '../../components/biteCode/ZombieFeatures';
-import { fetchPlayerInfo } from '../../services/api';
+import { fetchPlayerInfo, getPlayerById } from '../../services/api';
 
 const BiteCode = ({ userRole }) => {
   const [biteCode, setBiteCode] = useState(null);
 
-  useEffect(() => {
-    // Fetch the player's bite code
-    fetchPlayerInfo(1) // Set the player ID
-      .then((response) => {
-        console.log('API Response:', response);
-        setBiteCode(response.biteCode);
-      })
-      .catch((error) => {
-        console.error('Error fetching player info', error);
-      });
-  }, []);
-
+  // useEffect(() => {
+  //   // Fetch the player's bite code
+  //   fetchPlayerInfo(1) // Set the player ID
+  //     .then((response) => {
+  //       console.log('API Response:', response);
+  //       setBiteCode(response.biteCode);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching player info', error);
+  //     });
+  // }, []);
+  const playerid = JSON.parse(localStorage.getItem('playerId'));
+  const player=getPlayerById(playerid);
+  
   return (
     <div>
       <h1 className="text-white">Bite Code Feature</h1>
 
-      {userRole === 'human' && (
+      {player.Zombie!==true(
         <div>
           <h2 className="text-white">Your Bite Code:</h2>
           <p className="text-white">{biteCode}</p>
