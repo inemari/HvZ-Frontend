@@ -26,7 +26,7 @@ const GameTabs = ({ activeTab, handleTabChange }) => {
             onClick={() => handleTabChange(option.gameState)}
             className={`${activeTab === option.gameState
               ? 'bg-customDarkOrange text-white rounded-md'
-              : ' text-customWhite hover:bg-customDarkOrange hover:bg-opacity-40 border-'
+              : ' text-customWhite hover:bg-customDarkOrange hover:bg-opacity-40 '
               } py-2 space-x-4 flex-1 text-center relative`}
           >
             {option.gameStateString}
