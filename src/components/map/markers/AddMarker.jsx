@@ -1,33 +1,24 @@
 import React, { useState } from 'react';
-import { postLocation } from '../../../services/locationService';
 
-const AddMarker = ({ gameId, onAddMarker, closeModal }) => {
+const AddMarker = ({ onAddMarker, closeModal }) => {
   const [currentCoordinate, setCurrentCoordinate] = useState({ x: 0, y: 0 });
 
-  const createMarker = async () => {
-    try {
-      // Call the function to add the marker to the backend
+  // Handler for adding a marker
+  const handleAddMarker = () => {
+    // Create a location object
+    const locationData = {
+      xCoordinate: currentCoordinate.x,
+      yCoordinate: currentCoordinate.y,
+    };
 
-      const newLocation = {
-        xCoordinate: currentCoordinate.x,
-        yCoordinate: currentCoordinate.y,
-      };
+    // Notify the parent component that a marker has been added
+    onAddMarker(locationData); // Pass the location data to the parent
 
-      // Call the function to create the location
-      console.log("newlocation", newLocation);
-      await postLocation(newLocation);
+    // Close the modal after successfully adding the marker
+    closeModal();
 
-      // Notify the parent component that a marker has been added
-      onAddMarker();
-
-      // Close the modal after successfully adding the marker
-      closeModal();
-
-      // Reset the form
-      setCurrentCoordinate({ x: 0, y: 0 });
-    } catch (error) {
-      console.error('Failed to add marker:', error);
-    }
+    // Reset the form
+    setCurrentCoordinate({ x: 0, y: 0 });
   };
 
   return (
@@ -62,7 +53,7 @@ const AddMarker = ({ gameId, onAddMarker, closeModal }) => {
       </div>
       <button
         className="bg-blue-500 text-white rounded p-2 text-sm hover-bg-blue-600 cursor-pointer"
-        onClick={createMarker}
+        onClick={handleAddMarker}
       >
         Add Marker
       </button>
@@ -71,4 +62,5 @@ const AddMarker = ({ gameId, onAddMarker, closeModal }) => {
 };
 
 export default AddMarker;
+
 

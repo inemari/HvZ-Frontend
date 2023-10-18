@@ -22,7 +22,7 @@ const MissionList = () => {
     }
 
     fetchMissionData();
-  }, [missionIds]);
+  },[]);
 
   return (
     <ul>
