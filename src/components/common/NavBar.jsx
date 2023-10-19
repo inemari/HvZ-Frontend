@@ -1,4 +1,4 @@
-import logo from '../../assets/icons/LogoHVZ.png'
+import logo from '../../assets/icons/logo2.png'
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import AuthButtons from './AuthButtons.jsx'; // Import the AuthButtons component
@@ -61,7 +61,7 @@ const NavBar = () => {
         <nav className="bg-black bg-opacity-70 sticky inset-0 z-10 block w-full max-w-full mb-5 shadow-lg">
             <div className=" flex flex-wrap md:flex-row md:flex-nowrap items-center mx-10">
                 <div className='flex '>
-                    <img src={logo} className=" max-h-24 md:max-h-24 py-5" alt="App Logo" />
+                    <img src={logo} className=" max-h-24 md:max-h-24 py-2" alt="App Logo" />
                 </div>
                 <button
                     onClick={toggleMenu}
