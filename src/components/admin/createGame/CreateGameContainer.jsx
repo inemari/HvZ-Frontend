@@ -8,7 +8,8 @@ import RuleContainer from "../../common/ModalContainer";
 import Map from "../../map/Map";
 import RuleInput from "../../rule/ruleInput";
 import { createGame } from "../../../services/adminService"; // Import the createGame function
-
+import Container from '../../common/Container'
+import CustomButton from '../../common/CustomButton'
 const CreateGameContainer = () => {
   const gameEntity = {
     title: "",
@@ -98,69 +99,58 @@ const CreateGameContainer = () => {
   }, [showSuccessMessage]);
 
   return (
-    <div
-      className="container mx-auto p-6 bg-black bg-opacity-60 rounded-lg text-white"
-      style={{ overflowY: "auto", maxHeight: "calc(100vh - 200px)" }}
-    >
-      <form onSubmit={handleSubmit}>
-        <div className="flex flex-wrap justify-between">
-          <div className="w-full p-10 md:w-1/3">
-            <AddMapModal
-              formData={gameFormData}
-              handleInputChange={handleInputChange}
-            />
-          </div>
-          <div className="w-full p-10 md:w-2/3">
-            <AddTitle
-              gameFormData={gameFormData}
-              handleInputChange={handleInputChange}
-              placeholder={gameCreated}
-            />
-            <AddDescription
-              gameFormData={gameFormData}
-              handleInputChange={handleInputChange}
-              placeholder={gameCreated}
-            />
-            <div>
-              <h2 className="text-lg md:text-xl font-bold">Missions:</h2>
-              <ul>
-                {missionObjects.map((mission, index) => (
-                  <li key={index}>{mission.name}</li>
-                ))}
-              </ul>
-              <button
-                type="button"
-                onClick={openMissionModal}
-                className="bg-green-500 text-white py-2 px-4 rounded ml-4"
-              >
-                Add new Mission
-              </button>
+    <Container>
+      <form onSubmit={handleSubmit} className="mx-auto">
 
-              <h2 className="text-lg md:text-xl font-bold">Rules:</h2>
-              <ul>
-                {ruleObjects.map((rule, index) => (
-                  <li key={index}>{rule.title}</li>
-                ))}
-              </ul>
-              <button
-                type="button"
-                onClick={openRuleModal}
-                className="bg-green-500 text-white py-2 px-4 rounded ml-4"
-              >
-                Add new Rule
-              </button>
-            </div>
-            <div className="w-full mt-4">
-              <button
-                type="submit"
-                className="bg-blue-500 text-white py-2 px-4 rounded"
-              >
-                Submit
-              </button>
-            </div>
+        <AddDescription
+          gameFormData={gameFormData}
+          handleInputChange={handleInputChange}
+          placeholder={gameCreated}
+        />
+        <AddMapModal
+          formData={gameFormData}
+          handleInputChange={handleInputChange} />
+        <div className="w-full">
+          <h2 className="text-lg md:text-xl font-bold">Missions:</h2>
+          <div className="grid grid-flow-row row-auto">
+            {missionObjects.map((mission, index) => (
+              <div className="block rounded-lg p-6 shadow-sm bg-neutral-700 my-3 w-max">
+                <h5
+                  class="mb-2 text-xl font-medium leading-tight text-neutral-50 " key={index}>{mission.name}
+                </h5>
+                <li key={index}>{mission.description}</li></div>
+            ))}</div>
+
+          <button
+            type="button"
+            onClick={openMissionModal}
+            className="bg-green-500 text-white py-2 px-4 rounded ml-4"
+          >
+            Add new Mission
+          </button>
+
+          <h2 className="text-lg md:text-xl font-bold">Rules:</h2>
+          <ul>
+            {ruleObjects.map((rule, index) => (
+              <li key={index}>{rule.title}</li>
+            ))}
+          </ul>
+          <button
+            type="button"
+            onClick={openRuleModal}
+            className="bg-green-500 text-white py-2 px-4 rounded ml-4"
+          >
+            Add new Rule
+          </button>
+        </div>
+        <div className="absolute bottom-0 right-0 w-full m-5">
+          <div dir="rtl" className="static mb-0 p-5 w-full">
+            <CustomButton label="Join Game" className="start-0 mb-0 static text-lg" />
           </div>
         </div>
-      </form>
+        <CustomButton label={"Submit"} type={"ubmit"} className="w-full" />
+
+      </form >
 
       <MissionContainer
         children={
@@ -196,12 +186,14 @@ const CreateGameContainer = () => {
         showModal={isRuleModalOpen}
         closeModal={closeModal}
       />
-      {showSuccessMessage && (
-        <div className="text-center text-green-500 mt-4">
-          Game created successfully! Clearing the page in 3 seconds...
-        </div>
-      )}
-    </div>
+      {
+        showSuccessMessage && (
+          <div className="text-center text-green-500 mt-4">
+            Game created successfully! Clearing the page in 3 seconds...
+          </div>
+        )
+      }
+    </Container>
   );
 };
 

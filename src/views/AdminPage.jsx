@@ -8,13 +8,12 @@ function AdminPage() {
     const handleTabChange = (tabName) => {
         setActiveTab(tabName);
     };
-  
+
     return (
-        <div className='flex flex-col fixed justify-center mx-auto w-full'>
-           
+        <>
             <AdminFilterSlider activeTab={activeTab} handleTabChange={handleTabChange} />
             <CreateGameContainer activeTab={activeTab} />
-        </div>
+        </>
     );
 }
 export default AdminPage;

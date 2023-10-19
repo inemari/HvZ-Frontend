@@ -25,9 +25,10 @@ const InputField = ({ label, error, onChange, value, showIcon, iconPath, placeho
                     </svg>
                 </span>
             )}
+            <label className="block text-base text-white">{label}</label>
             <input
                 type="text"
-                className={`rounded-none rounded-r-lg bg-customLightOrange text-gray-900 focus:ring-0 block flex-1 min-w-0 w-full text-sm p-2.5 focus:outline-none ${localError ? 'border-red-500' : 'border-gray-300'}`}
+                className={`rounded-none rounded-r-lg bg-white text-gray-900 focus:ring-0 block flex-1 min-w-0 w-full text-sm p-2.5 focus:outline-none ${localError ? 'border-red-500' : 'border-gray-300'}`}
                 placeholder={placeholder}
                 value={value}
                 onChange={handleInputChange}
