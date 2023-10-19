@@ -15,25 +15,67 @@ import BiteCode from './views/Game/BiteCode';
 // import AuthenticatedRoute from './helpers/AuthenticatedRoute';
 import { useKeycloak } from '@react-keycloak/web';  // Import useKeycloak
 import NavBar from './components/common/NavBar';
+import ChatComponent from './components/chat/Chat';
+import * as signalR from "@microsoft/signalr";
 import AdminPage from './views/AdminPage';
 
 
 const App = () => {
-  const { keycloak, initialized } = useKeycloak();  // Use the hook to get keycloak instance
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const { keycloak, initialized } = useKeycloak(); // Use the hook to get Keycloak instance
+  const [hubConnection, setHubConnection] = useState(null);
 
   useEffect(() => {
-    if (initialized && keycloak.authenticated !== undefined) {
-      setIsAuthenticated(keycloak.authenticated);
-    }
-  }, [initialized, keycloak]);
+    const createHubConnection = async () => {
+      if (initialized && keycloak.authenticated) {
+        // Only create SignalR connection if authenticated
+        const newConnection = new signalR.HubConnectionBuilder()
+        .withUrl('https://localhost:7041/chathub', {
+/*     skipNegotiation: true,
+    transport: signalR.HttpTransportType.WebSockets */
+})
+          
+          .configureLogging(signalR.LogLevel.Debug)
+          .build();
 
-  console.log("Authenticated: " + isAuthenticated);
+          newConnection.on("ReceiveMessage", (user, message) => {
+            console.log(`Received message from ${user}: ${message}`);
+          });
+          
 
-  return (
+        try {
+          await newConnection.start();
+          console.log("Connected to SignalR hub!");
+          setHubConnection(newConnection);
+        } catch (error) {
+          console.error("Error connecting to SignalR hub: ", error);
+        }
+      }
+    };
+
+    createHubConnection();
+  }, [initialized, keycloak.authenticated]); // Listen for changes in authentication status
+
+ return (
     <BrowserRouter>
-      <div className="dark-bg absolute">
-        <div className="background-image absolute top-0 left-0"></div>
+
+      <div className="relative p-10">
+        <div className="dark-bg absolute"></div>
+        <div className="background-image absolute top-0 left-0 "></div>
+        <NavBar />
+         <ChatComponent hubConnection={hubConnection}/> 
+        <Routes>
+          <Route path='/' element={<LandingPage />} />
+          <Route path='/AboutGame' element={<AboutGame />} />
+          <Route path='/Game' element={<Game />} />
+          <Route path='/Map' element={<MapPage />} />
+          <Route path='/SquadRegistration' element={<SquadRegistration />} />
+          <Route path='/SquadDetails' element={<SquadDetails />} />
+          <Route path='/BiteCode' element={<BiteCode />} />
+          <Route path='/testChat' element={<TestChat hubConnection={hubConnection} />} />
+
+        </Routes>
+
+
       </div>
      
         <NavBar />
@@ -55,3 +97,10 @@ const App = () => {
 };
 
 export default App;
+
+
+
+
+
+
+
