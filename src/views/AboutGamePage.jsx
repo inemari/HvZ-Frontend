@@ -7,12 +7,13 @@ import { useKeycloak } from '@react-keycloak/web';
 import GameImage from '../components/game/GameIMG';
 import UserNameModal from '../components/game/UserNameModal';
 import ModalContainer from '../components/common/ModalContainer';
-import clearLocalStorageData from '../helpers/LocalStorageUtils';
+import clearSessionStorageData from '../helpers/SessionStorageUtils';
 import Container from '../components/common/Container';
 import Map from '../components/map/Map';
 import arrow from '../assets/icons/arrow.png';
 import Carousel from '../components/common/Carousel';
 import { useFetchGameRules } from '../services/ruleService';
+
 function AboutGame() {
     const { keycloak } = useKeycloak();
     const selectedGame = JSON.parse(localStorage.getItem('selectedGame'));
@@ -28,7 +29,7 @@ function AboutGame() {
     };
 
     useEffect(() => {
-        clearLocalStorageData();
+        clearSessionStorageData();
     }, []);
 
     return (

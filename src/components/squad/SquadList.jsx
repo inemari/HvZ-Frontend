@@ -20,7 +20,7 @@ const SquadList = () => {
   }, []);
 
   const handleSquadSelect = (squadId) => {
-    localStorage.setItem('selectedSquadId', squadId); // Store the selected squad's ID
+    sessionStorage.setItem('selectedSquadId', squadId); // Store the selected squad's ID
     navigate('/SquadDetails'); // Navigate to the SquadDetails page
   };
 

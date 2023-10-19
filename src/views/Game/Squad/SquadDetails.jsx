@@ -2,7 +2,7 @@ import React from 'react';
 import SquadInformation from '../../../components/squad/SquadInformation';
 
 const SquadDetails = ({ locationHubConnection }) => {
-  const selectedSquadId = localStorage.getItem('selectedSquadId');
+  const selectedSquadId = sessionStorage.getItem('selectedSquadId');
 
   return (
     <div>

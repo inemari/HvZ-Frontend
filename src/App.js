@@ -22,20 +22,21 @@ const App = () => {
   useEffect(() => {
     const createLocationHubConnection = async () => {
       if (initialized && keycloak.authenticated) {
-        const playerId = parseInt(localStorage.getItem('playerId'), 10);
-        if(playerId) {
+        const playerId = parseInt(sessionStorage.getItem('playerId'), 10);
+
+        if(playerId !== null) {
         const newConnection = new signalR.HubConnectionBuilder()
           .withUrl('https://localhost:7041/locationhub')
           .configureLogging(signalR.LogLevel.Debug)
           .build();
-
-          newConnection.on("ReceiveLocationUpdate", (playerId, x, y) => {
-            console.log(`Received location from ${playerId}: x - ${x}, y - ${y}`);
-          });
           
         try {
           await newConnection.start();
           console.log("Connected to SignalR hub!");
+          
+          newConnection.on("ReceiveLocationUpdate", (playerId, x, y) => {
+            console.log(`Received location from ${playerId}: x - ${x}, y - ${y}`);
+          });
 
           await newConnection.invoke("OnConnectedAsync", playerId);
           setLocationHubConnection(newConnection);
