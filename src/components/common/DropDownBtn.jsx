@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 
 const Dropdown = ({ label, options, onClickOption }) => {
@@ -11,7 +12,7 @@ const Dropdown = ({ label, options, onClickOption }) => {
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
-
+        toggleDropdown ();
         // Call the onClickOption callback with the selected option
         if (onClickOption) {
             onClickOption(option);
@@ -19,13 +20,13 @@ const Dropdown = ({ label, options, onClickOption }) => {
     };
 
     return (
-        <div className="relative inline-block text-left text-white font-semibold">
+        <div className="relative inline-block text-left text-white ">
             <div onClick={toggleDropdown}>
-                <button className=" flex justify-between items-center">
+                <button className=" flex justify-between items-center ">
                     {label}
-                    <span className="inline-flex items-center font-semibold">
+                    <span className="inline-flex items-center ">
                         <svg
-                            className={`ml-2 w-4 h-4 transition-transform transform ${isOpen ? 'rotate-180' : 'rotate-0'
+                            className={`ml-2 w-3 h-3 transition-transform transform ${isOpen ? 'rotate-180' : 'rotate-0'
                                 }`}
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -57,13 +58,7 @@ const Dropdown = ({ label, options, onClickOption }) => {
                     </ul>
                 </div>
             )}
-            {selectedOption && (
-                <div className="absolute right-0 mt-2">
-                    <p className="px-4 py-2 text-lg font-semibold text-customWhite rounded-md">
-                        {selectedOption}
-                    </p>
-                </div>
-            )}
+       
         </div >
     );
 };

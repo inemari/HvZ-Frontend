@@ -7,7 +7,6 @@ import {
 import './styles/custom.css';
 import LandingPage from './views/LandingPage';
 import AboutGame from './views/AboutGamePage';
-import Game from './views/Game/Game';
 import MapPage from './views/Game/MapPage';
 import SquadRegistration from './views/Game/Squad/SquadRegistration.jsx';
 import SquadDetails from './views/Game/Squad/SquadDetails';
@@ -40,9 +39,9 @@ const App = () => {
 
         <div className='m-10 space-y-5 break-words'>
           <Routes >
-            <Route path='/' element={<LandingPage />} />
+            <Route path='/LandingPage' element={<LandingPage />} />
             <Route path='/AboutGame' element={<AboutGame />} />
-            <Route path='/Game' element={<Game />} />
+      
             <Route path='/Map' element={<MapPage />} />
             <Route path='/SquadRegistration' element={<SquadRegistration />} />
             <Route path='/SquadDetails' element={<SquadDetails />} />
