@@ -11,6 +11,7 @@ import BiteCode from "./views/Game/BiteCode";
 // import AuthenticatedRoute from './helpers/AuthenticatedRoute';
 import { useKeycloak } from '@react-keycloak/web';  // Import useKeycloak
 import NavBar from './components/common/NavBar';
+import ChatComponent from "./components/chat/Chat";
 import AdminPage from './views/AdminPage';
 import * as signalR from '@microsoft/signalr';
 
@@ -18,6 +19,7 @@ const App = () => {
   const { keycloak, initialized } = useKeycloak();  // Use the hook to get keycloak instance
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [locationHubConnection, setLocationHubConnection] = useState(null);
+  const [hubConnection, setHubConnection] = useState(null);
 
   useEffect(() => {
     const createLocationHubConnection = async () => {
@@ -70,7 +72,7 @@ const App = () => {
         try {
           await newConnection.start();
           console.log("Connected to SignalR hub!");
-          setLocationHubConnection(newConnection);
+          setHubConnection(newConnection);
         } catch (error) {
           console.error("Error connecting to SignalR hub: ", error);
         }
@@ -86,7 +88,7 @@ const App = () => {
         <div className="dark-bg absolute"></div>
         <div className="background-image absolute top-0 left-0 "></div>
         <NavBar />
-
+        <ChatComponent hubConnection={hubConnection} />
         <div className='m-10 space-y-5 break-words'>
           <Routes >
             <Route path='/' element={<LandingPage />} />

@@ -5,19 +5,29 @@ import { updatePlayerLocation } from '../../services/locationService';
 import InputField from '../common/InputField';
 import Container from '../common/Container';
 import CustomButton from '../common/CustomButton';
+import * as signalR from '@microsoft/signalr';
 
-const SquadInformation = ({ squadId, locationHubConnection }) => {
+const SquadInformation = ({ locationHubConnection }) => {
+  const [receivedMessages, setReceivedMessages] = useState([]);
   const [squadDetails, setSquadDetails] = useState(null);
   const [isMember, setIsMember] = useState(false); // A flag to track squad membership
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [xCoordinate, setXCoordinate] = useState('');
   const [yCoordinate, setYCoordinate] = useState('');
-
+  const squadId = sessionStorage.getItem('selectedSquadId');
   const playerId = parseInt(sessionStorage.getItem('playerId'), 10);
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
+
+  useEffect(() => {
+    if (locationHubConnection) {
+      locationHubConnection.on("ReceiveLocationUpdate", (playerId, x, y) => {
+        setReceivedMessages([...receivedMessages, `${playerId}: x - ${x}, y - ${y}`]);
+      });
+    }
+  }, []);
 
 // Define fetchSquadDetails here
 const fetchSquadDetails = async () => {
@@ -63,33 +73,37 @@ const fetchSquadDetails = async () => {
 
       console.log("Trying to connect to LocationHub...");
       // Notify others in the squad about the marker location update
-      await locationHubConnection.invoke('SendLocationUpdate', playerId, xCoordinate, yCoordinate);
+  
       console.log("Updated marker location");
       // Close the modal
-      toggleModal();
+      //toggleModal();
     } catch (error) {
       console.error('Error leaving a marker:', error);
+      console.log("ooooh shit");
     }
+    if (locationHubConnection && locationHubConnection.state === signalR.HubConnectionState.Connected) {
+      locationHubConnection
+        .invoke('SendLocationUpdate', playerId, xCoordinate, yCoordinate)
+        .catch((error) => {
+          console.error("Error sending message: " + error);
+        });
+
+        setXCoordinate("");
+        setYCoordinate("");
+      
+    }
+
+
+
   };
 
   return (
    
       <Container>
-      {squadDetails ? (
+   {/*    {squadDetails ? ( */}
         <>
           <h2>Squad Information</h2>
-          <p>Squad Name: {squadDetails.squadName}</p>
-          <p>Total Members: {squadDetails.numberOfMembers}</p>
-          <p>Deceased Members: {squadDetails.numberOfDeceased}</p>
-          <h3>Squad Members:</h3>
-          <ul>
-            {squadDetails.playerIds.map((member) => (
-              <li key={member.username}>
-                <p>Username: {member.username}</p>
-                <p>State: {member.zombie ? 'Zombie' : 'Human'}</p>
-              </li>
-            ))}
-          </ul>
+
           <CustomButton onClick={handleJoinOrLeaveSquad} label=  {isMember ? "Leave Squad" : "Join Squad"}/>
           
        
@@ -133,9 +147,7 @@ const fetchSquadDetails = async () => {
         </ModalContainer>
         )}
         </>
-      ) : (
-        <p>Loading squad information...</p>
-      )}
+
       </Container>
    
   );
