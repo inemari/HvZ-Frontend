@@ -1,29 +1,12 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./styles/custom.css";
 import LandingPage from "./views/LandingPage";
 import AboutGame from "./views/AboutGamePage";
-import Game from "./views/Game/Game";
 import MapPage from "./views/Game/MapPage";
 import SquadRegistration from "./views/Game/Squad/SquadRegistration.jsx";
 import SquadDetails from "./views/Game/Squad/SquadDetails";
 import BiteCode from "./views/Game/BiteCode";
-=======
-import React, { useEffect, useState } from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from 'react-router-dom';
-import './styles/custom.css';
-import LandingPage from './views/LandingPage';
-import AboutGame from './views/AboutGamePage';
-import MapPage from './views/Game/MapPage';
-import SquadRegistration from './views/Game/Squad/SquadRegistration.jsx';
-import SquadDetails from './views/Game/Squad/SquadDetails';
-import BiteCode from './views/Game/BiteCode';
->>>>>>> SCRUM-299-Game-navbar-fix
 // import AuthenticatedRoute from './helpers/AuthenticatedRoute';
 import { useKeycloak } from "@react-keycloak/web"; // Import useKeycloak
 import NavBar from "./components/common/NavBar";
@@ -71,12 +54,10 @@ const App = () => {
         <div className="dark-bg absolute"></div>
         <div className="background-image absolute top-0 left-0 "></div>
         <NavBar />
-<<<<<<< HEAD
         <ChatComponent hubConnection={hubConnection} />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/AboutGame" element={<AboutGame />} />
-          <Route path="/Game" element={<Game />} />
           <Route path="/Map" element={<MapPage />} />
           <Route path="/SquadRegistration" element={<SquadRegistration />} />
           <Route path="/SquadDetails" element={<SquadDetails />} />
@@ -84,21 +65,6 @@ const App = () => {
           <Route path="/Admin" element={<AdminPage />} />
         </Routes>
       </div>
-=======
-
-        <div className='m-10 space-y-5 break-words'>
-          <Routes >
-            <Route path='/LandingPage' element={<LandingPage />} />
-            <Route path='/AboutGame' element={<AboutGame />} />
-      
-            <Route path='/Map' element={<MapPage />} />
-            <Route path='/SquadRegistration' element={<SquadRegistration />} />
-            <Route path='/SquadDetails' element={<SquadDetails />} />
-            <Route path='/BiteCode' element={<BiteCode />} />
-            <Route path='/Admin' element={<AdminPage />} />
-          </Routes>
-        </div>
->>>>>>> SCRUM-299-Game-navbar-fix
     </BrowserRouter>
   );
 };
