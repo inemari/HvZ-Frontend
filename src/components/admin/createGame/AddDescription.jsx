@@ -1,6 +1,6 @@
 import React from "react";
 
-const AddDescription = ({ formData, handleInputChange }) => {
+const AddDescription = ({ gameFormData, handleInputChange }) => {
 
   return (
     <div>
@@ -10,7 +10,7 @@ const AddDescription = ({ formData, handleInputChange }) => {
           <textarea
             type="text"
             name="description"
-            value={formData.description}
+            value={gameFormData.description}
             onChange={handleInputChange}
             className="w-2/3 border rounded py-2 px-3 text-black"
           />

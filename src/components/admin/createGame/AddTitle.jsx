@@ -1,7 +1,7 @@
 import React from "react";
 import InputField from "../../common/InputField";
 
-const AddTitle = ({ formData, handleInputChange }) => {
+const AddTitle = ({ gameFormData, handleInputChange }) => {
   return (
     <div>
       <form>
@@ -10,7 +10,7 @@ const AddTitle = ({ formData, handleInputChange }) => {
           <input
             type="text"
             name="title"
-            value={formData.title}
+            value={gameFormData.title}
             onChange={handleInputChange}
             className="w-1/3 border rounded py-2 px-3 text-black"
           />

@@ -1,23 +1,28 @@
-import React, { useState } from 'react';
-import { postRule } from '../../services/ruleService';
+import React, { useState } from "react";
 
 const RuleInput = ({ onAddRule, closeModal }) => {
-  const [ruleTitle, setRuleTitle] = useState('');
-  const [ruleDescription, setRuleDescription] = useState('');
+  const ruleEntity = {
+    title: "",
+    description: "",
+  };
+  const [ruleFormData, setRuleFormData] = useState(ruleEntity);
 
-  // Handler for submitting the rule
-  const handleSubmitRule = () => {
-    // Create a rule object
-    const ruleData = {
-      title: ruleTitle,
-      description: ruleDescription,
-    };
+  const handleInputChange = (e) => {
+    const updatedFormData = { ...ruleFormData };
+    updatedFormData[e.target.name] = e.target.value;
+    setRuleFormData(updatedFormData);
+  };
+
+  const handleAddRule = () => {
+    // Create a rule object using ruleFormData
+    const ruleData = { ...ruleFormData };
 
     // Notify the parent component that a rule has been added
-    onAddRule(ruleData); // Pass the rule data to the parent
+    onAddRule(ruleData);
 
-    // Close the modal after successfully creating the rule
+    // Close the modal and reset the form
     closeModal();
+    setRuleFormData(ruleEntity); // Reset to initial state
   };
 
   return (
@@ -26,23 +31,25 @@ const RuleInput = ({ onAddRule, closeModal }) => {
         <label className="block font-semibold">Rule Title:</label>
         <input
           type="text"
-          value={ruleTitle}
+          name="title"
+          value={ruleFormData.title}
           className="w-2/3 border rounded py-2 px-3 text-black"
-          onChange={(e) => setRuleTitle(e.target.value)}
+          onChange={handleInputChange}
         />
       </div>
       <div>
         <label className="block font-semibold">Rule Description:</label>
         <input
           type="text"
-          value={ruleDescription}
+          name="description"
+          value={ruleFormData.description}
           className="w-2/3 border rounded py-2 px-3 text-black"
-          onChange={(e) => setRuleDescription(e.target.value)}
+          onChange={handleInputChange}
         />
       </div>
       <button
         className="bg-blue-500 text-white rounded p-2 text-sm hover-bg-blue-600 cursor-pointer"
-        onClick={handleSubmitRule}
+        onClick={handleAddRule}
       >
         Submit Rule
       </button>
@@ -51,4 +58,3 @@ const RuleInput = ({ onAddRule, closeModal }) => {
 };
 
 export default RuleInput;
-

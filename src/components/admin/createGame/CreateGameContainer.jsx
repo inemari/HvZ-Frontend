@@ -1,175 +1,97 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AddTitle from "./AddTitle";
 import AddMapModal from "./AddMapModal";
 import AddDescription from "./AddDescription";
 import MissionInput from "../../missions/MissionInput";
-import { postGame } from "../../../services/gameService";
 import MissionContainer from "../../common/ModalContainer";
 import RuleContainer from "../../common/ModalContainer";
 import Map from "../../map/Map";
 import RuleInput from "../../rule/ruleInput";
-import { postMission } from "../../../services/missionService";
-import { postLocation } from "../../../services/locationService";
-import { postRule } from "../../../services/ruleService";
+import { createGame } from "../../../services/adminService"; // Import the createGame function
 
 const CreateGameContainer = () => {
-  const [formData, setFormData] = useState({
+  const gameEntity = {
     title: "",
     description: "",
     pictureURL: "",
-  });
+  };
 
+  const [gameFormData, setGameFormData] = useState(gameEntity);
   const [missionObjects, setMissionObjects] = useState([]);
   const [locationObjects, setLocationObjects] = useState([]);
-
   const [ruleObjects, setRuleObjects] = useState([]);
-  // State to control the modal visibility
   const [isMissionModalOpen, setIsMissionModalOpen] = useState(false);
   const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
-  const [gameCreated, setGameCreated] = useState(false); // Track whether the game is created
-  const [gameId, setGameId] = useState(null); // Track the created game's ID
+  const [gameCreated, setGameCreated] = useState(false);
+  const [gameId, setGameId] = useState(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-  // Function to open the mission modal
   const openMissionModal = () => {
     setIsMissionModalOpen(true);
   };
 
-  // Function to open the map modal
   const openRuleModal = () => {
     setIsRuleModalOpen(true);
   };
 
-  // Function to close both modals
   const closeModal = () => {
     setIsMissionModalOpen(false);
     setIsRuleModalOpen(false);
   };
 
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  // Callback function to add the mission to missionObjects
   const handleAddMission = (missionData, locationData) => {
     setMissionObjects((prevMissions) => [...prevMissions, missionData]);
     setLocationObjects((prevLocations) => [...prevLocations, locationData]);
   };
 
   const handleAddRule = (ruleData) => {
-    setRuleObjects((prevRules) => [
-      ...prevRules,
-      {
-        id: ruleData.id,
-        title: ruleData.title,
-      },
-    ]);
+    setRuleObjects((prevRules) => [...prevRules, ruleData]);
   };
 
   const handleAddMarker = (locationData) => {
-    setLocationObjects((prevLocations) => [
-      ...prevLocations,
-      locationData,
-    ]);
+    setLocationObjects((prevLocations) => [...prevLocations, locationData]);
   };
 
   const handleInputChange = (e) => {
-    const updatedFormData = { ...formData };
-    updatedFormData[e.target.name] = e.target.value;
-    setFormData(updatedFormData);
+    const { name, value } = e.target;
+    setGameFormData((prevGameData) => ({
+      ...prevGameData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Step 1: Create the game
-    const { title, description, pictureURL } = formData;
+    // Create the game and get the game ID
+    const gameId = await createGame(
+      gameFormData,
+      missionObjects,
+      ruleObjects,
+      locationObjects
+    );
 
-    const gameResponse = await postGame({ title, description, pictureURL });
-
-    const missionsToCreate = [];
-    for (let i = 0; i < missionObjects.length; i++) {
-      const missionData = missionObjects[i];
-      missionsToCreate.push(missionData);
-    }
-
-    // Call your API to create missions in the database
-    for (const missionData of missionsToCreate) {
-      try {
-        const response = await postMission(missionData);
-
-        // Handle the response, e.g., update state or perform other actions
-        // ...
-      } catch (error) {
-        console.error('Failed to post mission:', error);
-      }
-    }
-
-    const locationsToCreate = [];
-    for (let i = 0; i < locationObjects.length; i++) {
-      const locationData = locationObjects[i];
-      locationsToCreate.push(locationData);
-    }
-
-    // Call your API to create locations in the database
-    for (const locationData of locationsToCreate) {
-      try {
-        await postLocation(locationData);
-
-        // Handle the response or errors as needed
-        // ...
-      } catch (error) {
-        console.error('Failed to add location:', error);
-      }
-    }
-
-
-    // Create rules
-    const rulesToCreate = [];
-    for (let i = 0; i < ruleObjects.length; i++) {
-      const ruleData = ruleObjects[i];
-      rulesToCreate.push(ruleData);
-    }
-
-    // Call your API to create rules in the database
-    for (const ruleData of rulesToCreate) {
-      try {
-        await postRule(ruleData); // Replace postRule with your actual API call
-
-        // Handle the response or errors as needed
-        // ...
-      } catch (error) {
-        console.error('Failed to add rule:', error);
-      }
-    }
-
-
-    if (gameResponse && gameResponse.id) {
-      const gameId = gameResponse.id;
-
+    if (gameId) {
       setGameCreated(true);
       setGameId(gameId);
 
       // Show the success message
       setShowSuccessMessage(true);
 
-      // Update the title and description placeholders
-      setFormData({
-        title: "",
-        description: "",
-        pictureURL: "",
-      });
-
+      // Update the placeholders and reset the form
+      setGameFormData(gameEntity);
       setMissionObjects([]);
       setRuleObjects([]);
+      setLocationObjects([]);
 
       // Hide the success message after 3 seconds
       setTimeout(() => {
         setShowSuccessMessage(false);
-      }, 3000); // 3000 milliseconds = 3 seconds
+      }, 3000);
     }
   };
 
-
   useEffect(() => {
-    // You can use this effect to clear the page or perform any additional actions
-    // when the success message is hidden (e.g., redirect to another page).
     if (!showSuccessMessage) {
       // Clear the page or perform other actions here
     }
@@ -184,18 +106,18 @@ const CreateGameContainer = () => {
         <div className="flex flex-wrap justify-between">
           <div className="w-full p-10 md:w-1/3">
             <AddMapModal
-              formData={formData}
+              formData={gameFormData}
               handleInputChange={handleInputChange}
             />
           </div>
           <div className="w-full p-10 md:w-2/3">
             <AddTitle
-              formData={formData}
+              gameFormData={gameFormData}
               handleInputChange={handleInputChange}
               placeholder={gameCreated}
             />
             <AddDescription
-              formData={formData}
+              gameFormData={gameFormData}
               handleInputChange={handleInputChange}
               placeholder={gameCreated}
             />
@@ -284,7 +206,3 @@ const CreateGameContainer = () => {
 };
 
 export default CreateGameContainer;
-
-{
-  /* <div className="container mx-auto p-6 bg-black bg-opacity-60 rounded-lg text-white" style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}> */
-}

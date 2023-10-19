@@ -5,7 +5,7 @@ import api from "./api"; // Assuming you have an api.js file defining the axios 
 
 export const postRule = async (ruleData) => {
   try {
-    const response = await api.post(`/Rule`, ruleData);
+    const response = await api.post(`/Rules`, ruleData);
     return response.data;
   } catch (error) {
     throw new Error("Failed to post a new rule");
