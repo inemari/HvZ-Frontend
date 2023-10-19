@@ -16,8 +16,9 @@ import BiteCode from './views/Game/BiteCode';
 import { useKeycloak } from '@react-keycloak/web';  // Import useKeycloak
 import NavBar from './components/common/NavBar';
 import ChatComponent from './components/chat/Chat';
-import TestChat from './components/testChat/testChat';
 import * as signalR from "@microsoft/signalr";
+import AdminPage from './views/AdminPage';
+
 
 const App = () => {
   const { keycloak, initialized } = useKeycloak(); // Use the hook to get Keycloak instance
@@ -56,6 +57,7 @@ const App = () => {
 
  return (
     <BrowserRouter>
+
       <div className="relative p-10">
         <div className="dark-bg absolute"></div>
         <div className="background-image absolute top-0 left-0 "></div>
@@ -72,7 +74,24 @@ const App = () => {
           <Route path='/testChat' element={<TestChat hubConnection={hubConnection} />} />
 
         </Routes>
+
+
       </div>
+     
+        <NavBar />
+
+        <div className='m-10 space-y-5 break-words'>
+          <Routes >
+            <Route path='/' element={<LandingPage />} />
+            <Route path='/AboutGame' element={<AboutGame />} />
+            <Route path='/Game' element={<Game />} />
+            <Route path='/Map' element={<MapPage />} />
+            <Route path='/SquadRegistration' element={<SquadRegistration />} />
+            <Route path='/SquadDetails' element={<SquadDetails />} />
+            <Route path='/BiteCode' element={<BiteCode />} />
+            <Route path='/Admin' element={<AdminPage />} />
+          </Routes>
+        </div>
     </BrowserRouter>
   );
 };

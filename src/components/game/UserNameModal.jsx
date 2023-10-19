@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CustomButton from '../common/CustomButton';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import InputField from '../common/InputField'; // Import the InputField component
 import userService from '../../services/userService'; // Import the userService
 
@@ -21,11 +21,13 @@ const UserNameModal = ({ onClose }) => {
                     return;
                 }
 
-                // Use the saveUsername function from userService
-                await userService.saveUsername(userName, selectedGame.id);
+                await userService.checkIfExists();
+
+                const playerResponse = await userService.createNewPlayer(userName, selectedGame.id);
 
                 // Save the username in localStorage
                 localStorage.setItem('username', userName);
+                localStorage.setItem('playerId', playerResponse.id);
 
                 // Close the modal
                 onClose();

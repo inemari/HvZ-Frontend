@@ -1,74 +1,66 @@
 import React, { useState } from 'react';
-import { addCoordinateToMission, createLocation } from '../../../services/mapService';
 
-const AddMarker = ({ gameId, onAddMarker }) => {
-    const [currentCoordinate, setCurrentCoordinate] = useState({ x: 0, y: 0 });
+const AddMarker = ({ onAddMarker, closeModal }) => {
+  const [currentCoordinate, setCurrentCoordinate] = useState({ x: 0, y: 0 });
 
-    const createMarker = async () => {
-        try {
-            // Call the function to add the marker to the backend
-            const response = await addCoordinateToMission(
-                currentCoordinate.x,
-                currentCoordinate.y,
-                gameId
-            );
-
-            // Create a new location with the response data
-            const newLocation = {
-                xCoordinate: currentCoordinate.x,
-                yCoordinate: currentCoordinate.y,
-                // You can add other properties if needed
-            };
-
-            // Call the function to create the location
-            await createLocation(newLocation);
-
-            // Notify the parent component that a marker has been added with the response data
-            onAddMarker(response);
-
-            // Reset the form
-            setCurrentCoordinate({ x: 0, y: 0 });
-        } catch (error) {
-            console.error('Failed to add marker:', error);
-        }
+  // Handler for adding a marker
+  const handleAddMarker = () => {
+    // Create a location object
+    const locationData = {
+      xCoordinate: currentCoordinate.x,
+      yCoordinate: currentCoordinate.y,
     };
 
-    return (
-        <div className="absolute left-3.5 bottom-3.5 p-4 bg-white rounded-lg">
-            <div className="mb-2">
-                <label className="block font-semibold">X Coordinate:</label>
-                <input
-                    type="number"
-                    value={currentCoordinate.x}
-                    onChange={(e) =>
-                        setCurrentCoordinate({
-                            ...currentCoordinate,
-                            x: parseInt(e.target.value),
-                        })
-                    }
-                />
-            </div>
-            <div>
-                <label className="block font-semibold">Y Coordinate:</label>
-                <input
-                    type="number"
-                    value={currentCoordinate.y}
-                    onChange={(e) =>
-                        setCurrentCoordinate({
-                            ...currentCoordinate,
-                            y: parseInt(e.target.value),
-                        })
-                    }
-                />
-            </div>
-            <button
-                className="bg-blue-500 text-white rounded p-2 text-sm hover:bg-blue-600 cursor-pointer"
-                onClick={createMarker}
-            >
-                Add Marker
-            </button>
-        </div>
-    );
+    // Notify the parent component that a marker has been added
+    onAddMarker(locationData); // Pass the location data to the parent
+
+    // Close the modal after successfully adding the marker
+    closeModal();
+
+    // Reset the form
+    setCurrentCoordinate({ x: 0, y: 0 });
+  };
+
+  return (
+    <div className="left-3.5 bottom-3.5 p-4 rounded-lg">
+      <div className="mb-2">
+        <label className="block font-semibold">X Coordinate:</label>
+        <input
+          type="number"
+          value={currentCoordinate.x}
+          className="w-2/3 border rounded py-2 px-3 text-black"
+          onChange={(e) =>
+            setCurrentCoordinate({
+              ...currentCoordinate,
+              x: parseInt(e.target.value),
+            })
+          }
+        />
+      </div>
+      <div>
+        <label className="block font-semibold">Y Coordinate:</label>
+        <input
+          type="number"
+          value={currentCoordinate.y}
+          className="w-2/3 border rounded py-2 px-3 text-black"
+          onChange={(e) =>
+            setCurrentCoordinate({
+              ...currentCoordinate,
+              y: parseInt(e.target.value),
+            })
+          }
+        />
+      </div>
+      <button
+        className="bg-blue-500 text-white rounded p-2 text-sm hover-bg-blue-600 cursor-pointer"
+        onClick={handleAddMarker}
+      >
+        Add Marker
+      </button>
+    </div>
+  );
 };
 
 export default AddMarker;
+
+

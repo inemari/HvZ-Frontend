@@ -1,38 +1,40 @@
 import React, { useState } from 'react';
-import { modifyPlayer } from '../../services/api';
+import { changeZombieStateOfPlayer, turnHumanIntoZombie } from '../../services/api';
 
-
-const ZombieFeatures = ({ playerId }) => {
+const ZombieFeatures = ({ playerId, onBiteCodeSubmit }) => {
   const [biteCode, setBiteCode] = useState('');
 
+  // Handle the submission of the bite code
   const handleBiteCodeSubmit = () => {
-    // Handle the submission of the bite code here
-    console.log('Handling the submission of the bite code:', biteCode);
+    // Create an object to update the player's status
+const updatedData = {
+  zombie: false,
+  biteCode: biteCode, // Add biteCode to the request
+};
 
-    // You can call your API function here to turn a human into a zombie
-    modifyPlayer(playerId, { biteCode })
-      .then((response) => {
-        // Handle the response from the server if needed
-        console.log('Player modification response:', response);
-      })
-      .catch((error) => {
-        console.error('Error modifying player', error);
-      });
+changeZombieStateOfPlayer(playerId, updatedData)
 
-    // Clear the biteCode field
-    setBiteCode('');
+// Clear the biteCode field
+setBiteCode('');
+
   };
 
   return (
-    <div>
-      <h2>Enter Bite Code to Turn Human into a Zombie:</h2>
+    <div className="text-white">
+      <h2 className="text-2xl mb-2">Enter Bite Code to Turn Human into a Zombie:</h2>
       <input
+        className="rounded-md p-2 w-64 bg-gray-800 text-white"
         type="text"
         placeholder="Enter Bite Code"
         value={biteCode}
         onChange={(e) => setBiteCode(e.target.value)}
       />
-      <button onClick={handleBiteCodeSubmit}>Submit</button>
+      <button
+        className="bg-red-500 text-white p-2 rounded-md mt-2"
+        onClick={handleBiteCodeSubmit}
+      >
+        Submit
+      </button>
     </div>
   );
 };

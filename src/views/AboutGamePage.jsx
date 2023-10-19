@@ -1,63 +1,88 @@
-import React, { useState } from 'react';
-import NavBar from '../components/common/NavBar';
+// AboutGame.js
+
+import React, { useState, useEffect } from 'react';
 import CustomBtn from '../components/common/CustomButton';
 import { useNavigate } from 'react-router-dom';
 import { useKeycloak } from '@react-keycloak/web';
-import GameImage from '../components/game/GameImage';
-import UserNameModal from '../components/game/UserNameModal'; // Import the UserNameModal component
+import GameImage from '../components/game/GameIMG';
+import UserNameModal from '../components/game/UserNameModal';
 import ModalContainer from '../components/common/ModalContainer';
-
+import clearLocalStorageData from '../helpers/LocalStorageUtils';
+import Container from '../components/common/Container';
+import Map from '../components/map/Map';
+import arrow from '../assets/icons/arrow.png';
+import Carousel from '../components/common/Carousel';
+import { useFetchGameRules } from '../services/ruleService';
 function AboutGame() {
-    const navigate = useNavigate();
     const { keycloak } = useKeycloak();
-
-    const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+    const selectedGame = JSON.parse(localStorage.getItem('selectedGame'));
+    const [showModal, setShowModal] = useState(false);
+    const gameRules = useFetchGameRules(selectedGame?.ruleIds || []); // Using the custom hook
 
     const handleButtonClick = () => {
-        setShowModal(true); // Show the modal when the "Join" button is clicked
+        setShowModal(true);
     };
 
     const handleCloseModal = () => {
-        setShowModal(false); // Close the modal
+        setShowModal(false);
     };
 
-    // Retrieve the game information from localStorage
-    const selectedGame = JSON.parse(localStorage.getItem('selectedGame'));
+    useEffect(() => {
+        clearLocalStorageData();
+    }, []);
 
     return (
-        <div className='flex flex-col m-6 min-h-full justify-center py-auto'>
-            {/* Game Box */}
-            <div className="container mx-auto p-6 bg-black bg-opacity-60  rounded-lg text-white">
-                <h1 className="text-3xl md:text-4xl font-bold  mb-3 ">{selectedGame.title}</h1>
-                <div className='flex flex-row'>
-                    <div className='w-1/2 p-10'>
-                        <GameImage game={selectedGame} />
-                    </div>
-                    {/* Display game information from localStorage */}
-                    {selectedGame && (
-                        <div className=' bg-customLightBrown w-1/2 aspect-square rounded p-10'>
-                            <h2 className="text-lg md:text-xl font-bold">Description</h2>
-                            <p className="text-base mb-3">{selectedGame.description}</p>
-                            <h2 className="text-lg md:text-xl font-bold">State:</h2>
-                            <p className="text-base mb-3">{selectedGame.gameStateString}</p>
-                            {/* Add more fields as needed */}
-                            {keycloak.authenticated && (
-                                <div className=" mb-0">
-                                    <CustomBtn onClick={handleButtonClick} label={"Join Game"} className="w-fit" />
-                                </div>
-                            )}
-                        </div>
-                    )}
-                </div>
+        <Container>
+            <div className='flex flex-row w-full justify-between '>
+                <h1 className="text-3xl md:text-4xl font-bold col-span-4 ">{selectedGame?.title}</h1>
+                <p className="bg-customGreen text-xs  self-center font-medium px-2.5 py-1 rounded-full ">{selectedGame?.gameStateString}</p>
             </div>
 
-            {/* Render the modal conditionally */}
+            <div className="lg:grid md:grid-cols-3 gap-5 w-full relative p-5">
+                <Carousel className="lg:col-span-full ">
+                    <GameImage game={selectedGame} />
+                    <Map />
+                </Carousel>
+
+                {selectedGame && (
+                    <div className="bg-customLightBrown rounded lg:col-span-2 ">
+                        <div className='space-y-5  p-5 md:p-10'>
+                            <div className='space-y-2'>
+                                <h2 className="text-lg font-bold ">Description</h2>
+                                <p className="text-base ">{selectedGame.description}</p>
+                            </div>
+
+                            {gameRules.map((rule, index) => (
+                                <div className='space-y-2' key={index}>
+                                    <h2 className="text-lg font-bold">Rules</h2>
+                                    <ul className="list-disc list-inside pl-5">
+                                        <p><b>{rule.title}</b></p>
+                                        <li>
+                                            {rule.description}
+                                        </li>
+                                    </ul>
+                                </div>
+                            ))}
+
+                        </div>
+
+                        {keycloak.authenticated && (
+                            <div className="absolute bottom-0 right-0 w-full m-5">
+                                <div dir="rtl" className="static mb-0 p-5 w-full">
+                                    <CustomBtn onClick={handleButtonClick} label="Join Game" className="start-0 mb-0 static text-lg" icon={arrow} />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+
             {showModal && (
                 <ModalContainer showModal={showModal} closeModal={handleCloseModal}>
                     <UserNameModal onClose={handleCloseModal} />
                 </ModalContainer>
             )}
-        </div>
+        </Container>
     );
 }
 

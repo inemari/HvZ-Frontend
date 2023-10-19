@@ -11,6 +11,7 @@ module.exports = {
         customDarkOrange: '#914E27',
         customLightBrown: '#555',
       },
+      fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
     },
   },
   plugins: [

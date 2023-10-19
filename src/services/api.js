@@ -1,10 +1,10 @@
+//api.js
 import axios from 'axios';
 import keycloak from '../Keycloak';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
-
 
 api.interceptors.request.use((config) => {
   const token = keycloak.token;
@@ -25,7 +25,6 @@ export async function fetchPlayerInfo(playerId) {
   }
 }
 
-// Function to update player information (turn a human into a zombie)
 export async function modifyPlayer(playerId, playerData) {
   try {
     const response = await api.put(`/players/${playerId}`, playerData);
@@ -36,22 +35,21 @@ export async function modifyPlayer(playerId, playerData) {
   }
 }
 
-// Function to turn a human into a zombie
-export async function turnHumanIntoZombie(playerId) {
+
+export async function changeZombieStateOfPlayer(playerId, updatedData) {
   try {
-    const playerData = {
-      zombie: true,
-      // You can add other fields to update as needed
-    };
-    const response = await api.put(`/players/${playerId}`, playerData);
+    // Send a PUT request to update the player's status to zombie
+    const response = await api.put(`/players/${playerId}/update-zombiestate?zombie=${updatedData.zombie}&biteCode=${updatedData.biteCode}`);
     return response.data;
   } catch (error) {
-    console.error('Error turning a human into a zombie', error);
+    if (error.response) {
+      // Log the response data for debugging
+      console.error("Failed to post Rule:", error.response.data);
+    }
     throw error;
   }
 }
 
-// Function to fetch games
 export async function fetchGames() {
   try {
     const response = await api.get('/game');
@@ -70,6 +68,15 @@ export const fetchGamesByState = async (gameState) => {
   }
 };
 
+export const createPlayer = async (userName, gameId ) => {
+  try {
+    const response = await api.post('/players', { username: userName, gameId: gameId});
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const getPlayerById = async (playerId) => {
   try {
     const response = await api.get(`/players/${playerId}`);
@@ -86,7 +93,7 @@ export const fetchSquads = async () => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const getSquadById = async (squadId) => {
   try {
@@ -100,6 +107,49 @@ export const getSquadById = async (squadId) => {
 export const createSquad = async (squadName) => {
   try {
     const response = await api.post('/Squad', { SquadName: squadName });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const addPlayerToSquad = async (id, playerId) => {
+  try {
+    const response = await api.put(`/Squad/${id}/add-player/${playerId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error adding player to squad:', error);
+    throw error;
+  }
+}
+
+export const removePlayerFromSquad = async (id, playerId) => {
+  try {
+    const response = await api.put(`/Squad/${id}/remove-player/${playerId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error removing player from squad:', error);
+    throw error;
+  }
+}
+
+export const checkUserExistence = async () => {
+  try {
+    const response = await api.get('/AppUser/exists');
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      // User not found, return null or any appropriate value
+      return null;
+    }
+    // For other errors, you can re-throw the error or handle it as needed.
+    throw error;
+  }
+}
+
+export const createUser = async () => {
+  try {
+    const response = await api.post('/AppUser/register');
     return response.data;
   } catch (error) {
     throw error;
