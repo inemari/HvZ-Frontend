@@ -1,22 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as signalR from "@microsoft/signalr";
 
-const ChatComponent = ({ hubConnection }) => {
-  const [connection, setConnection] = useState(null);
+const ChatComponent = ({ hubConnection, isMember }) => {
   const [newMessage, setNewMessage] = useState("");
   const [lobby, setLobby] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [users, setUsers] = useState([]);
-  const [chatHeight, setChatHeight] = useState("40vh");
   const [receivedMessages, setReceivedMessages] = useState([]);
   const [username, setUsername] = useState(
     sessionStorage.getItem("username") || "Mr.Default"
   );
+  const chatContainerRef = useRef(null);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (username) {
+        setUsers((prevUsers) => prevUsers.filter((user) => user !== username));
+        sessionStorage.removeItem("username");
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [username]);
+
+  useEffect(() => {
+    if (hubConnection && lobby) {
+      setUsers([]);
+
+      const userUpdatedHandler = (userList) => {
+        setUsers(userList);
+      };
+
+      hubConnection.on("UserListUpdated", userUpdatedHandler);
+
+      return () => {
+        hubConnection.off("UserListUpdated", userUpdatedHandler);
+      };
+    }
+  }, [hubConnection, lobby]);
 
   useEffect(() => {
     if (hubConnection) {
-      hubConnection.on("ReceiveMessage", (user, message) => {
+      hubConnection.on("ReceiveMessage", (user, message, roomName) => {
         setReceivedMessages([...receivedMessages, `${user}: ${message}`]);
       });
     }
@@ -29,15 +59,33 @@ const ChatComponent = ({ hubConnection }) => {
         .catch((error) => {
           console.error("Error sending message: " + error);
         });
-  
+
       setNewMessage("");
     }
   };
-  
 
   const changeLobby = (newLobby) => {
+    if (hubConnection && hubConnection.state === signalR.HubConnectionState.Connected) {
+      if (lobby) {
+        hubConnection
+          .invoke("LeaveRoom", lobby, username)
+          .catch((error) => {
+            console.error("Error leaving the lobby: " + error);
+          });
+      }
+
+      hubConnection
+        .invoke("JoinRoom", newLobby, username)
+        .catch((error) => {
+          console.error("Error joining the lobby: " + error);
+        });
+
+      const updatedUsers = [...users, username];
+      setUsers(updatedUsers);
+    }
+
     setLobby(newLobby);
-    setReceivedMessages([]); // Clear received messages when changing the lobby
+    setReceivedMessages([]);
     setShowMenu(false);
   };
 
@@ -83,11 +131,20 @@ const ChatComponent = ({ hubConnection }) => {
             >
               Join Humans Chat
             </button>
+            {isMember && (
+              <button
+                onClick={() => changeLobby("Squad Chat")}
+                className="chat-button bg-customBrown text-customWhite px-4 py-2 rounded"
+              >
+                Join Squad Chat
+              </button>
+            )}
           </div>
         )}
       </div>
+
       {lobby && (
-        <div className="chat-box absolute top-16 right-4" style={{ height: chatHeight }}>
+        <div className="chat-box absolute top-16 right-4">
           <div className="w-72 p-4 border border-customBrown rounded bg-customLightBrown">
             <div className="mb-4 text-customBlack flex items-center justify-between text-2xl">
               <h1 className="gaming-font">{lobby}</h1>
@@ -101,7 +158,7 @@ const ChatComponent = ({ hubConnection }) => {
                 ))}
               </ul>
             </div>
-            <div className="h-40 border border-customBrown p-2 text-customBlack overflow-y-auto mb-4 bg-gray-100 rounded">
+            <div className="h-40 border border-customBrown p-2 text-customBlack overflow-y-auto mb-4 bg-gray-100 rounded" ref={chatContainerRef}>
               {receivedMessages.map((message, index) => (
                 <div key={index} className="mb-2">
                   {message}
