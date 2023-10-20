@@ -31,9 +31,7 @@ const LandingPage = () => {
     <>
       <GameTabs activeTab={activeTab} handleTabChange={handleTabChange} />
       <Container >
-
         <Games activeTab={activeTab} />
-        <NewGameBtn />
       </Container>
 
     </>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const CustomButton = ({ label, onClick, icon, iconPosition, rounded }) => {
-  const baseClasses = "flex items-center justify-center text-white justify-center hover:bg-customDarkOrange focus:ring-2 focus:outline-none focus:ring-opacity-10 font-medium rounded-lg text-sm px-6 py-2 bg-customOrange focus:ring-black";
+  const baseClasses = "flex items-center justify-center shadow-sm shadow-gray-800 text-white justify-center hover:bg-customDarkOrange focus:ring-2 focus:outline-none focus:ring-opacity-10 font-medium rounded-lg text-sm px-6 py-2 bg-customOrange focus:ring-black";
   const roundedClasses = rounded ? `rounded-${rounded}` : '';
 
   return (

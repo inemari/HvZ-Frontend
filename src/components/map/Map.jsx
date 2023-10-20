@@ -4,7 +4,7 @@ import MissionList from '../missions/MissionList';
 
 const Map = () => {
   return (
-    <div className="container rounded-lg aspect-square bg-cover bg-clip-content relative" style={{ backgroundImage: `url(${map})` }}>
+    <div className="rounded-lg aspect-square bg-cover bg-clip-content relative w-full aspect-video" style={{ backgroundImage: `url(${map})` }}>
       <MissionList />
     </div>
   );

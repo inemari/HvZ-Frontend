@@ -88,20 +88,20 @@ const App = () => {
         <div className="dark-bg absolute"></div>
         <div className="background-image absolute top-0 left-0 "></div>
         <NavBar />
-
-        <div className='m-10 space-y-5 break-words'>
-          <Routes >
-            <Route path='/LandingPage' element={<LandingPage />} />
-            <Route path='/AboutGame' element={<AboutGame />} />
-            <Route path='/Map' element={<MapPage />} />
-            <Route path='/SquadRegistration' element={<SquadRegistration />} />
-            <Route path='/SquadDetails' element={<SquadDetails locationHubConnection={locationHubConnection} />} />
-            <Route path='/BiteCode' element={<BiteCode />} />
-            <Route path='/Admin' element={<AdminPage />} />
-          </Routes>
-          <ChatComponent hubConnection={hubConnection} />
-        </div>
       </div>
+      <div className='m-5 space-y-5 break-words'>
+        <Routes >
+          <Route path='/LandingPage' element={<LandingPage />} />
+          <Route path='/AboutGame' element={<AboutGame />} />
+          <Route path='/Map' element={<MapPage />} />
+          <Route path='/SquadRegistration' element={<SquadRegistration />} />
+          <Route path='/SquadDetails' element={<SquadDetails locationHubConnection={locationHubConnection} />} />
+          <Route path='/BiteCode' element={<BiteCode />} />
+          <Route path='/Admin' element={<AdminPage />} />
+        </Routes>
+        {/* <ChatComponent hubConnection={hubConnection} /> */}
+      </div>
+
     </BrowserRouter>
   );
 };
