@@ -5,8 +5,9 @@ import { updatePlayerLocation } from '../../services/locationService';
 import InputField from '../common/InputField';
 import Container from '../common/Container';
 import CustomButton from '../common/CustomButton';
+import ChatComponent from '../../components/chat/Chat';
 
-const SquadInformation = ({ squadId, locationHubConnection }) => {
+const SquadInformation = ({ squadId, locationHubConnection,hubConnection }) => {
   const [squadDetails, setSquadDetails] = useState(null);
   const [isMember, setIsMember] = useState(false); // A flag to track squad membership
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -136,6 +137,7 @@ const fetchSquadDetails = async () => {
       ) : (
         <p>Loading squad information...</p>
       )}
+        <ChatComponent hubConnection={hubConnection} isMember={isMember} />
       </Container>
    
   );
