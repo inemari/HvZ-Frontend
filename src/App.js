@@ -99,7 +99,7 @@ const App = () => {
           <Route path='/BiteCode' element={<BiteCode />} />
           <Route path='/Admin' element={<AdminPage />} />
         </Routes>
-        {/* <ChatComponent hubConnection={hubConnection} /> */}
+        <ChatComponent hubConnection={hubConnection} />
       </div>
 
     </BrowserRouter>
