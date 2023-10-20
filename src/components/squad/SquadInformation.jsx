@@ -1,27 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { getSquadDetailsById, joinSquad, leaveSquad } from '../../services/squadService';
+import ModalContainer from '../common/ModalContainer';
+import { updatePlayerLocation } from '../../services/locationService';
+import InputField from '../common/InputField';
+import Container from '../common/Container';
+import CustomButton from '../common/CustomButton';
 
-const SquadInformation = ({ squadId }) => {
+const SquadInformation = ({ squadId, locationHubConnection }) => {
   const [squadDetails, setSquadDetails] = useState(null);
   const [isMember, setIsMember] = useState(false); // A flag to track squad membership
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [xCoordinate, setXCoordinate] = useState('');
+  const [yCoordinate, setYCoordinate] = useState('');
 
-  const playerId = localStorage.getItem('playerId');
+  const playerId = parseInt(sessionStorage.getItem('playerId'), 10);
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
 
 // Define fetchSquadDetails here
 const fetchSquadDetails = async () => {
     try {
       const details = await getSquadDetailsById(squadId);
       setSquadDetails(details);
-      console.log('Player IDs in Squad:', details.playerIds);
-      // Check if the player is a member of the squad (you might need to adjust this based on your data)
-      console.log('Details: ', details);
-      //setIsMember(details.playerIds.includes(playerId));
-      const playerId = parseInt(localStorage.getItem('playerId'), 10);
-      console.log('Player ID in localStorage:', playerId);
 
       setIsMember(details.playerIds.some((player) => player.playerId === playerId));
 
-      console.log("true/false",playerId) 
+      console.log("PlayerID:", playerId) 
     } catch (error) {
       console.error('Error fetching squad details:', error);
     }
@@ -31,9 +37,6 @@ const fetchSquadDetails = async () => {
     // Fetch squad details when the component mounts
     fetchSquadDetails();
   }, [squadId]);
-
-  console.log('Current Player ID:', playerId);
-  
 
   // Function to join or leave the squad
   const handleJoinOrLeaveSquad = async () => {
@@ -53,12 +56,27 @@ const fetchSquadDetails = async () => {
     }
   };
 
-  console.log('Is Member:', isMember);
+  const handleLeaveMarker = async () => {
+    try {  
+      // Call the updateLocation function to update the player's location
+      await updatePlayerLocation(playerId, xCoordinate, yCoordinate);
+
+      console.log("Trying to connect to LocationHub...");
+      // Notify others in the squad about the marker location update
+      await locationHubConnection.invoke('SendLocationUpdate', playerId, xCoordinate, yCoordinate);
+      console.log("Updated marker location");
+      // Close the modal
+      toggleModal();
+    } catch (error) {
+      console.error('Error leaving a marker:', error);
+    }
+  };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+   
+      <Container>
       {squadDetails ? (
-        <div className="bg-black bg-opacity-60 text-white rounded-lg p-4">
+        <>
           <h2>Squad Information</h2>
           <p>Squad Name: {squadDetails.squadName}</p>
           <p>Total Members: {squadDetails.numberOfMembers}</p>
@@ -72,14 +90,54 @@ const fetchSquadDetails = async () => {
               </li>
             ))}
           </ul>
-          <button onClick={handleJoinOrLeaveSquad}>
-            {isMember ? 'Leave Squad' : 'Join Squad'}
-          </button>
-        </div>
+          <CustomButton onClick={handleJoinOrLeaveSquad} label=  {isMember ? "Leave Squad" : "Join Squad"}/>
+          
+       
+          {isMember && (
+            <CustomButton onClick={toggleModal} label={"Leave Marker"}></CustomButton>
+          )}
+
+        {isModalVisible && (
+        <ModalContainer showModal={isModalVisible} closeModal={toggleModal}>
+          <h2>Share your Location with your squad!</h2>
+          <form onSubmit={handleLeaveMarker}>
+            <div>
+              <label>X Coordinate:</label>
+              <InputField
+                label="X Coordinate"
+                placeholder="Enter X Coordinate"
+                value={xCoordinate}
+                onChange={(value) => setXCoordinate(value)}
+                showIcon={false}
+              />
+            </div>
+            <div>
+              <label>Y Coordinate:</label>
+              <InputField
+                label="Y Coordinate"
+                value={yCoordinate}
+                onChange={(value) => setYCoordinate(value)}
+                placeholder="Enter Y Coordinate"
+                showIcon={false}
+              />
+            </div>
+            <div>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+            Submit
+            </button>
+            </div>
+          </form>
+        </ModalContainer>
+        )}
+        </>
       ) : (
         <p>Loading squad information...</p>
       )}
-    </div>
+      </Container>
+   
   );
 };
 

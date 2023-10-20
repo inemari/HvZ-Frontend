@@ -1,3 +1,4 @@
+//locationservice.js
 import axios from 'axios';
 
 const api = axios.create({
@@ -26,4 +27,14 @@ export const postGame = async (gameData) => {
           }
           throw error;
     }
+};
+
+export const updatePlayerLocation = async (id, x, y) => {
+  try {
+    const response = await api.put(`/players/leaveMarker/${id}`, { XCoordinate: x, YCoordinate: y });
+    return response.data;
+  } catch (error) {
+    console.error('Error leaving marker:', error);
+    throw error;
+  }
 };

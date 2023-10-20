@@ -1,4 +1,4 @@
-import clearLocalStorageData from '../helpers/LocalStorageUtils';
+import clearSessionStorageData from '../helpers/SessionStorageUtils';
 import React, { useState, useEffect } from 'react';
 import Games from '../components/game/Games'; // Adjust the import path
 import GameTabs from '../components/game/GameTabs';
@@ -6,7 +6,7 @@ import { fetchGamesByState } from '../services/api'; // Adjust the import path
 import Container from '../components/common/Container';
 
 const LandingPage = () => {
-  clearLocalStorageData();
+  clearSessionStorageData();
   const [activeTab, setActiveTab] = useState('Registration');
   const [games, setGames] = useState([]);
 

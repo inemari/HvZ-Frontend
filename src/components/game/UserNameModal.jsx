@@ -25,9 +25,9 @@ const UserNameModal = ({ onClose }) => {
 
                 const playerResponse = await userService.createNewPlayer(userName, selectedGame.id);
 
-                // Save the username in localStorage
-                localStorage.setItem('username', userName);
-                localStorage.setItem('playerId', playerResponse.id);
+                // Save the username in sessionStorage
+                sessionStorage.setItem('username', userName);
+                sessionStorage.setItem('playerId', playerResponse.id);
 
                 // Close the modal
                 onClose();
