@@ -20,7 +20,7 @@ const NavBar = () => {
         <nav className="bg-black bg-opacity-70 sticky inset-0 z-10 block w-full max-w-full mb-5 shadow-lg">
             <div className="flex flex-wrap md:flex-row md:flex-nowrap items-center mx-10">
                 <div className='flex'>
-                    <img src={logo} className="max-h-24 md:max-h-24 py-5" alt="App Logo" />
+                    <img src={logo} className="max-h-24 md:max-h-24 py-5 cursor-pointer" alt="App Logo" onClick={() => navigate("/LandingPage")} />
                 </div>
                 <button
                     onClick={toggleMenu}
@@ -65,7 +65,7 @@ const NavBar = () => {
                                 </li>
                                 <li>
                                     <Dropdown
-                                        className={`aria-[current=page]:font-bold aria-[current=page]:hover:font-bold hover:font-semibold `}
+                                        className={''}
                                         label="Manage Squad"
                                         options={['Squad registration', 'Squad details']}
                                         onClickOption={(option) => {
@@ -79,12 +79,12 @@ const NavBar = () => {
                                     />
                                 </li>
                                 <li>
-                                    <a
-                                        href="/BiteCode"
+                                    <NavLink
+                                        to={"/BiteCode"}
                                         className={`aria-[current=page]:font-bold aria-[current=page]:hover:font-bold hover:font-semibold`}
                                     >
                                         Bite code actions
-                                    </a>
+                                    </NavLink>
                                 </li>
                             </>
                         )}
@@ -94,7 +94,7 @@ const NavBar = () => {
                     </div>
                 </div>
             </div>
-        </nav>
+        </nav >
     );
 };
 
