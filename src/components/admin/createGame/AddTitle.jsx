@@ -6,14 +6,14 @@ const AddTitle = ({ gameFormData, handleInputChange }) => {
     <div>
       <form>
         <div className="mb-4">
-          <label className="block text-base">Title of game:</label>
+          {/* <label className="block text-base">Title of game:</label>
           <input
             type="text"
             name="title"
             value={gameFormData.title}
             onChange={handleInputChange}
             className="w-1/3 border rounded py-2 px-3 text-black"
-          />
+          /> */}
         </div>
       </form>
     </div>

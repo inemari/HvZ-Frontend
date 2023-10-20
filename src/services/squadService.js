@@ -39,7 +39,7 @@ export const leaveSquad = async (id, playerId) => {
 export const getSquadDetailsById = async (squadId) => {
     try {
         const squadDetails = await getSquadById(squadId);
-        
+
         // Fetch all player details for the squad's player IDs
         const squadMembers = await fetchPlayerDetails(squadDetails.playerIds);
 
@@ -52,7 +52,7 @@ export const getSquadDetailsById = async (squadId) => {
         throw error;
     }
 };
-  // Function to fetch player details for an array of player IDs
+// Function to fetch player details for an array of player IDs
 const fetchPlayerDetails = async (playerIds) => {
     const playerDetailsPromises = playerIds.map(async (playerId) => {
         const playerDetails = await getPlayerById(playerId);
