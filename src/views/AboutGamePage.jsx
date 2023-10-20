@@ -10,7 +10,7 @@ import ModalContainer from '../components/common/ModalContainer';
 import clearSessionStorageData from '../helpers/SessionStorageUtils';
 import Container from '../components/common/Container';
 import Map from '../components/map/Map';
-import arrow from '../assets/icons//ui/arrow.png';
+import arrow from '../assets//ui/arrow.png';
 import Carousel from '../components/common/Carousel';
 import { useFetchGameRules } from '../services/ruleService';
 
@@ -68,10 +68,9 @@ function AboutGame() {
                         </div>
 
                         {keycloak.authenticated && (
-                            <div className="absolute bottom-0 right-0 w-full m-5">
-                                <div dir="rtl" className="static mb-0 p-5 w-full">
-                                    <CustomBtn onClick={handleButtonClick} label="Join Game" className="start-0 mb-0 static text-lg" icon={arrow} />
-                                </div>
+
+                            <div className="absolute bottom-4 right-4 z-20 p-5 ">
+                                <CustomBtn onClick={handleButtonClick} label="Join Game" className="start-0 mb-0 static text-lg" icon={arrow} rounded={"3xl"} iconPosition={'after'}/>
                             </div>
                         )}
                     </div>
