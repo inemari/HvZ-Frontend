@@ -1,7 +1,5 @@
-// ruleService.js
-
 import { useState, useEffect } from "react";
-import api from "./api"; // Assuming you have an api.js file defining the axios instance
+import api from "./api";
 
 export const postRule = async (ruleData) => {
   try {

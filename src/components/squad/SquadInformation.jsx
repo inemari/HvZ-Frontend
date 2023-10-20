@@ -56,17 +56,23 @@ const fetchSquadDetails = async () => {
     }
   };
 
-  const handleLeaveMarker = async () => {
-    try {  
-      // Call the updateLocation function to update the player's location
-      await updatePlayerLocation(playerId, xCoordinate, yCoordinate);
+  const handleLeaveMarker = async (event) => {
+    event.preventDefault(); 
 
-      console.log("Trying to connect to LocationHub...");
-      // Notify others in the squad about the marker location update
-      await locationHubConnection.invoke('SendLocationUpdate', playerId, xCoordinate, yCoordinate);
-      console.log("Updated marker location");
-      // Close the modal
-      toggleModal();
+    try {
+      if (locationHubConnection) {
+        // Call the updateLocation function to update the player's location
+        await updatePlayerLocation(playerId, xCoordinate, yCoordinate);
+  
+        console.log("Trying to connect to LocationHub...");
+        // Notify others in the squad about the marker location update
+        await locationHubConnection.invoke('SendLocationUpdate', playerId, xCoordinate, yCoordinate);
+        console.log("Updated marker location");
+        // Close the modal
+        toggleModal();
+      } else {
+        console.error('locationHubConnection is not initialized or null.');
+      }
     } catch (error) {
       console.error('Error leaving a marker:', error);
     }
@@ -75,9 +81,11 @@ const fetchSquadDetails = async () => {
   return (
    
       <Container>
-      {squadDetails ? (
-        <>
+            {locationHubConnection ? (
+              <div>
           <h2>Squad Information</h2>
+          {squadDetails ? (
+            <>
           <p>Squad Name: {squadDetails.squadName}</p>
           <p>Total Members: {squadDetails.numberOfMembers}</p>
           <p>Deceased Members: {squadDetails.numberOfDeceased}</p>
@@ -134,6 +142,9 @@ const fetchSquadDetails = async () => {
         )}
         </>
       ) : (
+        <p>Loading squad information...</p>
+      )}
+      </div>      ) : (
         <p>Loading squad information...</p>
       )}
       </Container>

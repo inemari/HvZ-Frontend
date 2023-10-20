@@ -1,11 +1,9 @@
 // mapService.js
-import axios from 'axios';
-
-const BASE_URL = process.env.REACT_APP_API_URL; // Replace with your API URL
+import api from './api';
 
 export const getMission = async (id) => {
     try {
-        const response = await axios.get(`${BASE_URL}/Mission/${id}`);
+        const response = await api.get(`/Mission/${id}`);
         return response.data;
     } catch (error) {
         throw new Error('Failed to fetch missions');
@@ -14,7 +12,7 @@ export const getMission = async (id) => {
 
 export const getLocation = async (id) => {
     try {
-        const response = await axios.get(`${BASE_URL}/Location/${id}`);
+        const response = await api.get(`/Location/${id}`);
         return response.data;
     } catch (error) {
         throw new Error('Failed to fetch mission locations');
@@ -26,9 +24,9 @@ export const fetchMissionsForGame = async (missionIds) => {
         const missionData = [];
 
         for (const id of missionIds) {
-            const response = await axios.get(`${BASE_URL}/Mission/${id}`);
+            const response = await api.get(`/Mission/${id}`);
             const mission = response.data;
-            const locationResponse = await axios.get(`${BASE_URL}/Location/${mission.locationId}`);
+            const locationResponse = await api.get(`/Location/${mission.locationId}`);
             const location = locationResponse.data;
             mission.location = location;
             missionData.push(mission);
@@ -43,7 +41,7 @@ export const fetchMissionsForGame = async (missionIds) => {
 
 export const addCoordinateToMission = async (x, y, gameId) => {
     try {
-        const response = await axios.post(`${BASE_URL}/Mission`, {
+        const response = await api.post(`/Mission`, {
             x,
             y,
             gameId,
@@ -56,7 +54,7 @@ export const addCoordinateToMission = async (x, y, gameId) => {
 
 export const createMission = async (missionData) => {
     try {
-        const response = await axios.post(`${BASE_URL}/Mission`, missionData);
+        const response = await api.post(`/Mission`, missionData);
         return response.data;
     } catch (error) {
         throw new Error('Failed to create a new mission');
@@ -64,7 +62,7 @@ export const createMission = async (missionData) => {
 };
 export const createLocation = async (locationData) => {
     try {
-      const response = await axios.post(`${BASE_URL}/Location`, locationData);
+      const response = await api.post(`/Location`, locationData);
       return response.data;
     } catch (error) {
       throw new Error('Failed to create a new location');

@@ -6,8 +6,12 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 
+function getAccessToken() {
+  return sessionStorage.getItem('accessToken');
+}
+
 api.interceptors.request.use((config) => {
-  const token = keycloak.token;
+  const token = getAccessToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -88,6 +92,7 @@ export const getPlayerById = async (playerId) => {
 
 export const fetchSquads = async () => {
   try {
+    console.log(keycloak.token);
     const response = await api.get('/Squad');
     return response.data;
   } catch (error) {

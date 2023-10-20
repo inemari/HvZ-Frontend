@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import "./styles/custom.css";
 import LandingPage from "./views/LandingPage";
 import AboutGame from "./views/AboutGamePage";
@@ -11,8 +11,9 @@ import BiteCode from "./views/Game/BiteCode";
 // import AuthenticatedRoute from './helpers/AuthenticatedRoute';
 import { useKeycloak } from '@react-keycloak/web';  // Import useKeycloak
 import NavBar from './components/common/NavBar';
-import ChatComponent from "./components/chat/Chat";
+import ChatComponent from "./components/chat/Chat"; 
 import AdminPage from './views/AdminPage';
+import KeycloakRoute from "./routes/KeyCloakRoute";
 import * as signalR from '@microsoft/signalr';
 
 const App = () => {
@@ -20,6 +21,22 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [locationHubConnection, setLocationHubConnection] = useState(null);
   const [hubConnection, setHubConnection] = useState(null);
+
+  useEffect(() => {
+    if (initialized && keycloak.authenticated) {
+      // Retrieve the token from Keycloak
+      const token = keycloak.token;
+
+      // Store the token in session storage
+      sessionStorage.setItem('accessToken', token);
+
+      // Use the token in your code as needed
+      console.log(`User is authenticated, token: ${token}`);
+      console.log(keycloak.hasRealmRole("user"));
+      console.log(keycloak.hasRealmRole("admin"));
+    }
+
+  }, [initialized, keycloak.authenticated, keycloak.token]);
 
   useEffect(() => {
     const createLocationHubConnection = async () => {
@@ -85,24 +102,54 @@ const App = () => {
   return (
     <BrowserRouter>
       <div className="relative p-10">
-        <div className="dark-bg absolute"></div>
-        <div className="background-image absolute top-0 left-0 "></div>
         <NavBar />
         <ChatComponent hubConnection={hubConnection} />
-        <div className='m-10 space-y-5 break-words'>
-          <Routes >
-            <Route path='/' element={<LandingPage />} />
-            <Route path='/AboutGame' element={<AboutGame />} />
-            <Route path='/Game' element={<Game />} />
-            <Route path='/Map' element={<MapPage />} />
-            <Route path='/SquadRegistration' element={<SquadRegistration />} />
-            <Route path='/SquadDetails' element={<SquadDetails locationHubConnection={locationHubConnection}/>} />
-            <Route path='/BiteCode' element={<BiteCode />} />
-            <Route path='/Admin' element={<AdminPage />} />
+        <div className="dark-bg absolute"></div>
+        <div className="background-image absolute top-0 left-0 "></div>
+          <Routes>
+              <Route path='/' element={<LandingPage />} />
+              <Route path='/AboutGame' element={<AboutGame />} />
+                <Route path='/SquadRegistration' element={<SquadRegistration />} />
+                <Route 
+                  path="/SquadDetails"
+                  element={
+                  <KeycloakRoute role = "user">
+                      <SquadDetails locationHubConnection={locationHubConnection} />
+                  </KeycloakRoute>
+                }
+                />
+                <Route
+                  path="/Game"
+                  element={
+                  <KeycloakRoute role = "user">
+                      <Game />
+                  </KeycloakRoute>
+                }/>
+                <Route
+                  path="/Map"
+                  element={
+                  <KeycloakRoute role = "user">
+                      <MapPage />
+                  </KeycloakRoute>
+                }/>
+                <Route
+                  path="/BiteCode"
+                  element={
+                  <KeycloakRoute role = "user">
+                      <BiteCode />
+                  </KeycloakRoute>
+                }/>
+                <Route
+                  path="/Admin"
+                  element={
+                  <KeycloakRoute role = "admin">
+                      <AdminPage />
+                  </KeycloakRoute>
+                }/>
           </Routes>
         </div>
-        </div>
     </BrowserRouter>
+    
   );
 };
 

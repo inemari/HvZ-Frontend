@@ -1,9 +1,4 @@
-//locationservice.js
-import axios from 'axios';
-
-const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
-});
+import api from './api';
 
 export const postLocation = async (locationData) => {
     try {

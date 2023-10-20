@@ -1,10 +1,6 @@
 //gameService.js
 import { fetchGames, fetchGamesByState } from "./api";
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
-});
+import api from "./api";
 
 function removeDuplicates(arr, prop) {
   const unique = new Set();
