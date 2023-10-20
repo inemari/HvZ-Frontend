@@ -10,7 +10,7 @@ import ModalContainer from '../components/common/ModalContainer';
 import clearSessionStorageData from '../helpers/SessionStorageUtils';
 import Container from '../components/common/Container';
 import Map from '../components/map/Map';
-import arrow from '../assets/icons/arrow.png';
+import arrow from '../assets/icons//ui/arrow.png';
 import Carousel from '../components/common/Carousel';
 import { useFetchGameRules } from '../services/ruleService';
 
