@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as signalR from "@microsoft/signalr";
+import CustomButton from "../common/CustomButton";
 
 const ChatComponent = ({ hubConnection, isMember }) => {
   const [newMessage, setNewMessage] = useState("");
@@ -96,60 +97,66 @@ const ChatComponent = ({ hubConnection, isMember }) => {
   };
 
   return (
-    <div className="app relative">
-      <div className="chat-component absolute top-4 right-4">
-        <input
+    <div className="relative h-screen">
+      <div className="bottom-10 fixed right-4 w-72 bg-customLightBrown rounded-lg p-2">
+
+        {/* menu popping up after clicking chat */}
+        {showMenu && (
+          <div className="lobby-options p-2 rounded grid grid-flow-row gap-2">
+            <CustomButton
+              onClick={() => changeLobby("Global Chat")}
+              label={"Global chat"}
+            >
+
+            </CustomButton>
+            <CustomButton
+              onClick={() => changeLobby("Zombies Chat")}
+              label={"Zombies Chat"}
+            >
+
+            </CustomButton>
+            <CustomButton
+              onClick={() => changeLobby("Humans Chat")}
+              label={"Human Chat"}
+            >
+            </CustomButton>
+            {isMember && (
+              <CustomButton
+                onClick={() => changeLobby("Squad Chat")}
+                label={"Squad Chat"}
+              >
+              </CustomButton>
+            )}
+          </div>
+        )}
+
+        {/* username input-field and chat-button */}
+        <div className="flex flex-row w-full"><input
           type="text"
           value={username}
           onChange={handleUsernameChange}
           placeholder="Enter your username"
-          className="border border-customBrown p-2 text-customBlack rounded"
+          className=" p-2 text-black rounded w-full"
         />
-        <button
-          onClick={() => setShowMenu(!showMenu)}
-          className="chat-button bg-customBrown text-customWhite px-4 py-2 rounded"
-        >
-          Chat
-        </button>
-        {showMenu && (
-          <div className="lobby-options bg-customLightBrown p-2 rounded">
-            <button
-              onClick={() => changeLobby("Global Chat")}
-              className="chat-button bg-customBrown text-customWhite px-4 py-2 rounded"
-            >
-              Join Global Chat
-            </button>
-            <button
-              onClick={() => changeLobby("Zombies Chat")}
-              className="chat-button bg-customBrown text-customWhite px-4 py-2 rounded"
-            >
-              Join Zombies Chat
-            </button>
-            <button
-              onClick={() => changeLobby("Humans Chat")}
-              className="chat-button bg-customBrown text-customWhite px-4 py-2 rounded"
-            >
-              Join Humans Chat
-            </button>
-            {isMember && (
-              <button
-                onClick={() => changeLobby("Squad Chat")}
-                className="chat-button bg-customBrown text-customWhite px-4 py-2 rounded"
-              >
-                Join Squad Chat
-              </button>
-            )}
-          </div>
-        )}
-      </div>
+          <CustomButton
+            onClick={() => setShowMenu(!showMenu)}
+            className="chat-button bg-customBrown rounded"
+            label={"Chat"}
+          >
 
+          </CustomButton> </div>
+      </div>
+      {/*The chat window*/}
       {lobby && (
-        <div className="chat-box absolute top-16 right-4">
-          <div className="w-72 p-4 border border-customBrown rounded bg-customLightBrown">
-            <div className="mb-4 text-customBlack flex items-center justify-between text-2xl">
-              <h1 className="gaming-font">{lobby}</h1>
-              {isConnected && <div className="online-dot bg-green-500 w-3 h-3 rounded-full"></div>}
-            </div>
+
+        <div className=" right-0 fixed w-72 bg-white rounded-xl shadow-xl">
+
+          <h1 className="p-3 bg-customOrange w-full rounded-t-xl">{lobby}</h1>
+          <div className="p-3">
+            {isConnected &&
+              <div className="online-dot bg-green-500 w-3 h-3 rounded-full"></div>}
+
+            {/* list of users that are online inside chatwindow*/}
             <div className="user-list">
               <p>Online Users:</p>
               <ul>
@@ -158,28 +165,28 @@ const ChatComponent = ({ hubConnection, isMember }) => {
                 ))}
               </ul>
             </div>
-            <div className="h-40 border border-customBrown p-2 text-customBlack overflow-y-auto mb-4 bg-gray-100 rounded" ref={chatContainerRef}>
+
+            {/* messages inside chatwindow*/}
+            <div className="h-40 border border-customBrown p-2 overflow-y-auto mb-4 bg-gray-100 rounded" ref={chatContainerRef}>
               {receivedMessages.map((message, index) => (
-                <div key={index} className="mb-2">
+                <div key={index} className="mb-2 ">
                   {message}
                 </div>
               ))}
             </div>
             <input
-              type="text"
+              type="textarea"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type your message..."
-              className="border border-customBrown p-2 w-full mb-2 text-customBlack rounded"
+              className="border border-customBrown p-2 w-full mb-2 rounded"
             />
-            <button
+            <CustomButton
               onClick={sendMessage}
-              className="bg-customOrange text-customWhite p-2 rounded w-full"
-            >
-              Send
-            </button>
-          </div>
-        </div>
+              label="Send"
+            />
+
+          </div></div>
       )}
     </div>
   );
