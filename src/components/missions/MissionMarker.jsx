@@ -25,7 +25,7 @@ const MissionMarker = ({ missionId }) => {
         setMissionData(mission);
       } catch (error) {
         console.error("Failed to fetch mission or location:", error);
-      }
+      } 
     }
 
     fetchData();
