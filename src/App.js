@@ -26,28 +26,28 @@ const App = () => {
       if (initialized && keycloak.authenticated) {
         const playerId = parseInt(sessionStorage.getItem('playerId'), 10);
 
-        if(playerId !== null) {
-        const newConnection = new signalR.HubConnectionBuilder()
-          .withUrl('https://localhost:7041/locationhub')
-          .configureLogging(signalR.LogLevel.Debug)
-          .build();
-          
-        try {
-          await newConnection.start();
-          console.log("Connected to SignalR hub!");
-          
-          newConnection.on("ReceiveLocationUpdate", (playerId, x, y) => {
-            console.log(`Received location from ${playerId}: x - ${x}, y - ${y}`);
-          });
+        if (playerId !== null) {
+          const newConnection = new signalR.HubConnectionBuilder()
+            .withUrl('https://localhost:7041/locationhub')
+            .configureLogging(signalR.LogLevel.Debug)
+            .build();
 
-          await newConnection.invoke("OnConnectedAsync", playerId);
-          setLocationHubConnection(newConnection);
-        } catch (error) {
-          console.error("Error connecting to SignalR hub: ", error);
+          try {
+            await newConnection.start();
+            console.log("Connected to SignalR hub!");
+
+            newConnection.on("ReceiveLocationUpdate", (playerId, x, y) => {
+              console.log(`Received location from ${playerId}: x - ${x}, y - ${y}`);
+            });
+
+            await newConnection.invoke("OnConnectedAsync", playerId);
+            setLocationHubConnection(newConnection);
+          } catch (error) {
+            console.error("Error connecting to SignalR hub: ", error);
+          }
         }
       }
-    }
-  };
+    };
 
     createLocationHubConnection();
   }, [initialized, keycloak.authenticated]); // Listen for changes in authentication status
@@ -88,20 +88,20 @@ const App = () => {
         <div className="dark-bg absolute"></div>
         <div className="background-image absolute top-0 left-0 "></div>
         <NavBar />
-        <ChatComponent hubConnection={hubConnection} />
+
         <div className='m-10 space-y-5 break-words'>
           <Routes >
-            <Route path='/' element={<LandingPage />} />
+            <Route path='/LandingPage' element={<LandingPage />} />
             <Route path='/AboutGame' element={<AboutGame />} />
-            <Route path='/Game' element={<Game />} />
             <Route path='/Map' element={<MapPage />} />
             <Route path='/SquadRegistration' element={<SquadRegistration />} />
-            <Route path='/SquadDetails' element={<SquadDetails locationHubConnection={locationHubConnection}/>} />
+            <Route path='/SquadDetails' element={<SquadDetails locationHubConnection={locationHubConnection} />} />
             <Route path='/BiteCode' element={<BiteCode />} />
             <Route path='/Admin' element={<AdminPage />} />
           </Routes>
+          <ChatComponent hubConnection={hubConnection} />
         </div>
-        </div>
+      </div>
     </BrowserRouter>
   );
 };

@@ -1,4 +1,4 @@
-import logo from '../../assets/icons/LogoHVZ.png';
+import logo from '../../assets/icons/logo2.png';
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import AuthButtons from './AuthButtons.jsx';
@@ -13,14 +13,9 @@ const NavBar = () => {
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
-    
-    // Check if you are on the "Game" page and automatically navigate to "Map"
-    useEffect(() => {
-        if (location.pathname.includes('/Game')) {
-            navigate('/Map');
-        }
-    }, [location, navigate]);
-    
+
+
+
     return (
         <nav className="bg-black bg-opacity-70 sticky inset-0 z-10 block w-full max-w-full mb-5 shadow-lg">
             <div className="flex flex-wrap md:flex-row md:flex-nowrap items-center mx-10">

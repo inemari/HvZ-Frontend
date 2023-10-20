@@ -33,7 +33,7 @@ const UserNameModal = ({ onClose }) => {
                 onClose();
 
                 // Redirect to the '/Game' page
-                navigate('/Game');
+                navigate('/Map');
             } catch (error) {
                 setError('Failed to save username');
             }
