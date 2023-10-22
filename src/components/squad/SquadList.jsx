@@ -1,31 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { getSquads } from '../../services/squadService';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { fetchSquadsByGameId } from "../../services/squadService";
+import { useNavigate } from "react-router-dom";
 
-const SquadList = () => {
+const SquadList = ({ squadListUpdated }) => {
   const [squads, setSquads] = useState([]);
   const navigate = useNavigate();
+  const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
+  const selectedGameId = selectedGame.id;
 
   useEffect(() => {
     const fetchSquadsData = async () => {
       try {
-        const squadsData = await getSquads();
+        const squadsData = await fetchSquadsByGameId(selectedGameId);
         setSquads(squadsData);
       } catch (error) {
-        console.error('Error fetching squads:', error);
+        console.error("Error fetching squads:", error);
       }
     };
 
-    fetchSquadsData();
-  }, []);
+ 
+      fetchSquadsData();
+    
+  }, [squadListUpdated, selectedGameId]);
 
   const handleSquadSelect = (squadId) => {
-    sessionStorage.setItem('selectedSquadId', squadId); // Store the selected squad's ID
-    navigate('/SquadDetails'); // Navigate to the SquadDetails page
+    sessionStorage.setItem("selectedSquadId", squadId); // Store the selected squad's ID
+    navigate("/SquadDetails"); // Navigate to the SquadDetails page
   };
 
   return (
-    <div className="bg-black bg-opacity-60 text-white rounded-lg p-4">
+    <div className="bg-black bg-opacity-60 text-white rounded-lg p-4" style={{ overflow: 'auto', maxHeight: '70vh' }}>
       <h2 className="text-2xl font-bold">Squads</h2>
       <ul>
         {squads.map((squad) => (
