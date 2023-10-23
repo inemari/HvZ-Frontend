@@ -1,4 +1,4 @@
-# HvZ Game Management System - Front-End README
+# HvZ Game Management System - Front-End 
 
 ## Project Overview
 
@@ -6,6 +6,7 @@ The HvZ Game Management System is a web-based application that provides a digita
 
 
 ## Getting Started
+<b>NB!</b> You need to have installed the requirements for the back-end repository before running the development server, unless it won't run correctly. <br>
 To set up the HvZ Game Management System Front-End on your local machine, follow these steps:
 
 1. Clone the repository.
