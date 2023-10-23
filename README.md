@@ -11,11 +11,11 @@ To set up the HvZ Game Management System Front-End on your local machine, follow
 
 1. Clone the repository.
 2. Navigate to the project directory.
-3. Install dependencies: npm install.
-4. Install Tailwind CSS: npm install tailwindcss
-5. Create Tailwind CSS Configuration: npx tailwindcss init
-6. Start the development server: npm start.
-7. Access the application in your web browser at http://localhost:3000.
+3. Install dependencies: `npm install`
+4. Install Tailwind CSS: `npm install tailwindcss`
+5. Create Tailwind CSS Configuration: `npx tailwindcss init`
+6. Start the development server: `npm start`
+7. Access the application in your web browser at `http://localhost:3000`
 
 ## Contributors
 - [Tommy Jåvold](https://github.com/t-lined)
