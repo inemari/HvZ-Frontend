@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AddLocation from "../location/AddLocation";
+import InputAdmin from "../common/InputAdmin";
 
 const MissionInput = ({ gameId, onAddMission, closeModal }) => {
   const missionEntity = {
@@ -27,27 +28,31 @@ const MissionInput = ({ gameId, onAddMission, closeModal }) => {
   };
 
   return (
-    <div>
-      <div className="mb-2">
-        <label className="block font-semibold">Mission Name:</label>
-        <input
-          type="text"
-          name="name"
-          value={missionFormData.name}
-          className="w-2/3 border rounded py-2 px-3 text-black"
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label className="block font-semibold">Mission Description:</label>
-        <input
-          type="text"
-          name="description"
-          value={missionFormData.description}
-          className="w-2/3 border rounded py-2 px-3 text-black"
-          onChange={handleInputChange}
-        />
-      </div>
+    <div className="gap-3 w-full md:col-span-1 col-span-full">
+
+      <h1 className="text-3xl md:text-4xl font-bold mt-2 pb-3">Add Mission</h1>
+      <InputAdmin
+        label="Mission Name"
+        textComponent="input"
+        type="text"
+        fieldname="mission name"
+        field={missionFormData.name}
+        onChange={handleInputChange}
+        id="title"
+        TooltipContent={"Enter the name or title of this mission. Be concise and descriptive."}
+        required />
+
+      <InputAdmin
+        label="Mission description"
+        textComponent="input"
+        type="text"
+        fieldname="description"
+        field={missionFormData.description}
+        onChange={handleInputChange}
+        id="title"
+        TooltipContent={"Provide a brief description of this mission. What is its objective or purpose?"}
+        required />
+
       <AddLocation
         gameId={gameId}
         onAddLocation={handleAddMission}

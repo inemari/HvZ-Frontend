@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./styles/custom.css";
 import LandingPage from "./views/LandingPage";
 import AboutGame from "./views/AboutGamePage";
-import Game from "./views/Game/Game";
 import MapPage from "./views/Game/MapPage";
 import SquadRegistration from "./views/Game/Squad/SquadRegistration.jsx";
 import SquadDetails from "./views/Game/Squad/SquadDetails";
@@ -12,8 +11,9 @@ import BiteCode from "./views/Game/BiteCode";
 import { useKeycloak } from '@react-keycloak/web';  // Import useKeycloak
 import NavBar from './components/common/NavBar';
 import ChatComponent from "./components/chat/Chat";
-import AdminPage from './views/AdminPage';
+import AdminPage from './views/admin/AdminPage';
 import * as signalR from '@microsoft/signalr';
+import CreateGame from "./views/admin/CreateGame";
 
 const App = () => {
   const { keycloak, initialized } = useKeycloak();  // Use the hook to get keycloak instance
@@ -98,8 +98,9 @@ const App = () => {
           <Route path='/SquadDetails' element={<SquadDetails locationHubConnection={locationHubConnection} />} />
           <Route path='/BiteCode' element={<BiteCode />} />
           <Route path='/Admin' element={<AdminPage />} />
+          <Route path='/CreateGame' element={<CreateGame />} />
         </Routes>
-        <ChatComponent hubConnection={hubConnection} />
+        {/* <ChatComponent hubConnection={hubConnection} /> */}
       </div>
 
     </BrowserRouter>
