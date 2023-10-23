@@ -49,9 +49,10 @@ export const createNewSquad = async (squadName) => {
     }
 }
 
-export const joinSquad = async (id, playerId) => {
+export const joinSquad = async (squadId, playerId) => {
     try {
-        const squad = await addPlayerToSquad(id, playerId);
+        const squad = await addPlayerToSquad(squadId, playerId);
+        sessionStorage.setItem("joinedSquadId", squadId); // Store the selected squad's ID
         return squad;
     } catch (error) {
         throw error;
@@ -61,6 +62,7 @@ export const joinSquad = async (id, playerId) => {
 export const leaveSquad = async (id, playerId) => {
     try {
         const squad = await removePlayerFromSquad(id, playerId);
+        sessionStorage.setItem("joinedSquadId", ""); // Store the selected squad's ID
         return squad;
     } catch (error) {
         throw error;

@@ -8,6 +8,7 @@ import CustomButton from '../common/CustomButton';
 import ChatComponent from '../../components/chat/Chat';
 import * as signalR from "@microsoft/signalr";
 
+
 const SquadInformation = ({ squadId, locationHubConnection, hubConnection }) => {
   const [squadDetails, setSquadDetails] = useState(null);
   const [isMember, setIsMember] = useState(false); // A flag to track squad membership
@@ -18,21 +19,6 @@ const SquadInformation = ({ squadId, locationHubConnection, hubConnection }) => 
 
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const playerId = parseInt(sessionStorage.getItem('playerId'), 10);
-
-  useEffect(() => {
-    console.log("locationhubconnection", locationHubConnection)
-    if (locationHubConnection) {
-      locationHubConnection.on(
-        "ReceiveLocationUpdate",
-        (playerId, xCoordinate, yCoordinate) => {
-          setReceivedLocations([
-            ...receivedLocations,
-            `${playerId}: ${xCoordinate} : ${yCoordinate}`,
-          ]);
-        }
-      );
-    }
-  }, [locationHubConnection, receivedLocations]);
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -79,7 +65,7 @@ const fetchSquadDetails = async () => {
     event.preventDefault();
     try {  
       // Call the updateLocation function to update the player's location
-      await updatePlayerLocation("try", playerId, xCoordinate, yCoordinate);
+      await updatePlayerLocation(playerId, xCoordinate, yCoordinate);
       toggleModal();
     } catch (error) {
       console.error('Error leaving a marker:', error);
@@ -88,13 +74,10 @@ const fetchSquadDetails = async () => {
       locationHubConnection &&
       locationHubConnection.state === signalR.HubConnectionState.Connected
     ) {
-      
-        console.log(playerId,  selectedGame.id, xCoordinate, yCoordinate,)
       locationHubConnection
         .invoke(
           "SendLocationUpdate",
           parseInt(playerId),
-          //parseInt(selectedGame.id),
           parseInt(xCoordinate),
           parseInt(yCoordinate)
       )
@@ -176,3 +159,4 @@ const fetchSquadDetails = async () => {
 };
 
 export default SquadInformation;
+

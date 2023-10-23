@@ -14,12 +14,14 @@ import NavBar from "./components/common/NavBar";
 import ChatComponent from "./components/chat/Chat";
 import AdminPage from "./views/AdminPage";
 import * as signalR from "@microsoft/signalr";
+import { LocationProvider } from "./LocationContext";
 
 const App = () => {
   const { keycloak, initialized } = useKeycloak(); // Use the hook to get keycloak instance
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [locationHubConnection, setLocationHubConnection] = useState(null);
   const [hubConnection, setHubConnection] = useState(null);
+  const [triggerBool, setTriggerBool] = useState(false);
 
   useEffect(() => {
     const createLocationHubConnection = async () => {
@@ -37,10 +39,15 @@ const App = () => {
           setLocationHubConnection(newConnection);
 
           newConnection.on("ReceiveLocationUpdate", (playerId, x, y) => {
-            console.log(
-              `Received location from ${playerId}: x - ${x}, y - ${y}}`
-            );
+            console.log(`Received location update from ${playerId}: x - ${x}, y - ${y}`);
+            
+            // Trigger the re-render of the map when a location update is received
+            if (locationHubConnection) {
+              locationHubConnection.off("ReceiveLocationUpdate");
+            }
+            setTriggerBool((prev) => !prev);
           });
+          
         } catch (error) {
           console.error("Error connecting to SignalR locationhub: ", error);
         }
@@ -82,24 +89,30 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className="relative">
-        <div className="dark-bg absolute"></div>
-        <div className="background-image absolute top-0 left-0 "></div>
-        <NavBar />
-      </div>
-      <div className='m-5 space-y-5 break-words'>
-        <Routes >
-          <Route path='/' element={<LandingPage />} />
-          <Route path='/AboutGame' element={<AboutGame />} />
-          <Route path='/Map' element={<MapPage />} />
-          <Route path='/SquadRegistration' element={<SquadRegistration />} />
-          <Route path='/SquadDetails' element={<SquadDetails locationHubConnection={locationHubConnection} />} />
-          <Route path='/BiteCode' element={<BiteCode />} />
-          <Route path='/Admin' element={<AdminPage />} />
-        </Routes>
-        <ChatComponent hubConnection={hubConnection} />
-      </div>
-
+      <LocationProvider>
+        <div className="relative">
+          <div className="dark-bg absolute"></div>
+          <div className="background-image absolute top-0 left-0 "></div>
+          <NavBar />
+        </div>
+        <div className="m-5 space-y-5 break-words">
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/AboutGame" element={<AboutGame />} />
+  <Route path="/Map" element={<MapPage locationHubConnection={locationHubConnection} />} />
+            <Route path="/SquadRegistration" element={<SquadRegistration />} />
+            <Route
+              path="/SquadDetails"
+              element={
+                <SquadDetails locationHubConnection={locationHubConnection} />
+              }
+            />
+            <Route path="/BiteCode" element={<BiteCode />} />
+            <Route path="/Admin" element={<AdminPage />} />
+          </Routes>
+          <ChatComponent hubConnection={hubConnection} />
+        </div>
+      </LocationProvider>
     </BrowserRouter>
   );
 };
