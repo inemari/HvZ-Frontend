@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getKillLocationsWithDetails } from "../../services/mapService";
+import { getSquadMarkers } from "../../services/mapService";
 import gravestoneIcon from "../../assets/icons/gravestone1.png";
 
 const GravestoneMarker = () => {
@@ -12,7 +12,7 @@ const GravestoneMarker = () => {
     async function fetchKillLocationsWithDetails() {
       try {
         // Fetch kill locations with details from the service
-        const locationsWithDetails = await getKillLocationsWithDetails();
+        const locationsWithDetails = await getSquadMarkers();
         setKillLocations(locationsWithDetails);
         setIsLoading(false);
       } catch (error) {
@@ -28,13 +28,18 @@ const GravestoneMarker = () => {
 
   return (
     <div>
-      {isLoading && <p>Loading...</p>} {/* Display a loading message if data is still being fetched */}
+      {isLoading && <p>Loading...</p>}{" "}
+      {/* Display a loading message if data is still being fetched */}
       {error ? (
         // Display an error message if data fetching fails
         <div className="text-red-500">{error}</div>
       ) : (
         killLocations.map((location) => {
-          if (location && location.location && location.location.locationId !== null) {
+          if (
+            location &&
+            location.location &&
+            location.location.locationId !== null
+          ) {
             // Render the gravestone marker if location details are available
             return (
               <div
@@ -45,7 +50,11 @@ const GravestoneMarker = () => {
                   top: `${location.location.yCoordinate}%`,
                 }}
               >
-                <img src={gravestoneIcon} alt="Gravestone" className="w-8 h-8" />
+                <img
+                  src={gravestoneIcon}
+                  alt="Gravestone"
+                  className="w-8 h-8"
+                />
               </div>
             );
           } else {
@@ -56,7 +65,6 @@ const GravestoneMarker = () => {
       )}
     </div>
   );
-  
 };
 
 export default GravestoneMarker;

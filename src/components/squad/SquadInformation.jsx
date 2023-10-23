@@ -6,14 +6,18 @@ import InputField from '../common/InputField';
 import Container from '../common/Container';
 import CustomButton from '../common/CustomButton';
 import ChatComponent from '../../components/chat/Chat';
+import * as signalR from "@microsoft/signalr";
 
-const SquadInformation = ({ squadId, locationHubConnection,hubConnection }) => {
+
+const SquadInformation = ({ squadId, locationHubConnection, hubConnection }) => {
   const [squadDetails, setSquadDetails] = useState(null);
   const [isMember, setIsMember] = useState(false); // A flag to track squad membership
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [xCoordinate, setXCoordinate] = useState('');
   const [yCoordinate, setYCoordinate] = useState('');
+  const [receivedLocations, setReceivedLocations] = useState([]);
 
+  const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const playerId = parseInt(sessionStorage.getItem('playerId'), 10);
 
   const toggleModal = () => {
@@ -57,20 +61,31 @@ const fetchSquadDetails = async () => {
     }
   };
 
-  const handleLeaveMarker = async () => {
+  const handleLeaveMarker = async (event) => {
+    event.preventDefault();
     try {  
       // Call the updateLocation function to update the player's location
       await updatePlayerLocation(playerId, xCoordinate, yCoordinate);
-
-      console.log("Trying to connect to LocationHub...");
-      // Notify others in the squad about the marker location update
-      await locationHubConnection.invoke('SendLocationUpdate', playerId, xCoordinate, yCoordinate);
-      console.log("Updated marker location");
-      // Close the modal
       toggleModal();
     } catch (error) {
       console.error('Error leaving a marker:', error);
     }
+    if (
+      locationHubConnection &&
+      locationHubConnection.state === signalR.HubConnectionState.Connected
+    ) {
+      locationHubConnection
+        .invoke(
+          "SendLocationUpdate",
+          parseInt(playerId),
+          parseInt(xCoordinate),
+          parseInt(yCoordinate)
+      )
+      .catch((error) => {
+        console.error("Error sending message: " + error);
+      });
+
+      } 
   };
 
   return (
@@ -144,3 +159,4 @@ const fetchSquadDetails = async () => {
 };
 
 export default SquadInformation;
+
