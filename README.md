@@ -17,6 +17,10 @@ To set up the HvZ Game Management System Front-End on your local machine, follow
 6. Start the development server: `npm start`
 7. Access the application in your web browser at `http://localhost:3000`
 
+
+## Usage
+To start start the application, you run `npm start` in the terminal. After running the command, the web browser will open your localhost where you can interact with the application.
+
 ## Contributors
 - [Tommy Jåvold](https://github.com/t-lined)
 - [Ine Mari Bredesen](https://github.com/inemari)
