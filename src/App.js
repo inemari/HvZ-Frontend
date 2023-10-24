@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./styles/custom.css";
 import LandingPage from "./views/LandingPage";
 import AboutGame from "./views/AboutGamePage";
-import Game from "./views/Game/Game";
 import MapPage from "./views/Game/MapPage";
 import SquadRegistration from "./views/Game/Squad/SquadRegistration.jsx";
 import SquadDetails from "./views/Game/Squad/SquadDetails";
@@ -15,6 +14,7 @@ import ChatComponent from "./components/chat/Chat";
 import AdminPage from "./views/AdminPage";
 import * as signalR from "@microsoft/signalr";
 import { LocationProvider } from "./LocationContext";
+import CreateGame from "./views/admin/CreateGame";
 
 const App = () => {
   const { keycloak, initialized } = useKeycloak(); // Use the hook to get keycloak instance
@@ -108,7 +108,7 @@ const App = () => {
               }
             />
             <Route path="/BiteCode" element={<BiteCode />} />
-            <Route path="/Admin" element={<AdminPage />} />
+            <Route path="/CreateGame" element={<CreateGame />} />
           </Routes>
           <ChatComponent hubConnection={hubConnection} />
         </div>

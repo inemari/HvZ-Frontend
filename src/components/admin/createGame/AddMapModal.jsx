@@ -8,30 +8,29 @@ const AddMap = ({ handleInputChange }) => {
   const imagePaths = mapFolder.keys();
 
   return (
-    <div className=" rounded-xl p-5  justify-center grid grid-flow-row">
-      <h1 className="text-lg md:text-2xl font-bold text-center row-span-1">Step 2:</h1>
-      <h2 className="text-lg md:text-2xl font-semibold text-center">Choose map</h2>
-      <label className="block text-base"><b>Selected map:</b>{selectedImageKey}</label>
-      <div className="grid grid-flow-col text-center gap-6">
-        {imagePaths.map((path, index) => (
-          <div>
-            <img
 
-              key={index}
-              src={mapFolder(path)}
-              alt={path}
-              onClick={() => {
-                setSelectedImageKey(path); // Set the selected image key
-                handleInputChange({ target: { name: "pictureURL", value: mapFolder(path) } });
-              }}
-              className={`max-h-72 rounded aspect-square m-auto ${selectedImageKey === path ? "border-4 border-customOrange" : ""}`}
-            />
-            <p className="mb-2 text-lg ">{path}</p>
-          </div>
-        ))}
-      </div>
+
+    <div className="grid grid-cols-2 gap-5">
+      {imagePaths.map((path, index) => (
+        <div className="grid col-span-1 justify-center ">
+          <img
+
+            key={index}
+            src={mapFolder(path)}
+            alt={path}
+            onClick={() => {
+              setSelectedImageKey(path); // Set the selected image key
+              handleInputChange({ target: { name: "pictureURL", value: mapFolder(path) } });
+            }}
+            className={`object-cover rounded aspect-video ${selectedImageKey === path ? "border-4 border-customOrange" : ""}`}
+          />
+          <p className="mb-2 text-lg ">{path}</p>
+        </div>
+      ))}
 
     </div>
+
+
   );
 };
 

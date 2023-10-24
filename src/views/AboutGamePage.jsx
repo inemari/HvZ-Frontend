@@ -21,7 +21,7 @@ function AboutGame() {
     const selectedGame = JSON.parse(localStorage.getItem('selectedGame'));
     const [showModal, setShowModal] = useState(false);
     const gameRules = useFetchGameRules(selectedGame?.ruleIds || []); // Using the custom hook
-    const navigate = useNavigate();
+
 
     const handleButtonClick = () => {
         setShowModal(true);
@@ -42,10 +42,8 @@ function AboutGame() {
                 <div className='grid grid-cols-2 justify-between top-0'>
                     <div className='flex flex-row pb-5 text-white '>
                         <h1 className="text-3xl md:text-4xl font-bold mt-2 pr-3 ">{selectedGame?.title}</h1>
-                        <p className="bg-customGreen text-xs mt-0 self-center font-medium px-2.5 py-2 rounded-full w-fit">{selectedGame?.gameStateString}</p>
-                    </div>
-                    <div className='flex flex-row justify-end w-full h-fit'>
-
+                        <p className="bg-customGreen text-xs mt-0 self-center font-medium px-2.5 py-2 rounded-full w-fit">
+                            {selectedGame?.gameStateString}</p>
                     </div>
                 </div>
 
@@ -56,7 +54,7 @@ function AboutGame() {
                         <div className=" rounded lg:col-span-4 ">
                             <div className=' grid grid-flow-rows gap-5'>
                                 <div className='pb-5'>
-                                    <h2 className="text-lg font-bold ">ABOUT</h2>
+                                    <h2 className="text-lg font-bold ">ABOUT GAME</h2>
                                     <p className="text-base ">{selectedGame.description} </p>
                                 </div>
 
@@ -79,7 +77,7 @@ function AboutGame() {
 
 
                         </div>
-                    )}  <div className="lg:col-span-1 md:pb-0 pb-3 mx-auto max-w-sm">
+                    )}  <div className="lg:col-span-1 md:pb-0 pb-3 mx-auto max-w-md">
                         <GameImage game={selectedGame} />
                     </div>
                 </div>
@@ -88,15 +86,15 @@ function AboutGame() {
                     <Map className="aspect-video" />
                 </div>
 
-                {showModal && (
-                    <ModalContainer showModal={showModal} closeModal={handleCloseModal}>
-                        <UserNameModal onClose={handleCloseModal} />
-                    </ModalContainer>
-                )}
-            </Container><div className="z-20  bottom-0 right-0 px-14 absolute  py-2 ">
+
+
+                <UserNameModal showModal={showModal} handleCloseModal={handleCloseModal} />
+
+
+            </Container><div className="z-20 bottom-0 right-0 absolute p-12 pb-24 py-2 ">
                 {/* <CustomButton label={"Edit game"} icon={editIcon} iconPosition={'after'} onClick={() => navigate('/Admin')} /> */}
                 {keycloak.authenticated && (
-                    <CustomBtn onClick={handleButtonClick} label="Join Game" className="start-0 mb-0 static text-lg" icon={arrow} rounded={"3xl"} iconPosition={'after'} />
+                    <CustomBtn onClick={handleButtonClick} label="Join Game" className="static" icon={arrow} rounded={"3xl"} iconPosition={'after'} />
                 )}
             </div></>
     );

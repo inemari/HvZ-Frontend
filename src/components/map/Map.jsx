@@ -26,10 +26,7 @@ const Map = ({ locationHubConnection }) => {
   }, [locationHubConnection]);
 
   return (
-    <div
-      className="rounded-lg aspect-square bg-cover bg-clip-content relative w-full aspect-video"
-      style={{ backgroundImage: `url(${map})` }}
-    >
+    <div className="rounded-lg bg-cover object-cover bg-clip-content relative w-full aspect-video" style={{ backgroundImage: `url(${map})` }}>
       <MissionList />
       <GravestoneMarker />
       <SquadListMarkers

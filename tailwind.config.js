@@ -7,7 +7,7 @@ module.exports = {
         customGreen: '#525437',
         customWhite: '#FFFFFF',
         customLightOrange: 'hsl(25, 19%, 86%)',
-        customBrown: '#453435',
+        customBrown: '#3D3D3D',
         customDarkOrange: '#914E27',
         customLightBrown: '#555',
       },
