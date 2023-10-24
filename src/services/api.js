@@ -35,15 +35,17 @@ export async function modifyPlayer(playerId, playerData) {
   }
 }
 
-//NOTE: Not sure if completed, checked back-end but might be wrong.
 
-export async function turnHumanIntoZombie(playerId, updatedData) {
+export async function changeZombieStateOfPlayer(playerId, updatedData) {
   try {
     // Send a PUT request to update the player's status to zombie
-    const response = await api.put(`/players/${playerId}`, updatedData);
+    const response = await api.put(`/players/${playerId}/update-zombiestate?zombie=${updatedData.zombie}&biteCode=${updatedData.biteCode}`);
     return response.data;
   } catch (error) {
-    console.error('Error updating player status', error);
+    if (error.response) {
+      // Log the response data for debugging
+      console.error("Failed to post Rule:", error.response.data);
+    }
     throw error;
   }
 }

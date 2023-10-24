@@ -1,50 +1,63 @@
-import React, { useState } from 'react';
-import AddMarker from '../map/markers/AddMarker';
+import React, { useState } from "react";
+import AddLocation from "../location/AddLocation";
+import InputAdmin from "../common/InputAdmin";
 
 const MissionInput = ({ gameId, onAddMission, closeModal }) => {
-  const [missionName, setMissionName] = useState('');
-  const [missionDescription, setMissionDescription] = useState('');
-  const [currentCoordinate, setCurrentCoordinate] = useState({ x: 0, y: 0 });
+  const missionEntity = {
+    name: "",
+    description: "",
+  };
+  const [missionFormData, setMissionFormData] = useState(missionEntity);
 
-  // Handler for when a marker is added
-  const handleMarkerAdded = (locationData) => {
-    // Create a mission object
-    const missionData = {
-      name: missionName,
-      description: missionDescription,
-    };
+  const handleInputChange = (e) => {
+    const updatedFormData = { ...missionFormData };
+    updatedFormData[e.target.name] = e.target.value;
+    setMissionFormData(updatedFormData);
+  };
 
-    // Pass the mission object to the parent component
-    onAddMission(missionData, locationData);
+  const handleAddMission = (locationData) => {
+    // Create a mission object using missionFormData
+    const missionObject = { ...missionFormData };
+
+    // Pass the mission object and location data to the parent component
+    onAddMission(missionObject, locationData);
 
     // Close the modal and reset the form
     closeModal();
-    setMissionName('');
-    setMissionDescription('');
-    setCurrentCoordinate({ x: 0, y: 0 });
+    setMissionFormData(missionEntity); // Reset to initial state
   };
 
   return (
-    <div>
-      <div className="mb-2">
-        <label className="block font-semibold">Mission Name:</label>
-        <input
-          type="text"
-          value={missionName}
-          className="w-2/3 border rounded py-2 px-3 text-black"
-          onChange={(e) => setMissionName(e.target.value)}
-        />
-      </div>
-      <div>
-        <label className="block font-semibold">Mission Description:</label>
-        <input
-          type="text"
-          value={missionDescription}
-          className="w-2/3 border rounded py-2 px-3 text-black"
-          onChange={(e) => setMissionDescription(e.target.value)}
-        />
-      </div>
-      <AddMarker gameId={gameId} onAddMarker={handleMarkerAdded} closeModal={closeModal} />
+    <div className="gap-3 w-full md:col-span-1 col-span-full">
+
+      <h1 className="text-3xl md:text-4xl font-bold mt-2 pb-3">Add Mission</h1>
+      <InputAdmin
+        label="Mission Name"
+        textComponent="input"
+        type="text"
+        fieldname="mission name"
+        field={missionFormData.name}
+        onChange={handleInputChange}
+        id="title"
+        TooltipContent={"Enter the name or title of this mission. Be concise and descriptive."}
+        required />
+
+      <InputAdmin
+        label="Mission description"
+        textComponent="input"
+        type="text"
+        fieldname="description"
+        field={missionFormData.description}
+        onChange={handleInputChange}
+        id="title"
+        TooltipContent={"Provide a brief description of this mission. What is its objective or purpose?"}
+        required />
+
+      <AddLocation
+        gameId={gameId}
+        onAddLocation={handleAddMission}
+        closeModal={closeModal}
+      />
     </div>
   );
 };

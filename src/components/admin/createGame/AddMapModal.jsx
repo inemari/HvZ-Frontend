@@ -2,34 +2,35 @@ import React, { useState } from "react";
 
 const mapFolder = require.context("../../../assets/images/maps", false, /\.(png|jpe?g|svg)$/);
 
-const AddMap = ({ formData, handleInputChange }) => {
+const AddMap = ({ handleInputChange }) => {
   const [selectedImageKey, setSelectedImageKey] = useState(""); // Initialize the selectedImageKey state
 
   const imagePaths = mapFolder.keys();
 
   return (
-    <div>
-      <h2 className="text-lg md:text-xl font-bold">Select map:</h2>
-      <form>
-        <div className="mb-4">
-          <label className="block text-base">{selectedImageKey}</label>
-          <div className="flex flex-wrap gap-10">
-            {imagePaths.map((path, index) => (
-              <img
-                key={index}
-                src={mapFolder(path)}
-                alt={path}
-                onClick={() => {
-                  setSelectedImageKey(path); // Set the selected image key
-                  handleInputChange({ target: { name: "pictureURL", value: mapFolder(path) } });
-                }}
-                className={`w-40 h-40 cursor-pointer ${selectedImageKey === path ? "border border-red-500" : ""}`}
-              />
-            ))}
-          </div>
+
+
+    <div className="grid grid-cols-2 gap-5">
+      {imagePaths.map((path, index) => (
+        <div className="grid col-span-1 justify-center ">
+          <img
+
+            key={index}
+            src={mapFolder(path)}
+            alt={path}
+            onClick={() => {
+              setSelectedImageKey(path); // Set the selected image key
+              handleInputChange({ target: { name: "pictureURL", value: mapFolder(path) } });
+            }}
+            className={`object-cover rounded aspect-video ${selectedImageKey === path ? "border-4 border-customOrange" : ""}`}
+          />
+          <p className="mb-2 text-lg ">{path}</p>
         </div>
-      </form>
+      ))}
+
     </div>
+
+
   );
 };
 

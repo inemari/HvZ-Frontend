@@ -1,290 +1,245 @@
-import React, { useState, useEffect } from "react";
-import AddTitle from "./AddTitle";
+import React, { useEffect, useState } from "react";
+import AddNew from "./AddNew"
 import AddMapModal from "./AddMapModal";
-import AddDescription from "./AddDescription";
 import MissionInput from "../../missions/MissionInput";
-import { postGame } from "../../../services/gameService";
 import MissionContainer from "../../common/ModalContainer";
 import RuleContainer from "../../common/ModalContainer";
 import Map from "../../map/Map";
 import RuleInput from "../../rule/ruleInput";
-import { postMission } from "../../../services/missionService";
-import { postLocation } from "../../../services/locationService";
-import { postRule } from "../../../services/ruleService";
+import { createGame } from "../../../services/adminService"; // Import the createGame function
+import Container from '../../common/Container'
+import CustomButton from '../../common/CustomButton'
+import noImage from '../../../assets/ui/noImage.png';
+import GameInfoInput from "./GameInfoInput";
+
+import InputAdmin from "../../common/InputAdmin";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import SuccessMessage from "../../common/feedback/successMessage";
 
 const CreateGameContainer = () => {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    pictureURL: "",
-  });
+  const location = useLocation().pathname;
+  const selectedGame = JSON.parse(localStorage.getItem('selectedGame'));
+  const editMode = location === '/EditGame';
 
   const [missionObjects, setMissionObjects] = useState([]);
   const [locationObjects, setLocationObjects] = useState([]);
-  
   const [ruleObjects, setRuleObjects] = useState([]);
-  // State to control the modal visibility
   const [isMissionModalOpen, setIsMissionModalOpen] = useState(false);
   const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
-  const [gameCreated, setGameCreated] = useState(false); // Track whether the game is created
-  const [gameId, setGameId] = useState(null); // Track the created game's ID
+  const [gameCreated, setGameCreated] = useState(false);
+  const [gameId, setGameId] = useState(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState(''); // State to store the image URL
 
-  // Function to open the mission modal
+  const gameEntity = {
+    title: editMode ? selectedGame.title : "",
+    description: editMode ? selectedGame.description : "",
+    imgUrl: editMode ? selectedGame.pictureURL : noImage,
+  };
+
+  const [gameFormData, setGameFormData] = useState(gameEntity);
+
+
+  const handleImageUrlChange = (e) => {
+    // Update the imageUrl state when the input value changes
+    setImageUrl(e.target.value);
+  };
+
+
   const openMissionModal = () => {
     setIsMissionModalOpen(true);
   };
 
-  // Function to open the map modal
   const openRuleModal = () => {
     setIsRuleModalOpen(true);
   };
 
-  // Function to close both modals
   const closeModal = () => {
     setIsMissionModalOpen(false);
     setIsRuleModalOpen(false);
   };
 
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  // Callback function to add the mission to missionObjects
   const handleAddMission = (missionData, locationData) => {
     setMissionObjects((prevMissions) => [...prevMissions, missionData]);
     setLocationObjects((prevLocations) => [...prevLocations, locationData]);
   };
 
   const handleAddRule = (ruleData) => {
-    setRuleObjects((prevRules) => [
-      ...prevRules,
-      {
-        id: ruleData.id,
-        title: ruleData.title,
-      },
-    ]);
+    setRuleObjects((prevRules) => [...prevRules, ruleData]);
   };
 
   const handleAddMarker = (locationData) => {
-    setLocationObjects((prevLocations) => [
-      ...prevLocations,
-      locationData,
-    ]);
+    setLocationObjects((prevLocations) => [...prevLocations, locationData]);
   };
 
   const handleInputChange = (e) => {
-    const updatedFormData = { ...formData };
-    updatedFormData[e.target.name] = e.target.value;
-    setFormData(updatedFormData);
+    const { name, value } = e.target;
+    setGameFormData((prevGameData) => ({
+      ...prevGameData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Step 1: Create the game
-    const { title, description, pictureURL } = formData;
-  
-    const gameResponse = await postGame({ title, description, pictureURL });
 
-    const missionsToCreate = [];
-    for (let i = 0; i < missionObjects.length; i++) {
-      const missionData = missionObjects[i];
-      missionsToCreate.push(missionData);
-    }
-  
-    // Call your API to create missions in the database
-    for (const missionData of missionsToCreate) {
-      try {
-        const response = await postMission(missionData);
-  
-        // Handle the response, e.g., update state or perform other actions
-        // ...
-      } catch (error) {
-        console.error('Failed to post mission:', error);
-      }
-    }
+    // Create the game and get the game ID
+    const gameId = await createGame(
+      gameFormData,
+      missionObjects,
+      ruleObjects,
+      locationObjects
+    );
 
-    const locationsToCreate = [];
-  for (let i = 0; i < locationObjects.length; i++) {
-    const locationData = locationObjects[i];
-    locationsToCreate.push(locationData);
-  }
-
-  // Call your API to create locations in the database
-  for (const locationData of locationsToCreate) {
-    try {
-      await postLocation(locationData);
-
-      // Handle the response or errors as needed
-      // ...
-    } catch (error) {
-      console.error('Failed to add location:', error);
-    }
-    }
-    
-
-  // Create rules
-  const rulesToCreate = [];
-  for (let i = 0; i < ruleObjects.length; i++) {
-    const ruleData = ruleObjects[i];
-    rulesToCreate.push(ruleData);
-  }
-
-  // Call your API to create rules in the database
-  for (const ruleData of rulesToCreate) {
-    try {
-      await postRule(ruleData); // Replace postRule with your actual API call
-
-      // Handle the response or errors as needed
-      // ...
-    } catch (error) {
-      console.error('Failed to add rule:', error);
-    }
-  }
-
-
-    if (gameResponse && gameResponse.id) {
-      const gameId = gameResponse.id;
-  
+    if (gameId) {
       setGameCreated(true);
       setGameId(gameId);
-  
+
       // Show the success message
       setShowSuccessMessage(true);
-  
-      // Update the title and description placeholders
-      setFormData({
-        title: "",
-        description: "",
-        pictureURL: "",
-      });
-  
+
+      // Update the placeholders and reset the form
+      setGameFormData(gameEntity);
       setMissionObjects([]);
       setRuleObjects([]);
-  
+      setLocationObjects([]);
+
       // Hide the success message after 3 seconds
       setTimeout(() => {
         setShowSuccessMessage(false);
-      }, 3000); // 3000 milliseconds = 3 seconds
+      }, 3000);
+
     }
+    // navigate(".././LandingPage");
   };
-  
 
   useEffect(() => {
-    // You can use this effect to clear the page or perform any additional actions
-    // when the success message is hidden (e.g., redirect to another page).
     if (!showSuccessMessage) {
       // Clear the page or perform other actions here
     }
   }, [showSuccessMessage]);
 
   return (
-    <div
-      className="container mx-auto p-6 bg-black bg-opacity-60 rounded-lg text-white"
-      style={{ overflowY: "auto", maxHeight: "calc(100vh - 200px)" }}
-    >
-      <form onSubmit={handleSubmit}>
-        <div className="flex flex-wrap justify-between">
-          <div className="w-full p-10 md:w-1/3">
+    <>    {
+      showSuccessMessage && (
+        <SuccessMessage
+          header="Game created successfully! "
+          message="Clearing the page in 3 seconds..." />
+
+      )
+    }
+      <Container>
+        <h1 className="text-3xl md:text-4xl font-bold  mb-2 w-full border-b pb-2 ">Edit  game</h1>
+
+        <form onSubmit={handleSubmit} className="justify-center flex-wrap w-full flex ">
+
+          <div className="lg:grid md:grid-cols-7 pt-3  gap-3 w-full relative ">
+            <img src={imageUrl} id="imageUrl" alt="Game" className="aspect-square col-span-2 justify-center p-3" />
+            <div className="grid lg:col-span-5 lg:gap-3">
+              {/* Title and description section */}
+              <GameInfoInput
+                gameFormData={gameFormData}
+                handleInputChange={handleInputChange}
+                placeholder={gameCreated}
+                defaultTitle={gameEntity.title}
+                defaultDescription={gameEntity.description}
+
+              />
+
+              {/* Image url field */}
+              <InputAdmin
+                id="img-url"
+                label=" Image URL"
+                textComponent="input"
+                type="url"
+                fieldName={imageUrl}
+                value={imageUrl}
+                onChange={handleImageUrlChange}
+                TooltipContent={"Insert a URL for the image you would like to represent the game."}
+                defaultContent={gameEntity.imgUrl}
+                required
+              />
+
+
+
+              {/* Rule and mission section */}
+              <div className="grid md:grid-cols-2 gap-3">
+                <div className="flex flex-col">
+                  <h2 className="text-lg font-bold pb-2">RULES</h2>
+                  {ruleObjects.map((rule, index) => (
+                    <ul className="bg-white bg-opacity-25 justify-center flex-col flex p-3 rounded-lg gap-3 hover:bg-opacity-40 my-3">
+                      <p><b>{rule.title}</b></p>
+                      <li>{rule.description}</li>
+                    </ul>
+                  ))}
+                  <AddNew action={openRuleModal} label="Add Rule" />
+                </div>
+
+                <div className="flex flex-col">
+                  <h2 className="text-lg font-bold pb-2">MISSIONS</h2>
+                  {missionObjects.map((mission, index) => (
+                    <ul className="bg-white bg-opacity-25 justify-center flex-col flex p-3 rounded-lg gap-3 hover:bg-opacity-40 my-3">
+                      <p><b>{mission.title}</b></p>
+                      <li>{mission.description}</li>
+                    </ul>
+                  ))}
+                  <AddNew action={openMissionModal} label="Add Mission" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          <h2 className="text-lg md:text-3xl w-full font-semibold text-center py-5">Choose map</h2>
+          <div className='grid grid-flow-col w-full'>
+
             <AddMapModal
-              formData={formData}
-              handleInputChange={handleInputChange}
-            />
+              formData={gameFormData}
+              handleInputChange={handleInputChange} />
           </div>
-          <div className="w-full p-10 md:w-2/3">
-            <AddTitle
-              formData={formData}
-              handleInputChange={handleInputChange}
-              placeholder={gameCreated}
-            />
-            <AddDescription
-              formData={formData}
-              handleInputChange={handleInputChange}
-              placeholder={gameCreated}
-            />
-            <div>
-              <h2 className="text-lg md:text-xl font-bold">Missions:</h2>
-              <ul>
-                {missionObjects.map((mission, index) => (
-                  <li key={index}>{mission.name}</li>
-                ))}
-              </ul>
-              <button
-                type="button"
-                onClick={openMissionModal}
-                className="bg-green-500 text-white py-2 px-4 rounded ml-4"
-              >
-                Add new Mission
-              </button>
 
-              <h2 className="text-lg md:text-xl font-bold">Rules:</h2>
-              <ul>
-                {ruleObjects.map((rule, index) => (
-                  <li key={index}>{rule.title}</li>
-                ))}
-              </ul>
-              <button
-                type="button"
-                onClick={openRuleModal}
-                className="bg-green-500 text-white py-2 px-4 rounded ml-4"
-              >
-                Add new Rule
-              </button>
-            </div>
-            <div className="w-full mt-4">
-              <button
-                type="submit"
-                className="bg-blue-500 text-white py-2 px-4 rounded"
-              >
-                Submit
-              </button>
-            </div>
+          <div className="z-20 bottom-24 right-12 absolute ">
+            <CustomButton label={"Submit"} type={"submit"} className=" w-full static text-3xl " rounded={"3xl"} />
           </div>
-        </div>
-      </form>
-
-      <MissionContainer
-        children={
-          <div className="flex flex-row">
-            <div className="w-2/3">
-              <Map creating={missionObjects.length > 0} />
-            </div>
-            <div className="w-1/3">
+        </form >
+        {/* add Mission modal */}
+        <MissionContainer
+          children={<>
+            <div className="grid lg:grid-cols-3 grid-cols-1 items-center gap-2">
               <MissionInput
                 gameId={gameId}
                 onAddMission={handleAddMission}
                 onAddLocation={handleAddMarker}
                 closeModal={closeModal}
-                showModal={isRuleModalOpen}
+                showModal={isMissionModalOpen}
               />
-            </div>
-          </div>
-        }
-        showModal={isMissionModalOpen}
-        closeModal={closeModal}
-      />
-      <RuleContainer
-        children={
-          <div>
+              <div className="grid col-span-full lg:col-span-2 h-full items-center lg:p-5">
+                <Map creating={missionObjects.length > 0} />
+              </div>
+            </div></>
+          }
+          showModal={isMissionModalOpen}
+          handleCloseModal={closeModal}
+        />
+        {/* add rule modal */}
+        <RuleContainer
+          children={
+
             <RuleInput
               gameId={gameId}
               onAddRule={handleAddRule}
               closeModal={closeModal}
               showModal={isRuleModalOpen}
             />
-          </div>
-        }
-        showModal={isRuleModalOpen}
-        closeModal={closeModal}
-      />
-       {showSuccessMessage && (
-        <div className="text-center text-green-500 mt-4">
-          Game created successfully! Clearing the page in 3 seconds...
-        </div>
-      )}
-    </div>
+
+          }
+          showModal={isRuleModalOpen}
+          handleCloseModal={closeModal}
+        />
+      </Container ></>
   );
 };
 
 export default CreateGameContainer;
-
-{
-  /* <div className="container mx-auto p-6 bg-black bg-opacity-60 rounded-lg text-white" style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}> */
-}

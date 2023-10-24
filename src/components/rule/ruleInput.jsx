@@ -1,54 +1,63 @@
-import React, { useState } from 'react';
-import { postRule } from '../../services/ruleService';
+import React, { useState } from "react";
+import InputAdmin from "../common/InputAdmin";
+import CustomButton from "../common/CustomButton";
 
 const RuleInput = ({ onAddRule, closeModal }) => {
-  const [ruleTitle, setRuleTitle] = useState('');
-  const [ruleDescription, setRuleDescription] = useState('');
+  const ruleEntity = {
+    title: "",
+    description: "",
+  };
+  const [ruleFormData, setRuleFormData] = useState(ruleEntity);
 
-  // Handler for submitting the rule
-  const handleSubmitRule = () => {
-    // Create a rule object
-    const ruleData = {
-      title: ruleTitle,
-      description: ruleDescription,
-    };
+  const handleInputChange = (e) => {
+    const updatedFormData = { ...ruleFormData };
+    updatedFormData[e.target.name] = e.target.value;
+    setRuleFormData(updatedFormData);
+  };
+
+  const handleAddRule = () => {
+    // Create a rule object using ruleFormData
+    const ruleData = { ...ruleFormData };
 
     // Notify the parent component that a rule has been added
-    onAddRule(ruleData); // Pass the rule data to the parent
+    onAddRule(ruleData);
 
-    // Close the modal after successfully creating the rule
+    // Close the modal and reset the form
     closeModal();
+    setRuleFormData(ruleEntity); // Reset to initial state
   };
 
   return (
-    <div>
-      <div className="mb-2">
-        <label className="block font-semibold">Rule Title:</label>
-        <input
-          type="text"
-          value={ruleTitle}
-          className="w-2/3 border rounded py-2 px-3 text-black"
-          onChange={(e) => setRuleTitle(e.target.value)}
-        />
-      </div>
-      <div>
-        <label className="block font-semibold">Rule Description:</label>
-        <input
-          type="text"
-          value={ruleDescription}
-          className="w-2/3 border rounded py-2 px-3 text-black"
-          onChange={(e) => setRuleDescription(e.target.value)}
-        />
-      </div>
-      <button
-        className="bg-blue-500 text-white rounded p-2 text-sm hover-bg-blue-600 cursor-pointer"
-        onClick={handleSubmitRule}
-      >
-        Submit Rule
-      </button>
+    <div className="grid grid-flow-row gap-3 ">
+      <h1 className="text-3xl md:text-4xl font-bold mt-2 pr-3 text-center ">Add rule</h1>
+      <InputAdmin
+        label="Rule title"
+        textComponent="input"
+        type="text"
+        fieldname="title"
+        field={ruleFormData.title}
+        onChange={handleInputChange}
+        id="title"
+        TooltipContent={"The title or name of this rule."}
+        required />
+
+      <InputAdmin
+        label="Rule description"
+        textComponent="textarea"
+        type="text"
+        fieldname="description"
+        field={ruleFormData.description}
+        onChange={handleInputChange}
+        id="description"
+        TooltipContent="Enter a clear and concise description of the rule. This will help users understand the rule's purpose and how to adhere to it. Make sure to provide all necessary details."
+        required />
+
+      <CustomButton
+        onClick={handleAddRule}
+        label="   Submit Rule"
+      />
     </div>
   );
 };
 
 export default RuleInput;
-

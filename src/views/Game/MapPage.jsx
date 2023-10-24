@@ -2,12 +2,12 @@ import React from 'react';
 import Map from '../../components/map/Map';
 import Container from '../../components/common/Container';
 
-
-function MapPage() {
+function MapPage({ locationHubConnection }) {
   return (
     <div className="flex items-center justify-center">
       <Container>
-        <Map /></Container>
+        <Map locationHubConnection={locationHubConnection} />
+      </Container>
     </div>
   );
 }

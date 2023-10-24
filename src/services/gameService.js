@@ -90,3 +90,15 @@ export const addRuleToGame = async (gameId, ruleId) => {
       throw error;
     }
 };
+
+export const getGame = async (gameId) => {
+  try {
+    const response = await api.get(`/game/${gameId}`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error("Failed to get Game:", error.response.data);
+    }
+    throw error;
+  }
+};

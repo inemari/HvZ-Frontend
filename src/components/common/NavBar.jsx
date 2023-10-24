@@ -1,8 +1,9 @@
-import logo from '../../assets/icons/LogoHVZ.png'
-import React, { useState } from 'react';
+import logo from '../../assets/icons/logo2.png';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import AuthButtons from './AuthButtons.jsx'; // Import the AuthButtons component
-import Dropdown from './DropDownBtn.jsx'; // Import the Dropdown component
+import AuthButtons from './AuthButtons.jsx';
+import Dropdown from './DropDownBtn.jsx';
+import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
     const location = useLocation();
@@ -13,55 +14,13 @@ const NavBar = () => {
         setMenuOpen(!menuOpen);
     };
 
-    const renderGameButtons = () => {
-        return (
-            <ul className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 justify-center">
-                {location.pathname === '/Game' &&
-                    <>
-                        <li>
-                            <Dropdown
-                                className="block  pl-3 pr-4 text-white rounded md:bg-transparent md:p-0"
-                                label="Manage Squad"
-                                options={['Squad registration', 'Squad details']}
-                                onClickOption={(option) => {
-                                    if (option === 'Squad registration') {
-                                        navigate('/SquadRegistration');
-                                    } else if (option === 'Squad details') {
-                                        navigate('/SquadDetails');
-                                    }
-                                }}
-                            />
-                        </li>
-                        <li>
-                            <a
-                                href="/Map"
-                                className="block  pl-3 pr-4 text-white rounded md:bg-transparent md:p-0"
-                                aria-current="page"
-                            >
-                                Map
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="/BiteCode"
-                                className="block  pl-3 pr-4 text-white rounded md:bg-transparent md:p-0"
-                                aria-current="page"
-                            >
-                                Bite code actions
-                            </a>
-                        </li></>}
-                <div className=" space-y-2 md:space-y-0 md:space-x-6 space-x-2 md:flex-row md:flex">
-                    <AuthButtons type="button" />
-                </div>
-            </ul>
-        );
-    };
+
 
     return (
-        <nav className="bg-customLightBrown sticky inset-0 z-10 block w-full max-w-full mb-5">
-            <div className=" flex flex-wrap md:flex-row md:flex-nowrap items-center mx-10">
-                <div className='flex '>
-                    <img src={logo} className=" max-h-24 md:max-h-24 py-5" alt="App Logo" />
+        <nav className="bg-black bg-opacity-70 sticky inset-0 z-10 block w-full max-w-full mb-5 shadow-lg">
+            <div className="flex flex-wrap md:flex-row md:flex-nowrap items-center mx-10">
+                <div className='flex'>
+                    <img src={logo} className="max-h-24 md:max-h-24 py-5 cursor-pointer" alt="App Logo" onClick={() => navigate('/')} />
                 </div>
                 <button
                     onClick={toggleMenu}
@@ -92,12 +51,49 @@ const NavBar = () => {
                     </svg>
                 </button>
 
-
-                <div className={`md:flex md:mr-0 md:ml-auto w-full md:w-auto pb-3 ${menuOpen ? 'block' : 'hidden'}`}>
-                    {renderGameButtons()}
+                <div className={`text-white md:flex md:mr-0 md:ml-auto w-full md:w-auto pb-3 `}>
+                    <ul className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 justify-center rounded md:bg-transparent md:p-0 ">
+                        {location.pathname !== '/' && location.pathname !== '/AboutGame' && (
+                            <>
+                                <li>
+                                    <NavLink
+                                        to={'/Map'}
+                                        className={`aria-[current=page]:font-bold aria-[current=page]:hover:font-bold hover:font-semibold`}
+                                    >
+                                        Map
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <Dropdown
+                                        className={''}
+                                        label="Manage Squad"
+                                        options={['Squad registration', 'Squad details']}
+                                        onClickOption={(option) => {
+                                            if (option === 'Squad registration') {
+                                                navigate('/SquadRegistration');
+                                            } else if (option === 'Squad details') {
+                                                navigate('/SquadDetails');
+                                                toggleMenu();
+                                            }
+                                        }}
+                                    />
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to={"/BiteCode"}
+                                        className={`aria-[current=page]:font-bold aria-[current=page]:hover:font-bold hover:font-semibold`}
+                                    >
+                                        Bite code actions
+                                    </NavLink>
+                                </li>
+                            </>
+                        )}
+                    </ul>
+                    <div className="space-y-2 md:space-y-0 md:space-x-6 space-x-2 md:flex-row md:flex pl-4 ">
+                        <AuthButtons type="button" />
+                    </div>
                 </div>
-
-            </div >
+            </div>
         </nav >
     );
 };

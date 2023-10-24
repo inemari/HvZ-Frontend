@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import SquadNameModal from './SquadNameModal';
 
-const SquadCreate = () => {
+const SquadCreate = ({ onSquadCreated }) => {
     const [isSquadCreated, setIsSquadCreated] = useState(false);
   
     // Handler to reset the squad creation status
     const handleResetSquadCreation = () => {
       setIsSquadCreated(false);
+      onSquadCreated();
     };
   
     return (
@@ -26,12 +27,12 @@ const SquadCreate = () => {
           </div>
         ) : (
           <SquadNameModal
-            onSquadCreated={() => setIsSquadCreated(true)}
+              onSquadCreated={onSquadCreated}
+              setIsSquadCreated={setIsSquadCreated}
             onSquadCreationError={(error) => console.error('Error creating squad:', error)}
           />
         )}
       </div>
     );
   };
-  
   export default SquadCreate;
