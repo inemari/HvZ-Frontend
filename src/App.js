@@ -16,6 +16,7 @@ import * as signalR from "@microsoft/signalr";
 import { LocationProvider } from "./LocationContext";
 import CreateGame from "./views/admin/CreateGame";
 import EditGame from "./views/admin/EditGame";
+import KeycloakRoute from "./routes/KeyCloakRoute";
 
 
 const App = () => {
@@ -100,19 +101,53 @@ const App = () => {
         <div className="m-5 space-y-5 break-words">
 
           <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/AboutGame" element={<AboutGame />} />
-            <Route path="/Map" element={<MapPage locationHubConnection={locationHubConnection} />} />
-            <Route path="/SquadRegistration" element={<SquadRegistration />} />
+            <Route path='/' element={<LandingPage />} />
+            <Route path='/AboutGame' element={<AboutGame />} />
+            <Route 
+                  path="/Map"
+                  element={
+                  <KeycloakRoute role = "user">
+                      <MapPage locationHubConnection={locationHubConnection} />
+                  </KeycloakRoute>
+                }
+                />
+            <Route 
+                  path="/SquadRegistration"
+                  element={
+                  <KeycloakRoute role = "user">
+                      <SquadRegistration />
+                  </KeycloakRoute>
+                }
+                />
+            <Route 
+                  path="/SquadDetails"
+                  element={
+                  <KeycloakRoute role = "user">
+                      <SquadDetails locationHubConnection={locationHubConnection} />
+                  </KeycloakRoute>
+                }
+                />
             <Route
-              path="/SquadDetails"
-              element={
-                <SquadDetails locationHubConnection={locationHubConnection} />
-              }
-            />
-            <Route path="/BiteCode" element={<BiteCode />} />
-            <Route path="/CreateGame" element={<CreateGame />} />
-            <Route path="/EditGame" element={<EditGame />} />
+                  path="/BiteCode"
+                  element={
+                  <KeycloakRoute role = "user">
+                      <BiteCode />
+                  </KeycloakRoute>
+                }/>
+            <Route
+                  path="/CreateGame"
+                  element={
+                  <KeycloakRoute role = "admin">
+                      <CreateGame />
+                  </KeycloakRoute>
+                }/>
+            <Route
+                  path="/EditGame"
+                  element={
+                  <KeycloakRoute role = "admin">
+                      <EditGame />
+                  </KeycloakRoute>
+                }/>
           </Routes>
           <ChatComponent hubConnection={hubConnection} />
         </div>
