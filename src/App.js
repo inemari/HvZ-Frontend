@@ -100,6 +100,7 @@ const App = () => {
         <div className="m-5 space-y-5 break-words">
 
           <Routes>
+            <Route path="/LandingPage" element={<LandingPage />} />
             <Route path="/" element={<LandingPage />} />
             <Route path="/AboutGame" element={<AboutGame />} />
             <Route path="/Map" element={<MapPage locationHubConnection={locationHubConnection} />} />
@@ -113,9 +114,10 @@ const App = () => {
             <Route path="/BiteCode" element={<BiteCode />} />
             <Route path="/CreateGame" element={<CreateGame />} />
             <Route path="/EditGame" element={<EditGame />} />
-          </Routes>
-          <ChatComponent hubConnection={hubConnection} />
-        </div>
+          </Routes></div>
+
+        <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
+          <ChatComponent hubConnection={hubConnection} /></div>
       </LocationProvider>
     </BrowserRouter>
   );

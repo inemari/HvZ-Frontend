@@ -13,7 +13,8 @@ const Games = ({ activeTab }) => {
         </div>
 
         {/* ONLY FOR ADMIN */}
-        <NewGameBtn />
+        <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 "> <NewGameBtn /></div>
+
     </>
     );
 };

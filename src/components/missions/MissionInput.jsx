@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AddLocation from "../location/AddLocation";
-import InputAdmin from "../common/InputAdmin";
+import InputAdmin from "../common/CustomInput";
 
 const MissionInput = ({ gameId, onAddMission, closeModal }) => {
   const missionEntity = {
@@ -35,10 +35,9 @@ const MissionInput = ({ gameId, onAddMission, closeModal }) => {
         label="Mission Name"
         textComponent="input"
         type="text"
-        fieldname="mission name"
-        field={missionFormData.name}
+        fieldname="name"
+        field={missionFormData.title}
         onChange={handleInputChange}
-        id="title"
         TooltipContent={"Enter the name or title of this mission. Be concise and descriptive."}
         required />
 
@@ -49,7 +48,6 @@ const MissionInput = ({ gameId, onAddMission, closeModal }) => {
         fieldname="description"
         field={missionFormData.description}
         onChange={handleInputChange}
-        id="title"
         TooltipContent={"Provide a brief description of this mission. What is its objective or purpose?"}
         required />
 

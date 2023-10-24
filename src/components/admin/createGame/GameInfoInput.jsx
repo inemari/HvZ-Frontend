@@ -1,5 +1,5 @@
 import React from "react";
-import InputAdmin from "../../common/InputAdmin";
+import InputAdmin from "../../common/CustomInput";
 
 const GameInfoInput = ({ gameFormData, handleInputChange, defaultDescription, defaultTitle }) => {
   return (
