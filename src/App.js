@@ -100,6 +100,7 @@ const App = () => {
         <div className="m-5 space-y-5 break-words">
 
           <Routes>
+            <Route path="/LandingPage" element={<LandingPage />} />
             <Route path="/" element={<LandingPage />} />
             <Route path="/AboutGame" element={<AboutGame />} />
             <Route path="/Map" element={<MapPage locationHubConnection={locationHubConnection} />} />
