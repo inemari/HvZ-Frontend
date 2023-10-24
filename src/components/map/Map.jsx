@@ -15,7 +15,7 @@ const Map = ({ locationHubConnection }) => {
         setRerenderMap((prev) => prev + 1);
       });
     }
-    
+
 
     return () => {
       // Clean up the event listener when the component unmounts

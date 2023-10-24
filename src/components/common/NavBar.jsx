@@ -20,7 +20,7 @@ const NavBar = () => {
         <nav className="bg-black bg-opacity-70 sticky inset-0 z-10 block w-full max-w-full mb-5 shadow-lg">
             <div className="flex flex-wrap md:flex-row md:flex-nowrap items-center mx-10">
                 <div className='flex'>
-                    <img src={logo} className="max-h-24 md:max-h-24 py-5 cursor-pointer" alt="App Logo" onClick={() => navigate("/LandingPage")} />
+                    <img src={logo} className="max-h-24 md:max-h-24 py-5 cursor-pointer" alt="App Logo" onClick={() => navigate('/')} />
                 </div>
                 <button
                     onClick={toggleMenu}
@@ -53,7 +53,7 @@ const NavBar = () => {
 
                 <div className={`text-white md:flex md:mr-0 md:ml-auto w-full md:w-auto pb-3 `}>
                     <ul className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 justify-center rounded md:bg-transparent md:p-0 ">
-                        {location.pathname !== '/LandingPage' && location.pathname !== '/AboutGame' && (
+                        {location.pathname !== '/' && location.pathname !== '/AboutGame' && (
                             <>
                                 <li>
                                     <NavLink

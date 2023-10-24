@@ -2,26 +2,23 @@
 
 import React, { useState, useEffect } from 'react';
 import CustomBtn from '../components/common/CustomButton';
-import { useNavigate } from 'react-router-dom';
 import { useKeycloak } from '@react-keycloak/web';
 import GameImage from '../components/game/GameIMG';
 import UserNameModal from '../components/game/UserNameModal';
-import ModalContainer from '../components/common/ModalContainer';
 import clearSessionStorageData from '../helpers/SessionStorageUtils';
 import Container from '../components/common/Container';
 import Map from '../components/map/Map';
 import arrow from '../assets//ui/arrow.png';
-import Carousel from '../components/common/Carousel';
 import { useFetchGameRules } from '../services/ruleService';
-import CustomButton from '../components/common/CustomButton';
-import editIcon from '../assets/ui/edit.png'
+import editIcon from "../assets/ui/edit.png"
+import { useNavigate } from 'react-router-dom';
 
 function AboutGame() {
     const { keycloak } = useKeycloak();
     const selectedGame = JSON.parse(localStorage.getItem('selectedGame'));
     const [showModal, setShowModal] = useState(false);
     const gameRules = useFetchGameRules(selectedGame?.ruleIds || []); // Using the custom hook
-
+    const navigate = useNavigate();
 
     const handleButtonClick = () => {
         setShowModal(true);
@@ -92,7 +89,7 @@ function AboutGame() {
 
 
             </Container><div className="z-20 bottom-0 right-0 absolute p-12 pb-24 py-2 ">
-                {/* <CustomButton label={"Edit game"} icon={editIcon} iconPosition={'after'} onClick={() => navigate('/Admin')} /> */}
+                <CustomBtn label={"Edit game"} icon={editIcon} iconPosition={'after'} onClick={() => navigate('/EditGame')} />
                 {keycloak.authenticated && (
                     <CustomBtn onClick={handleButtonClick} label="Join Game" className="static" icon={arrow} rounded={"3xl"} iconPosition={'after'} />
                 )}

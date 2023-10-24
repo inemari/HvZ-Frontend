@@ -13,23 +13,14 @@ import noImage from '../../../assets/ui/noImage.png';
 import GameInfoInput from "./GameInfoInput";
 
 import InputAdmin from "../../common/InputAdmin";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import SuccessMessage from "../../common/feedback/successMessage";
 
 const CreateGameContainer = () => {
-  const gameEntity = {
-    title: "",
-    description: "",
-    pictureURL: "",
-  };
+  const location = useLocation().pathname;
+  const selectedGame = JSON.parse(localStorage.getItem('selectedGame'));
+  const editMode = location === '/EditGame';
 
-  const [imageUrl, setImageUrl] = useState(''); // State to store the image URL
-
-  const handleImageUrlChange = (event) => {
-    // Update the imageUrl state when the input value changes
-    setImageUrl(event.target.value);
-  };
-  const [gameFormData, setGameFormData] = useState(gameEntity);
   const [missionObjects, setMissionObjects] = useState([]);
   const [locationObjects, setLocationObjects] = useState([]);
   const [ruleObjects, setRuleObjects] = useState([]);
@@ -39,6 +30,22 @@ const CreateGameContainer = () => {
   const [gameId, setGameId] = useState(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState(''); // State to store the image URL
+
+  const gameEntity = {
+    title: editMode ? selectedGame.title : "",
+    description: editMode ? selectedGame.description : "",
+    imgUrl: editMode ? selectedGame.pictureURL : noImage,
+  };
+
+  const [gameFormData, setGameFormData] = useState(gameEntity);
+
+
+  const handleImageUrlChange = (e) => {
+    // Update the imageUrl state when the input value changes
+    setImageUrl(e.target.value);
+  };
+
 
   const openMissionModal = () => {
     setIsMissionModalOpen(true);
@@ -123,31 +130,37 @@ const CreateGameContainer = () => {
       )
     }
       <Container>
+        <h1 className="text-3xl md:text-4xl font-bold  mb-2 w-full border-b pb-2 ">Edit  game</h1>
 
-        <h1 className="text-3xl md:text-4xl font-bold  mb-2 w-full border-b pb-2 ">Create new game</h1>
         <form onSubmit={handleSubmit} className="justify-center flex-wrap w-full flex ">
 
           <div className="lg:grid md:grid-cols-7 pt-3  gap-3 w-full relative ">
-            <img src={imageUrl || noImage} alt="Game" className="aspect-square col-span-2 justify-center p-3" />
+            <img src={imageUrl} id="imageUrl" alt="Game" className="aspect-square col-span-2 justify-center p-3" />
             <div className="grid lg:col-span-5 lg:gap-3">
               {/* Title and description section */}
               <GameInfoInput
                 gameFormData={gameFormData}
                 handleInputChange={handleInputChange}
                 placeholder={gameCreated}
+                defaultTitle={gameEntity.title}
+                defaultDescription={gameEntity.description}
+
               />
 
               {/* Image url field */}
               <InputAdmin
+                id="img-url"
                 label=" Image URL"
                 textComponent="input"
                 type="url"
-                fieldname="title"
-                field={imageUrl}
+                fieldName={imageUrl}
+                value={imageUrl}
                 onChange={handleImageUrlChange}
-                id="title"
-                TooltipContent={"Insert a url for the image you would like to represent the game."}
-                required />
+                TooltipContent={"Insert a URL for the image you would like to represent the game."}
+                defaultContent={gameEntity.imgUrl}
+                required
+              />
+
 
 
               {/* Rule and mission section */}
@@ -175,10 +188,6 @@ const CreateGameContainer = () => {
                 </div>
               </div>
             </div>
-
-
-
-            {/* Image section */}
 
           </div>
 
@@ -229,7 +238,6 @@ const CreateGameContainer = () => {
           showModal={isRuleModalOpen}
           handleCloseModal={closeModal}
         />
-
       </Container ></>
   );
 };

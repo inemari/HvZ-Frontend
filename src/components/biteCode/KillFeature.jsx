@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import InputField from '../common/InputField';
 import CustomButton from '../common/CustomButton';
-import useKillFeature from '../../services/useKillFeature';
+import useKillFeature, { getKill } from '../../services/useKillFeature';
 
 const KillFeature = () => {
   const {
@@ -13,6 +13,12 @@ const KillFeature = () => {
     handleKill,
     killInfo, // Add killInfo from useKillFeature
   } = useKillFeature();
+
+
+
+
+
+
 
   return (
     <div className="w-full max-w-md p-6 text-center">
