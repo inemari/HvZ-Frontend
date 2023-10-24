@@ -10,7 +10,7 @@ import { createGame } from "../../../services/adminService"; // Import the creat
 import CustomButton from '../../common/CustomButton'
 import noImage from '../../../assets/ui/noImage.png';
 import GameInfoInput from "./GameInfoInput";
-import InputAdmin from "../../common/InputAdmin";
+import InputAdmin from "../../common/CustomInput";
 import { useLocation, useNavigate } from "react-router-dom";
 import SuccessMessage from "../../common/feedback/successMessage";
 import ModalContainer from "../../common/ModalContainer";
@@ -146,17 +146,16 @@ const GameEditor = () => {
             {/* Image url field */}
             <InputAdmin
               id="img-url"
-              label=" Image URL"
+              label="Image URL"
               textComponent="input"
               type="url"
-              fieldName={imageUrl}
+              fieldName="imgUrl" // Use the correct field name here
               value={imageUrl}
               onChange={handleImageUrlChange}
               TooltipContent={"Insert a URL for the image you would like to represent the game."}
               defaultContent={gameEntity.imgUrl}
               required
             />
-
 
 
             {/* Rule and mission section */}

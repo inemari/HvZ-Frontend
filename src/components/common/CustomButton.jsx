@@ -14,7 +14,7 @@ const CustomButton = ({ label, onClick, icon, iconPosition, rounded }) => {
       )}
       <span>{label}</span>
       {iconPosition === 'after' && icon && (
-        <img src={icon} alt="icon" className=" h-15 w-8 py-2 pl-2" />
+        <img src={icon} alt="icon" className=" h-15 w-8 py-2 pl-2 " />
       )}
     </button>
   );

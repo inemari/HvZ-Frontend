@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InputAdmin from "../common/InputAdmin";
+import InputAdmin from "../common/CustomInput";
 import CustomButton from "../common/CustomButton";
 
 const RuleInput = ({ onAddRule, closeModal }) => {

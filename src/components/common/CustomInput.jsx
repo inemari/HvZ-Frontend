@@ -1,7 +1,7 @@
 import React from 'react';
 import infoicon from '../../assets/ui/info.png';
 
-const InputAdmin = ({
+const CustomInput = ({
     textComponent,
     fieldname,
     placeholder,
@@ -10,6 +10,7 @@ const InputAdmin = ({
     TooltipContent,
     defaultContent,
     value,
+    className,
     ...rest
 }) => {
     const InputElement = textComponent === 'textarea' ? 'textarea' : 'input';
@@ -50,7 +51,7 @@ const InputAdmin = ({
                 placeholder={placeholder}
                 id={id}
                 className={`border w-full col-span-full border-gray-300 text-gray-900 text-sm rounded-lg focus:ring--customOrange focus:border-customOrange block p-2.5 bg-customBrown dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-customOrange dark:focus:border-customOrange ${textComponent === 'textarea' ? 'h-44' : ''
-                    }`}
+                    }${className}`}
                 required
                 value={value !== '' ? value : defaultContent} // Set the default content
                 onChange={(e) => rest.onChange(e)} // Pass the onChange handler from props
@@ -60,4 +61,4 @@ const InputAdmin = ({
     );
 };
 
-export default InputAdmin;
+export default CustomInput;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AddLocation from "../location/AddLocation";
-import InputAdmin from "../common/InputAdmin";
+import InputAdmin from "../common/CustomInput";
 
 const MissionInput = ({ gameId, onAddMission, closeModal }) => {
   const missionEntity = {
