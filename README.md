@@ -11,7 +11,8 @@ The HvZ Game Management System is a web-based application that provides a digita
 ### Prerequisities
 - Visual Studio Code
 - Node.js (20.8.1) <br>
-  Ensure to reboot your pc, and check that the path installation is setup correctly for Node.js.
+---
+- <b>NB!:</b>Ensure to reboot your pc, and check that the path installation is setup correctly for Node.js.
 
 ### Installation and Setup
 To set up the HvZ Game Management System Front-End on your local machine, follow these steps:
