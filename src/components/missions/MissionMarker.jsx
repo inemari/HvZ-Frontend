@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getMission } from "../../services/mapService";
 import { getLocation } from "../../services/locationService";
 
+// MissionMarker component displays a marker for a mission on the map
 const MissionMarker = ({ missionId }) => {
   const [missionData, setMissionData] = useState(null);
   const [isPopOverVisible, setIsPopOverVisible] = useState(false);
@@ -11,6 +12,7 @@ const MissionMarker = ({ missionId }) => {
   useEffect(() => {
     async function fetchData() {
       try {
+        // Fetch mission and location data
         const mission = await getMission(missionId);
         const location = await getLocation(mission.locationId);
 
@@ -21,14 +23,16 @@ const MissionMarker = ({ missionId }) => {
         // Set the x and y coordinates in the state
         setX(xCoordinate);
         setY(yCoordinate);
-
+        
+        // Attach location data to the mission object
         mission.location = location;
         setMissionData(mission);
       } catch (error) {
         console.error("Failed to fetch mission or location:", error);
       } 
     }
-
+    
+     // Fetch data when the component mounts or when missionId changes
     fetchData();
   }, [missionId]);
 
@@ -54,8 +58,8 @@ const MissionMarker = ({ missionId }) => {
             <div
               className="text-black absolute whitespace-normal bg-white  border-gray-200  dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 break-words rounded-lg border font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
               style={{
-                left: `${x}px`, // Adjust the popover position if needed
-                top: `${y + 30}px`, // Adjust the popover position if needed
+                left: `${x}px`,
+                top: `${y + 30}px`, 
               }}
             >
               <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">

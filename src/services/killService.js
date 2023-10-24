@@ -1,6 +1,7 @@
 import api from "./api";
 import { getPlayer } from "./playerService";
 
+// Function to fetch all kills
 export const getKills = async () => {
   try {
     const response = await api.get(`/Kill/GetKills`);
@@ -10,6 +11,7 @@ export const getKills = async () => {
   }
 };
 
+// Function to get a single kill by ID
 export async function getKill(id) {
   try {
     const response = await api.get(`/kill/${id}`);
@@ -26,6 +28,7 @@ export async function getKill(id) {
   }
 }
 
+// Function to post a new kill
 export const postKill = async (killData) => {
   try {
     const response = await api.post("/kill", killData, {
@@ -40,6 +43,7 @@ export const postKill = async (killData) => {
   }
 };
 
+// Function to get kills associated with a specific game
 export const getKillsInGame = async (gameId) => {
   try {
     // Fetch kill locations using the getKillLocations function

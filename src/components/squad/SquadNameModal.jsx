@@ -3,6 +3,7 @@ import CustomButton from "../common/CustomButton";
 import InputField from "../common/InputField";
 import { addGameIdToSquad, createNewSquad } from "../../services/squadService";
 
+// SquadNameModal component provides a form for creating a new squad with a name
 const SquadNameModal = ({ onSquadCreated, setIsSquadCreated }) => {
   const [squadName, setSquadName] = useState("");
   const [error, setError] = useState("");

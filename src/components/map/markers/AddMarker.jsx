@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 const AddMarker = ({ onAddMarker, closeModal }) => {
+  // Initialize state to track the current coordinate
   const [currentCoordinate, setCurrentCoordinate] = useState({ x: 0, y: 0 });
 
   // Handler for adding a marker

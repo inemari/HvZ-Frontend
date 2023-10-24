@@ -4,6 +4,7 @@ import MissionList from "../missions/MissionList";
 import SquadListMarkers from "../squad/SquadListMarkers";
 import KillList from "../kill/KillList";
 
+// Map component responsible for rendering the game map
 const Map = ({ locationHubConnection }) => {
   const [rerenderMap, setRerenderMap] = useState(0);
 
@@ -15,7 +16,6 @@ const Map = ({ locationHubConnection }) => {
         setRerenderMap((prev) => prev + 1);
       });
     }
-
 
     return () => {
       // Clean up the event listener when the component unmounts

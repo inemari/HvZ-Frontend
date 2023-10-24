@@ -1,11 +1,12 @@
-//api.js
 import axios from 'axios';
 import keycloak from '../Keycloak';
 
+// Create an axios instance with the base URL
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 
+// Intercept requests to add an Authorization header with the Keycloak token
 api.interceptors.request.use((config) => {
   const token = keycloak.token;
   if (token) {
@@ -14,7 +15,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Function to fetch player information
+// Function to fetch player information by playerId
 export async function fetchPlayerInfo(playerId) {
   try {
     const response = await api.get(`/players/${playerId}`);
@@ -25,6 +26,7 @@ export async function fetchPlayerInfo(playerId) {
   }
 }
 
+// Function to modify player information by playerId
 export async function modifyPlayer(playerId, playerData) {
   try {
     const response = await api.put(`/players/${playerId}`, playerData);
@@ -35,7 +37,7 @@ export async function modifyPlayer(playerId, playerData) {
   }
 }
 
-
+// Function to change the zombie state of a player
 export async function changeZombieStateOfPlayer(playerId, updatedData) {
   try {
     // Send a PUT request to update the player's status to zombie
@@ -50,6 +52,7 @@ export async function changeZombieStateOfPlayer(playerId, updatedData) {
   }
 }
 
+// Function to fetch games
 export async function fetchGames() {
   try {
     const response = await api.get('/game');
@@ -59,6 +62,7 @@ export async function fetchGames() {
   }
 }
 
+// Function to fetch games by game state
 export const fetchGamesByState = async (gameState) => {
   try {
     const response = await api.get(`/game/filterbystates/${gameState}`);
@@ -68,6 +72,7 @@ export const fetchGamesByState = async (gameState) => {
   }
 };
 
+// Function to create a new player
 export const createPlayer = async (userName, gameId ) => {
   try {
     const response = await api.post('/players', { username: userName, gameId: gameId});
@@ -77,6 +82,7 @@ export const createPlayer = async (userName, gameId ) => {
   }
 }
 
+// Function to get player information by playerId
 export const getPlayerById = async (playerId) => {
   try {
     const response = await api.get(`/players/${playerId}`);
@@ -86,6 +92,8 @@ export const getPlayerById = async (playerId) => {
   }
 };
 
+
+// Function to fetch squads
 export const fetchSquads = async () => {
   try {
     const response = await api.get('/Squad');
@@ -95,6 +103,7 @@ export const fetchSquads = async () => {
   }
 };
 
+// Function to get squad information by squadId
 export const getSquadById = async (squadId) => {
   try {
     const response = await api.get(`/Squad/${squadId}`);
@@ -104,6 +113,7 @@ export const getSquadById = async (squadId) => {
   }
 };
 
+// Function to create a new squad
 export const createSquad = async (squadName) => {
   try {
     const response = await api.post('/Squad', { SquadName: squadName });
@@ -113,6 +123,7 @@ export const createSquad = async (squadName) => {
   }
 }
 
+// Function to add a player to a squad
 export const addPlayerToSquad = async (id, playerId) => {
   try {
     const response = await api.put(`/Squad/${id}/add-player/${playerId}`);
@@ -123,6 +134,7 @@ export const addPlayerToSquad = async (id, playerId) => {
   }
 }
 
+// Function to remove a player from a squad
 export const removePlayerFromSquad = async (id, playerId) => {
   try {
     const response = await api.put(`/Squad/${id}/remove-player/${playerId}`);
@@ -133,6 +145,7 @@ export const removePlayerFromSquad = async (id, playerId) => {
   }
 }
 
+// Function to check the existence of a user
 export const checkUserExistence = async () => {
   try {
     const response = await api.get('/AppUser/exists');
@@ -147,6 +160,7 @@ export const checkUserExistence = async () => {
   }
 }
 
+// Function to create a new user
 export const createUser = async () => {
   try {
     const response = await api.post('/AppUser/register');
@@ -155,8 +169,5 @@ export const createUser = async () => {
     throw error;
   }
 }
-
-
-
 
 export default api;

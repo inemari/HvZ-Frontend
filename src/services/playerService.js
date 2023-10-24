@@ -1,29 +1,38 @@
 import api from "./api";
 
+// Function to fetch a player by playerId
 export const getPlayer = async (playerId) => {
   try {
+    // Send a GET request to retrieve player data by playerId
     const response = await api.get(`/Players/${playerId}`);
     return response.data;
   } catch (error) {
     if (error.response) {
+      // Log an error message if the API responds with an error
       console.error("Failed to get Player:", error.response.data);
     }
+    // Throw the error to indicate the failure to fetch player data
     throw error;
   }
 };
 
+// Function to fetch a player by bitecode
 export const getPlayerByBiteCode = async (bitecode) => {
   try {
+    // Send a GET request to retrieve a player by bitecode
     const response = await api.get(`/players/by-bitecode/${bitecode}`);
     return response.data;
   } catch (error) {
     if (error.response) {
+      // Log an error message if the API responds with an error
       console.error("Failed to get Player:", error.response.data);
     }
+    // Throw the error to indicate the failure to fetch player data
     throw error;
   }
 };
 
+// Function to set a player's status to zombie
 export const setZombieToTrue = async (bitecode, gameId) => {
   try {
     // Fetch the player by bitecode

@@ -6,26 +6,29 @@ import Dropdown from './DropDownBtn.jsx';
 import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
+    // React hooks for managing component state
     const location = useLocation();
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
-
+    
+     // Function to toggle the menu when the button is clicked
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
 
-
-
     return (
+        // Navigation bar container
         <nav className="bg-black bg-opacity-70 sticky inset-0 z-10 block w-full max-w-full mb-5 shadow-lg">
             <div className="flex flex-wrap md:flex-row md:flex-nowrap items-center mx-10">
                 <div className='flex'>
+                    {/* App logo, which redirects to the home page when clicked */}
                     <img src={logo} className="max-h-24 md:max-h-24 py-5 cursor-pointer" alt="App Logo" onClick={() => navigate('/')} />
                 </div>
                 <button
                     onClick={toggleMenu}
                     className="md:hidden text-gray-700 focus:outline-none rounded p-3 mr-0 ml-auto"
                 >
+                    {/* Menu button, toggles menu when clicked */}
                     <svg
                         className="w-10 h-10"
                         fill="none"
@@ -52,10 +55,12 @@ const NavBar = () => {
                 </button>
 
                 <div className={`text-white md:flex md:mr-0 md:ml-auto w-full md:w-auto pb-3 `}>
+                     {/* Navigation links and user authentication buttons */}
                     <ul className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 justify-center rounded md:bg-transparent md:p-0 ">
                         {location.pathname !== '/' && location.pathname !== '/AboutGame' && (
                             <>
                                 <li>
+                                     {/* NavLink to the Map page */}
                                     <NavLink
                                         to={'/Map'}
                                         className={`aria-[current=page]:font-bold aria-[current=page]:hover:font-bold hover:font-semibold`}
@@ -64,6 +69,7 @@ const NavBar = () => {
                                     </NavLink>
                                 </li>
                                 <li>
+                                     {/* Dropdown for squad management options */}
                                     <Dropdown
                                         className={''}
                                         label="Manage Squad"
@@ -79,6 +85,7 @@ const NavBar = () => {
                                     />
                                 </li>
                                 <li>
+                                    {/* NavLink to the BiteCode page */}
                                     <NavLink
                                         to={"/BiteCode"}
                                         className={`aria-[current=page]:font-bold aria-[current=page]:hover:font-bold hover:font-semibold`}
@@ -90,6 +97,7 @@ const NavBar = () => {
                         )}
                     </ul>
                     <div className="space-y-2 md:space-y-0 md:space-x-6 space-x-2 md:flex-row md:flex pl-4 ">
+                         {/* User authentication buttons */}
                         <AuthButtons type="button" />
                     </div>
                 </div>

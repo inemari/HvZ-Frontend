@@ -1,9 +1,9 @@
 import api from "./api";
-
 import { getKills } from "./killService";
 import { getPlayer } from "./playerService";
 import { getLocation } from "./locationService";
 
+// Function to fetch a mission by its ID
 export const getMission = async (id) => {
   try {
     const response = await api.get(`/Mission/${id}`);
@@ -13,6 +13,7 @@ export const getMission = async (id) => {
   }
 };
 
+// Function to fetch mission details for a list of mission IDs
 export const fetchMissionsForGame = async (missionIds) => {
   try {
     const missionData = [];
@@ -32,6 +33,7 @@ export const fetchMissionsForGame = async (missionIds) => {
   }
 };
 
+// Function to fetch player locations for a list of player IDs
 export const fetchPlayerLocationsForGame = async (playerIds) => {
   const joinedSquadId = sessionStorage.getItem("joinedSquadId");
 
@@ -40,11 +42,14 @@ export const fetchPlayerLocationsForGame = async (playerIds) => {
   }
 
   try {
+     // Initialize an array to store player data
     const playerData = [];
 
     console.log("playerids ", playerIds);
+     // Iterate over the list of player IDs
     for (const id of playerIds) {
       const player = await getPlayer(id);
+      // Check if the player belongs to the joined squad
       if (player.squadId == joinedSquadId) {
         const location = await getLocation(player.locationId);
         console.log("Player location", location);
@@ -59,6 +64,7 @@ export const fetchPlayerLocationsForGame = async (playerIds) => {
   }
 };
 
+// Function to add coordinates to a mission for a specific game
 export const addCoordinateToMission = async (x, y, gameId) => {
   try {
     const response = await api.post(`/Mission`, {
@@ -72,6 +78,7 @@ export const addCoordinateToMission = async (x, y, gameId) => {
   }
 };
 
+// Function to create a new mission
 export const createMission = async (missionData) => {
   try {
     const response = await api.post(`/Mission`, missionData);
@@ -80,6 +87,8 @@ export const createMission = async (missionData) => {
     throw new Error("Failed to create a new mission");
   }
 };
+
+// Function to create a new location
 export const createLocation = async (locationData) => {
   try {
     const response = await api.post(`/Location`, locationData);
@@ -89,6 +98,7 @@ export const createLocation = async (locationData) => {
   }
 };
 
+// Function to fetch kill locations
 export const getKillLocations = async () => {
   try {
     const response = await api.get(`/Kill/GetKills`);
@@ -98,6 +108,7 @@ export const getKillLocations = async () => {
   }
 };
 
+// Function to fetch a location by its ID
 export const getLocationById = async (locationId) => {
   try {
     const response = await api.get(`/Location/${locationId}`);
@@ -106,12 +117,6 @@ export const getLocationById = async (locationId) => {
     throw new Error("Failed to fetch location by ID");
   }
 };
-
-/* NOTE: Working with GET kill and to add a grave stone fof the location where the player is killed.
-  /  The following files to work with are: gravestones/GravestoneList.jsx, gravestones/GravestoneMarker.jsx, map/Map.jsx.
-  /  For help or inspiration look in missions/MissionList.jsx and missions/MissionMarker.jsx
-  /  The following errors from the debugging below lies in the console on the Map page in the application. 
-  */
 
 // A function that combines the two functions to fetch kill locations with details
 export const getKillLocationsWithDetails = async () => {

@@ -19,17 +19,20 @@ import EditGame from "./views/admin/EditGame";
 
 
 const App = () => {
-  const { keycloak, initialized } = useKeycloak(); // Use the hook to get keycloak instance
+  // Use the useKeycloak hook to access Keycloak authentication
+  const { keycloak, initialized } = useKeycloak(); 
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [locationHubConnection, setLocationHubConnection] = useState(null);
   const [hubConnection, setHubConnection] = useState(null);
   const [triggerBool, setTriggerBool] = useState(false);
 
   useEffect(() => {
+    // Create a SignalR hub connection for location updates
     const createLocationHubConnection = async () => {
       if (initialized && keycloak.authenticated) {
         const playerId = "12"; //parseInt(sessionStorage.getItem("playerId"), 10);
-
+        
+        // Create a new SignalR connection for location updates
         const newConnection = new signalR.HubConnectionBuilder()
           .withUrl("https://localhost:7041/locationhub")
           .configureLogging(signalR.LogLevel.Debug)
@@ -39,7 +42,8 @@ const App = () => {
           await newConnection.start();
           console.log("Connected to SignalR locationhub!");
           setLocationHubConnection(newConnection);
-
+          
+          // Set up a callback to receive location updates
           newConnection.on("ReceiveLocationUpdate", (playerId, x, y) => {
             console.log(`Received location update from ${playerId}: x - ${x}, y - ${y}`);
 
@@ -65,8 +69,8 @@ const App = () => {
         // Only create SignalR connection if authenticated
         const newConnection = new signalR.HubConnectionBuilder()
           .withUrl("https://localhost:7041/chathub", {
-            /*                 skipNegotiation: true,
-    transport: signalR.HttpTransportType.WebSockets  */
+            /* skipNegotiation: true,
+            transport: signalR.HttpTransportType.WebSockets */
           })
 
           .configureLogging(signalR.LogLevel.Debug)
@@ -88,7 +92,8 @@ const App = () => {
 
     createHubConnection();
   }, [initialized, keycloak.authenticated]); // Listen for changes in authentication status
-
+  
+  // Render the main application component
   return (
     <BrowserRouter>
       <LocationProvider>

@@ -3,6 +3,7 @@ import React from 'react';
 
 const PopOver = ({ title, description, onClose, style }) => {
     return (
+        // Popover container
         <div
             data-popover
             id="popover-default"
@@ -11,9 +12,11 @@ const PopOver = ({ title, description, onClose, style }) => {
             style={style}
         >
             <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                {/* Popover title */}
                 <h3 className="font-semibold text-gray-900 dark:text-white">{title}</h3>
             </div>
             <div className="px-3 py-2">
+                {/* Popover description */}
                 <p>{description}</p>
             </div>
             <div data-popper-arrow></div>

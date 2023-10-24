@@ -1,5 +1,6 @@
 import React from 'react';
 
+// PlayerList component displays a list of players with their avatars, names, and statuses
 const PlayerList = ({ players }) => {
   return (
     <div>

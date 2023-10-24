@@ -3,6 +3,7 @@ import { getSquadMarkers } from "../../services/mapService";
 import gravestoneIcon from "../../assets/icons/gravestone1.png";
 
 const GravestoneMarker = () => {
+  // State variables for managing kill locations, error, and loading state
   const [killLocations, setKillLocations] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +25,7 @@ const GravestoneMarker = () => {
 
     // Call the function to fetch data when the component mounts
     fetchKillLocationsWithDetails();
-  }, []);
+  }, []); // The empty dependency array ensures this effect runs only once
 
   return (
     <div>

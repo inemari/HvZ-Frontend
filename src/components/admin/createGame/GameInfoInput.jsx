@@ -4,6 +4,7 @@ import InputAdmin from "../../common/CustomInput";
 const GameInfoInput = ({ gameFormData, handleInputChange, defaultDescription, defaultTitle }) => {
   return (
     <div className='flex flex-col pb-5 w-full justify-between top-0 gap-3'>
+       {/* Input field for the game title */}
       <InputAdmin
         label="Title"
         textComponent="input"
@@ -16,6 +17,7 @@ const GameInfoInput = ({ gameFormData, handleInputChange, defaultDescription, de
         defaultContent={defaultTitle}
         required
       />
+       {/* Input field for the game description */}
       <InputAdmin
         label="Description"
         textComponent="textarea"

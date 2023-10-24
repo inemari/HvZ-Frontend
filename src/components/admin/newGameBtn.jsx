@@ -6,6 +6,7 @@ const NewGameBtn = () => {
     const navigate = useNavigate();
     return (
         <div className="h-fit  z-20 w-full m-auto">
+            {/* CustomButton component for creating a new game */}
             <CustomButton className="" label={"Create new game"} icon={add} rounded="3xl" iconPosition={'before'} onClick={() => navigate('/CreateGame')} />
         </div>
     );

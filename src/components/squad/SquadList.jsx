@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import { fetchSquadsByGameId } from "../../services/squadService";
 import { useNavigate } from "react-router-dom";
 
+// SquadList component for displaying a list of squads
 const SquadList = ({ squadListUpdated }) => {
-  const [squads, setSquads] = useState([]);
+  const [squads, setSquads] = useState([]); 
   const navigate = useNavigate();
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const selectedGameId = selectedGame.id;
-
+  
+  // Use an effect to fetch squad data when the component mounts or squadListUpdated changes
   useEffect(() => {
     const fetchSquadsData = async () => {
       try {
+        // Fetch squads data based on the selected game
         const squadsData = await fetchSquadsByGameId(selectedGameId);
         setSquads(squadsData);
       } catch (error) {
@@ -18,11 +21,11 @@ const SquadList = ({ squadListUpdated }) => {
       }
     };
 
- 
+      // Call the fetchSquadsData function
       fetchSquadsData();
-    
   }, [squadListUpdated, selectedGameId]);
-
+  
+  // Handle the selection of a squad and navigate to SquadDetails
   const handleSquadSelect = (squadId) => {
     sessionStorage.setItem("selectedSquadId", squadId); // Store the selected squad's ID
     navigate("/SquadDetails"); // Navigate to the SquadDetails page

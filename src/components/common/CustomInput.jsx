@@ -13,6 +13,7 @@ const CustomInput = ({
     className,
     ...rest
 }) => {
+    // Determine whether to render an input or a textarea element
     const InputElement = textComponent === 'textarea' ? 'textarea' : 'input';
 
     return (
@@ -20,6 +21,7 @@ const CustomInput = ({
             <div className="flex flex-row-reverse">
                 <div className="group ml-0 w-full">
                     {TooltipContent && (
+                        // Render an info icon as a tooltip trigger
                         <img
                             id="tooltip-icon"
                             src={infoicon}
@@ -29,6 +31,7 @@ const CustomInput = ({
                         />
                     )}
                     {TooltipContent && (
+                         // Render a tooltip with the provided content
                         <div className="hidden break-words group-hover:block absolute z-10 -mt-10 px-2 py-1 text-sm font-medium text-white w-fit bg-opacity-90 rounded-lg shadow-sm tooltip bg-customLightBrown ring-1 ring-customBrown">
                             {TooltipContent}
                             <div

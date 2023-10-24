@@ -8,28 +8,33 @@ import CustomButton from '../common/CustomButton';
 import ChatComponent from '../../components/chat/Chat';
 import * as signalR from "@microsoft/signalr";
 
-
+// SquadInformation component with various state variables
 const SquadInformation = ({ squadId, locationHubConnection, hubConnection }) => {
   const [squadDetails, setSquadDetails] = useState(null);
   const [isMember, setIsMember] = useState(false); // A flag to track squad membership
   const [isModalVisible, setIsModalVisible] = useState(false);
+  
+  // Coordinates and Recived Location
   const [xCoordinate, setXCoordinate] = useState('');
   const [yCoordinate, setYCoordinate] = useState('');
   const [receivedLocations, setReceivedLocations] = useState([]);
-
+  
+  // Retrieve the selected game from local storage and ID from session storage
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const playerId = parseInt(sessionStorage.getItem('playerId'), 10);
-
+  
+  // Function to toggle the modal visibility
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
 
-// Define fetchSquadDetails here
+// Function to fetch squad details
 const fetchSquadDetails = async () => {
     try {
       const details = await getSquadDetailsById(squadId);
       setSquadDetails(details);
-
+      
+      // Check if the current player is a member of the squad
       setIsMember(details.playerIds.some((player) => player.playerId === playerId));
 
       console.log("PlayerID:", playerId) 
@@ -60,7 +65,8 @@ const fetchSquadDetails = async () => {
       console.error('Error joining or leaving the squad:', error);
     }
   };
-
+  
+  // Function to handle leaving a marker
   const handleLeaveMarker = async (event) => {
     event.preventDefault();
     try {  

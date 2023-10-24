@@ -1,5 +1,3 @@
-
-
 const NewMission = ({ x, y, missionId }) => (
     <div
         className="absolute bg-red-500 text-white aspect-square text-center flex flex-col justify-center p-1 rounded-full cursor-pointer"

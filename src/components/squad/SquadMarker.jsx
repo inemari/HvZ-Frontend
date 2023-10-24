@@ -2,16 +2,21 @@ import React, { useState, useEffect } from "react";
 import { getPlayerById } from "../../services/api";
 import { getLocation } from "../../services/locationService";
 
+// SquadMarker component displays a marker for a player and provides a popover with player information
 const SquadMarker = ({ playerId }) => {
   const [playerData, setPlayerData] = useState(null);
   const [isPopOverVisible, setIsPopOverVisible] = useState(false);
   const [x, setX] = useState(null);
   const [y, setY] = useState(null);
-
+  
+   // Use an effect to fetch player data and location when playerId changes
   useEffect(() => {
     async function fetchData() {
       try {
+        // Fetch player data by playerId
         const player = await getPlayerById(playerId);
+
+        // Fetch location data by locationId from player
         const location = await getLocation(player.locationId);
 
         // Extract x and y coordinates from the location object
@@ -21,21 +26,23 @@ const SquadMarker = ({ playerId }) => {
         // Set the x and y coordinates in the state
         setX(xCoordinate);
         setY(yCoordinate);
-
+        
+        // Attach location data to player data
         player.location = location;
         setPlayerData(player);
         console.log("player: ", player)
       } catch (error) {
         console.error("Failed to fetch player or location:", error);
-      }
+      } 
     }
 
     fetchData();
   }, [playerId]);
-
+   
+  // Handle click event to toggle popover visibility
   const handleMarkerClick = (e) => {
     e.preventDefault();
-    setIsPopOverVisible(!isPopOverVisible); // Toggle the popover visibility
+    setIsPopOverVisible(!isPopOverVisible); 
   };
 
   return (
@@ -55,8 +62,8 @@ const SquadMarker = ({ playerId }) => {
             <div
               className="text-black absolute whitespace-normal bg-white  border-gray-200  dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 break-words rounded-lg border font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
               style={{
-                left: `${x}px`, // Adjust the popover position if needed
-                top: `${y + 30}px`, // Adjust the popover position if needed
+                left: `${x}px`, 
+                top: `${y + 30}px`, 
               }}
             >
               <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">

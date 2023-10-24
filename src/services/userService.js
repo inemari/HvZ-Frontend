@@ -16,7 +16,8 @@ export const saveUsername = async (username, gameId) => {
             squadId: 0,
             gameId,
         };
-
+        
+        // Send a POST request to create a new player with the provided username and game ID
         const response = await axios.post(`${BASE_URL}/Player`, data);
 
         if (response.status === 200) {
@@ -29,13 +30,16 @@ export const saveUsername = async (username, gameId) => {
     }
 };
 
+// Function to check if a user exists and create one if not
 export const checkIfExists = async () => {
     try {
         const user = await checkUserExistence();
         if (user === null) {
+            // If the user does not exist, create a new user
             const user = await createUser();
             return user;
         } else {
+            // If the user already exists, return the existing user data
             return user;
         }
     } catch (error) {
@@ -43,8 +47,10 @@ export const checkIfExists = async () => {
     }
 }
 
+// Function to create a new player
 export const createNewPlayer = async (userName, gameId) => {
     try {
+        // Create a new player with the provided username and game ID
         const newPlayer = await createPlayer(userName, gameId);
         return newPlayer;
     } catch (error) {
@@ -52,6 +58,7 @@ export const createNewPlayer = async (userName, gameId) => {
     }
 }
 
+// Export the functions and methods from this service
 export default {
     saveUsername,
     createNewPlayer,

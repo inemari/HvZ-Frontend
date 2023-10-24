@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import CustomButton from '../common/CustomButton';
 import { useNavigate } from 'react-router-dom';
-import InputField from '../common/InputField'; // Import the InputField component
-import userService from '../../services/userService'; // Import the userService
+import InputField from '../common/InputField'; 
+import userService from '../../services/userService'; 
 import ModalContainer from '../common/ModalContainer';
 
 const UserNameModal = ({ showModal, handleCloseModal }) => {
+  // Initialize state variables
   const [userName, setUserName] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -43,7 +44,9 @@ const UserNameModal = ({ showModal, handleCloseModal }) => {
     return (
       <ModalContainer showModal={showModal} handleCloseModal={handleCloseModal} >
         <div className="grid grid-flow-row gap-3 text-center">
+            {/* Heading for choosing a username */}
           <h2 className="text-xl font-medium mb-4 text-white">Choose a username:</h2>
+           {/* Input field for username */}
           <InputField
             error={error}
             value={userName}
@@ -52,7 +55,7 @@ const UserNameModal = ({ showModal, handleCloseModal }) => {
             iconPath="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"
             placeholder="Username"
           />
-
+           {/** Display error message if username is invalid */}
           {error && <p className="text-red-500 text-xs font-bold">{error}</p>}
 
           <CustomButton type="submit" label={"Join"} onClick={handleSubmit} />

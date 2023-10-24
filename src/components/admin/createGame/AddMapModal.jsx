@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 
+// Using Webpack's require.context to import images from a specific folder
 const mapFolder = require.context("../../../assets/images/maps", false, /\.(png|jpe?g|svg)$/);
 
 const AddMap = ({ handleInputChange }) => {
   const [selectedImageKey, setSelectedImageKey] = useState(""); // Initialize the selectedImageKey state
-
   const imagePaths = mapFolder.keys();
 
   return (
-
-
     <div className="grid grid-cols-2 gap-5">
       {imagePaths.map((path, index) => (
         <div className="grid col-span-1 justify-center ">
@@ -29,7 +27,6 @@ const AddMap = ({ handleInputChange }) => {
       ))}
 
     </div>
-
 
   );
 };

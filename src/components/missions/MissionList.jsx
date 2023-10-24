@@ -1,8 +1,8 @@
-// MissionList.js
 import React, { useEffect, useState } from "react";
 import MissionMarker from "./MissionMarker";
 import { fetchMissionsForGame } from "../../services/mapService";
 
+// MissionList component displays a list of missions for a selected game
 const MissionList = () => {
   // Log information before rendering
   // Retrieve the game information from localStorage
@@ -14,6 +14,7 @@ const MissionList = () => {
   useEffect(() => {
     async function fetchMissionData() {
       try {
+        // Fetch mission data for the selected game
         const missionData = await fetchMissionsForGame(missionIds);
         setMissionData(missionData);
         console.log("Missiondata", missionData);
@@ -21,7 +22,8 @@ const MissionList = () => {
         console.error("Failed to fetch missions:", error);
       }
     }
-
+    
+    // Trigger the data fetching process when the component mounts
     fetchMissionData(); 
   }, []);
 

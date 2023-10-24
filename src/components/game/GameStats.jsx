@@ -1,5 +1,6 @@
 import React from 'react';
 
+// GameStats component displays game statistics, including total players, humans, zombies, and missions completed.
 const GameStats = ({ stats }) => {
   return (
     <div className="bg-white p-4 rounded shadow">
@@ -9,7 +10,6 @@ const GameStats = ({ stats }) => {
         <li>Humans: {stats.humans}</li>
         <li>Zombies: {stats.zombies}</li>
         <li>Missions Completed: {stats.missionsCompleted}</li>
-        {/* Add more game statistics here */}
       </ul>
     </div>
   );

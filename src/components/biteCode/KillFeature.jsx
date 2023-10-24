@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import InputField from "../common/InputField";
 import CustomButton from "../common/CustomButton";
@@ -11,6 +10,7 @@ import { postKill } from "../../services/killService";
 import { getLocation, postLocation } from "../../services/locationService";
 
 const KillFeature = () => {
+  // State variables for managing user input and component behavior
   const [bitecode, setBitecode] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
@@ -18,10 +18,12 @@ const KillFeature = () => {
   const [killInfo, setKillInfo] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [player, setPlayer] = useState("");
-
+  
+  // Retrieve the selected game from local storage
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const gameId = selectedGame.id;
-
+  
+  // Function to handle the "Kill" button click
   const handleKill = async () => {
     try {
       if (bitecode.trim() === "") {
@@ -45,7 +47,8 @@ const KillFeature = () => {
       console.error("Error handling kill:", error);
     }
   };
-
+  
+  // Function to handle creating a kill
   const handleCreateKill = async () => {
     const player = await getPlayerByBiteCode(bitecode);
     setPlayer(player);
@@ -63,7 +66,8 @@ const KillFeature = () => {
     // Clear the description and reset the state when the user successfully creates a kill
     setDescription("");
   };
-
+  
+  // Function to create a kill
   async function createKill(playerId, locationId) {
     try {
       const date = new Date();
@@ -84,13 +88,8 @@ const KillFeature = () => {
       throw error;
     }
   }
-
-
-
-
-
-
-
+  
+  // Tailwind CSS classes used for the component's
   return (
     <div className="w-full max-w-md p-6 text-center">
       <h2 className="text-xl font-medium mb-4 text-white">
@@ -119,6 +118,7 @@ const KillFeature = () => {
         </CustomButton>
         {isKilled && killInfo ? (
           <div>
+            {/* Display information about the killed player */}
             <p className="text-white">
               {player.username} got killed at{" "}
               {new Date(killInfo.timeOfKill).toLocaleString()}

@@ -1,5 +1,6 @@
 import api from "./api";
 
+// Function to fetch a location by its ID
 export const getLocation = async (locationId) => {
   try {
     const response = await api.get(`/Location/${locationId}`);
@@ -12,6 +13,7 @@ export const getLocation = async (locationId) => {
   }
 };
 
+// Function to post a new location
 export const postLocation = async (locationData) => {
   try {
     const response = await api.post("/Location", locationData);
@@ -25,6 +27,7 @@ export const postLocation = async (locationData) => {
   }
 };
 
+// Function to post a new game
 export const postGame = async (gameData) => {
   try {
     const response = await api.post("/Game", gameData);
@@ -37,6 +40,7 @@ export const postGame = async (gameData) => {
   }
 };
 
+// Function to update a player's location by their ID and coordinates
 export const updatePlayerLocation = async (id, x, y) => {
   try {
     const response = await api.put(`/players/leaveMarker/${id}`, {

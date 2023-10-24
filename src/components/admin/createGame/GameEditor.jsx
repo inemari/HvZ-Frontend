@@ -19,10 +19,14 @@ import ListObjects from "./ListObjects";
 import { fetchMissionsForGame } from "../../../services/mapService";
 
 const GameEditor = () => {
+  // Get the current pathname using the useLocation hook
   const location = useLocation().pathname;
+
+   // Retrieve the selected game data from localStorage and set the editMode
   const selectedGame = JSON.parse(localStorage.getItem('selectedGame'));
   const editMode = location === '/EditGame';
-
+  
+  // Initialize various state variables for managing game data and modals
   const [missionObjects, setMissionObjects] = useState([]);
   const [locationObjects, setLocationObjects] = useState([]);
   const [ruleObjects, setRuleObjects] = useState([]);
@@ -31,9 +35,14 @@ const GameEditor = () => {
   const [gameCreated, setGameCreated] = useState(false);
   const [gameId, setGameId] = useState(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const navigate = useNavigate();
-  const [imageUrl, setImageUrl] = useState(''); // State to store the image URL
 
+  // Use the useNavigate hook for programmatic navigation
+  const navigate = useNavigate();
+
+  // State to store the image URL
+  const [imageUrl, setImageUrl] = useState(''); 
+  
+  // Initialize the gameEntity object with default or selected game data
   const gameEntity = {
     title: editMode ? selectedGame.title : "",
     description: editMode ? selectedGame.description : "",
@@ -44,39 +53,44 @@ const GameEditor = () => {
 
   const [gameFormData, setGameFormData] = useState(gameEntity);
 
-
   const handleImageUrlChange = (e) => {
     // Update the imageUrl state when the input value changes
     setImageUrl(e.target.value);
   };
 
-
+  // Function to open the mission modal
   const openMissionModal = () => {
     setIsMissionModalOpen(true);
   };
-
+  
+  // Function to open the rule modal
   const openRuleModal = () => {
     setIsRuleModalOpen(true);
   };
-
+  
+  // Function to close any modal
   const closeModal = () => {
     setIsMissionModalOpen(false);
     setIsRuleModalOpen(false);
   };
-
+  
+  // Function to handle adding a mission and location
   const handleAddMission = (missionData, locationData) => {
     setMissionObjects((prevMissions) => [...prevMissions, missionData]);
     setLocationObjects((prevLocations) => [...prevLocations, locationData]);
   };
-
+  
+  // Function to handle adding a rule
   const handleAddRule = (ruleData) => {
     setRuleObjects((prevRules) => [...prevRules, ruleData]);
   };
-
+  
+  // Function to handle adding a marker
   const handleAddMarker = (locationData) => {
     setLocationObjects((prevLocations) => [...prevLocations, locationData]);
   };
-
+  
+  // Function to handle input changes for the game data
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setGameFormData((prevGameData) => ({
@@ -84,7 +98,8 @@ const GameEditor = () => {
       [name]: value,
     }));
   };
-
+  
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -122,6 +137,7 @@ const GameEditor = () => {
   return (
     <>   {
       showSuccessMessage && (
+        // Display a success message when a game is created
         <SuccessMessage
           header="Game created successfully! "
           message="You will be redirected to the landingPage" />

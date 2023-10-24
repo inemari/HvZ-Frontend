@@ -3,13 +3,17 @@ import { NavLink } from 'react-router-dom';
 
 
 const Dropdown = ({ label, options, onClickOption }) => {
+    // State to manage the open/closed state of the dropdown
     const [isOpen, setIsOpen] = useState(false);
+    // State to store the selected option
     const [selectedOption, setSelectedOption] = useState(null);
-
+    
+    // Function to toggle the dropdown's open/closed state
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
-
+    
+     // Function to handle option click
     const handleOptionClick = (option) => {
         setSelectedOption(option);
         toggleDropdown ();
@@ -22,6 +26,7 @@ const Dropdown = ({ label, options, onClickOption }) => {
     return (
         <div className="relative inline-block text-left text-white ">
             <div onClick={toggleDropdown}>
+                {/* Button to open/close the dropdown */}
                 <button className=" flex justify-between items-center ">
                     {label}
                     <span className="inline-flex items-center ">
@@ -44,6 +49,7 @@ const Dropdown = ({ label, options, onClickOption }) => {
                 </button>
             </div>
             {isOpen && (
+                // Dropdown content displayed when isOpen is true
                 <div className="origin-top-right absolute mt-2 w-full rounded-xl shadow-lg bg-customLightBrown divide-y divide-gray-100">
                     <ul className="rounded-xl py-2">
                         {options.map((option) => (

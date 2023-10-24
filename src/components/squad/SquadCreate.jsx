@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import SquadNameModal from './SquadNameModal';
 
 const SquadCreate = ({ onSquadCreated }) => {
+   // State to track whether the squad is created
     const [isSquadCreated, setIsSquadCreated] = useState(false);
   
     // Handler to reset the squad creation status
     const handleResetSquadCreation = () => {
+      // Reset the squad creation status and notify the parent component
       setIsSquadCreated(false);
       onSquadCreated();
     };
@@ -14,6 +16,7 @@ const SquadCreate = ({ onSquadCreated }) => {
       <div className="bg-black bg-opacity-60 text-white rounded-lg p-4">
         <h2 className="text-2xl font-bold">Create Squad</h2>
         {isSquadCreated ? (
+           // Render squad creation success message
           <div className="mt-4">
             <h3 className="text-xl font-semibold">Squad Created</h3>
             <p>Your squad has been created successfully!</p>
@@ -26,6 +29,7 @@ const SquadCreate = ({ onSquadCreated }) => {
             </button>
           </div>
         ) : (
+          // Render the SquadNameModal for squad creation
           <SquadNameModal
               onSquadCreated={onSquadCreated}
               setIsSquadCreated={setIsSquadCreated}

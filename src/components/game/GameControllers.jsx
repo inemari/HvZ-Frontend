@@ -1,6 +1,7 @@
 import React from 'react';
 
 const GameControls = ({ onMissionComplete, onTeamChat }) => {
+  // Function component that provides game control buttons for missions and team chat
   return (
     <div className="bg-white p-4 rounded shadow">
       <h2 className="text-lg font-semibold">Game Controls</h2>

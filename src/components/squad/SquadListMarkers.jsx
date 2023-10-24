@@ -5,6 +5,7 @@ import { useKeycloak } from "@react-keycloak/web";
 import { useLocationContext } from "../../LocationContext";
 import { getGame } from "../../services/gameService";
 
+// Component to render SquadMarkers for players
 const SquadListMarkers = ({ rerenderMap }) => {
   const { locationHubConnection } = useLocationContext();
   const [playerData, setPlayerData] = useState([]);
@@ -12,12 +13,16 @@ const SquadListMarkers = ({ rerenderMap }) => {
   const [game, setGame] = useState(null);
   const previousPlayerDataRef = useRef([]);
   const [loading, setLoading] = useState(false);
-
+  
+   // Fetch player data for the game
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-
+      
+      // Retrieve the selected game from local storage
       const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
+
+      // Fetch game data for the selected game
       const gameData = await getGame(selectedGame.id);
       setGame(gameData);
       const playerIds = gameData.playerIds;

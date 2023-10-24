@@ -1,11 +1,12 @@
-// FilterSlider.jsx
-
 import React, { useEffect, useState } from 'react';
 import { getGameStatusValues } from '../../services/gameService';
 
+// GameTabs component displays game filter tabs based on game statuses
 const GameTabs = ({ activeTab, handleTabChange }) => {
+  // State to store filter options
   const [filterOptions, setFilterOptions] = useState([]);
-
+  
+   // Fetch game status values from the server and set them in the state
   useEffect(() => {
     async function fetchGameStatusValues() {
       try {
@@ -22,6 +23,7 @@ const GameTabs = ({ activeTab, handleTabChange }) => {
     <div className="w-full bg-black bg-opacity-60 flex rounded-md ">
       {filterOptions.map((option) => (
         <React.Fragment key={option.gameState}>
+          {/* Render a button for each game status option */}
           <button
             onClick={() => handleTabChange(option.gameState)}
             className={`${activeTab === option.gameState
@@ -29,6 +31,7 @@ const GameTabs = ({ activeTab, handleTabChange }) => {
               : ' text-customWhite hover:bg-customDarkOrange hover:bg-opacity-40 '
               } py-2 space-x-4 flex-1 text-center relative`}
           >
+            {/*Render the game state string as the button text*/}
             {option.gameStateString}
           </button>
         </React.Fragment>

@@ -3,18 +3,23 @@ import InputAdmin from "../common/CustomInput";
 import CustomButton from "../common/CustomButton";
 
 const RuleInput = ({ onAddRule, closeModal }) => {
+  // Define the initial state for the rule form data
   const ruleEntity = {
     title: "",
     description: "",
   };
+  // Use the state hook to manage form data
   const [ruleFormData, setRuleFormData] = useState(ruleEntity);
-
+  
+  // Handler for input changes
   const handleInputChange = (e) => {
+    // Create a copy of the form data and update the specific field
     const updatedFormData = { ...ruleFormData };
     updatedFormData[e.target.name] = e.target.value;
     setRuleFormData(updatedFormData);
   };
-
+  
+  // Handler for adding a rule
   const handleAddRule = () => {
     // Create a rule object using ruleFormData
     const ruleData = { ...ruleFormData };

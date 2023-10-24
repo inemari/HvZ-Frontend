@@ -4,6 +4,7 @@ import CustomButton from "../common/CustomButton";
 import CustomInput from "../common/CustomInput";
 
 const ChatComponent = ({ hubConnection, isMember }) => {
+  // State variables for managing chat functionality
   const [newMessage, setNewMessage] = useState("");
   const [lobby, setLobby] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
@@ -16,6 +17,7 @@ const ChatComponent = ({ hubConnection, isMember }) => {
   const chatContainerRef = useRef(null);
 
   useEffect(() => {
+     // Handle actions before the window/tab is unloaded
     const handleBeforeUnload = () => {
       if (username) {
         setUsers((prevUsers) => prevUsers.filter((user) => user !== username));
@@ -31,6 +33,7 @@ const ChatComponent = ({ hubConnection, isMember }) => {
   }, [username]);
 
   useEffect(() => {
+    // Update user list when the hubConnection or lobby changes
     if (hubConnection && lobby) {
       setUsers([]);
 
@@ -47,6 +50,7 @@ const ChatComponent = ({ hubConnection, isMember }) => {
   }, [hubConnection, lobby]);
 
   useEffect(() => {
+     // Receive and display messages from the hub
     if (hubConnection) {
       hubConnection.on("ReceiveMessage", (user, message, roomName) => {
         setReceivedMessages([...receivedMessages, `[${user}] : ${message}`]);
@@ -55,6 +59,7 @@ const ChatComponent = ({ hubConnection, isMember }) => {
   }, [hubConnection, receivedMessages]);
 
   const sendMessage = () => {
+     // Send a message if conditions are met
     if (hubConnection && hubConnection.state === signalR.HubConnectionState.Connected && newMessage && username && lobby) {
       hubConnection
         .invoke("SendMessage", username, newMessage, lobby)
@@ -67,6 +72,7 @@ const ChatComponent = ({ hubConnection, isMember }) => {
   };
 
   const changeLobby = (newLobby) => {
+    // Change the lobby and handle user actions
     if (hubConnection && hubConnection.state === signalR.HubConnectionState.Connected) {
       if (lobby) {
         hubConnection
@@ -92,6 +98,7 @@ const ChatComponent = ({ hubConnection, isMember }) => {
   };
 
   const handleUsernameChange = (e) => {
+    // Handle username change and save it in sessionStorage
     const newUsername = e.target.value;
     setUsername(newUsername);
     sessionStorage.setItem("username", newUsername);
@@ -132,7 +139,6 @@ const ChatComponent = ({ hubConnection, isMember }) => {
           </div></div>
       )
       }
-
 
       {/* menu popping up after clicking chat */}
       {

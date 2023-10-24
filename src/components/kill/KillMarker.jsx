@@ -5,6 +5,8 @@ import { getKill } from "../../services/killService";
 import gravestoneIcon from "../../assets/icons/gravestone1.png";
 import { getPlayer } from "../../services/playerService";
 
+// KillMarker component displays a gravestone marker on the map
+// It fetches kill data and displays additional information when clicked
 const KillMarker = ({ killId }) => {
   const [killData, setKillData] = useState(null);
   const [isPopOverVisible, setIsPopOverVisible] = useState(false);
@@ -13,6 +15,7 @@ const KillMarker = ({ killId }) => {
   const [playerName, setPlayerName] = useState(null);
 
   useEffect(() => {
+    // Fetch data for the given kill when the component mounts
     async function fetchData() {
       try {
         const kill = await getKill(killId);
@@ -30,7 +33,6 @@ const KillMarker = ({ killId }) => {
 
         kill.location = location;
         setKillData(kill);
-        //console.log("KillData: ", player);
       } catch (error) {
         console.error("Failed to fetch mission or location:", error);
       }
@@ -62,8 +64,8 @@ const KillMarker = ({ killId }) => {
             <div
               className="w-100 text-black absolute whitespace-normal bg-white  border-gray-200  dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 break-words rounded-lg border font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
               style={{
-                left: `${x}px`, // Adjust the popover position if needed
-                top: `${y + 30}px`, // Adjust the popover position if needed
+                left: `${x}px`, 
+                top: `${y + 30}px`, 
               }}
             >
               <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">

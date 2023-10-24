@@ -1,11 +1,12 @@
-//Squadservice.js: 
 import { fetchSquads, createSquad, getSquadById, getPlayerById, addPlayerToSquad, removePlayerFromSquad } from "./api";
 import axios from "axios";
 
+// Create an axios instance
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 
+// Function to fetch all squads
 export const getSquads = async () => {
     try {
         const squadsData = await fetchSquads();
@@ -15,6 +16,8 @@ export const getSquads = async () => {
     }
 }
 
+
+// Function to fetch squads by a specific game ID
 export const fetchSquadsByGameId = async (gameId) => {
     try {
       const response = await api.get(`/squad/filterbygameid/${gameId}`);
@@ -24,9 +27,10 @@ export const fetchSquadsByGameId = async (gameId) => {
     }
   };
 
-  export const addGameIdToSquad = async (squadId, gameId) => {
-      try {
-        console.log(squadId, gameId);
+// Function to add a game ID to a squad
+export const addGameIdToSquad = async (squadId, gameId) => {
+    try {
+      console.log(squadId, gameId);
       const response = await api.put(
         `/squad/${squadId}/add-game/${gameId}`
       );
@@ -39,7 +43,7 @@ export const fetchSquadsByGameId = async (gameId) => {
     }
   };
 
-
+// Function to create a new squad
 export const createNewSquad = async (squadName) => {
     try {
         const newSquad = await createSquad(squadName);
@@ -49,6 +53,7 @@ export const createNewSquad = async (squadName) => {
     }
 }
 
+// Function to join a squad
 export const joinSquad = async (squadId, playerId) => {
     try {
         const squad = await addPlayerToSquad(squadId, playerId);
@@ -59,6 +64,7 @@ export const joinSquad = async (squadId, playerId) => {
     }
 }
 
+// Function to leave a squad
 export const leaveSquad = async (id, playerId) => {
     try {
         const squad = await removePlayerFromSquad(id, playerId);
@@ -68,6 +74,8 @@ export const leaveSquad = async (id, playerId) => {
         throw error;
     }
 }
+
+// Function to get squad details by squad ID
 export const getSquadDetailsById = async (squadId) => {
     try {
         const squadDetails = await getSquadById(squadId);
@@ -84,6 +92,7 @@ export const getSquadDetailsById = async (squadId) => {
         throw error;
     }
 };
+
 // Function to fetch player details for an array of player IDs
 const fetchPlayerDetails = async (playerIds) => {
     const playerDetailsPromises = playerIds.map(async (playerId) => {
@@ -98,6 +107,7 @@ const fetchPlayerDetails = async (playerIds) => {
     return Promise.all(playerDetailsPromises);
 };
 
+// Export the functions and methods from this service
 export default {
     getSquads,
     createNewSquad,

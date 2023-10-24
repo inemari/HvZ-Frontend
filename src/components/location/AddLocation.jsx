@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 
 const AddLocation = ({ onAddLocation, closeModal }) => {
+  // Initialize the location entity with empty coordinates
   const locationEntity = {
     xCoordinate: "",
     yCoordinate: "",
   };
+   // State to hold the location form data
   const [locationFormData, setLocationFormData] = useState(locationEntity);
-
+  
+   // Handle input changes for X and Y coordinates
   const handleInputChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+    // Update the form data with the new input values
     setLocationFormData((prevData) => ({
       ...prevData,
       [name]: value,
