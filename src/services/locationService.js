@@ -16,6 +16,7 @@ export const postLocation = async (locationData) => {
   try {
     const response = await api.post("/Location", locationData);
     return response.data;
+    
   } catch (error) {
     if (error.response) {
       console.error("Failed to post Location:", error.response.data);

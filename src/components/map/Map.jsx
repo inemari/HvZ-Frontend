@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import map from "../../assets/images/Map1.png";
 import MissionList from "../missions/MissionList";
-import GravestoneMarker from "../gravestones/GravestoneMarker";
 import SquadListMarkers from "../squad/SquadListMarkers";
+import KillList from "../kill/KillList";
 
 const Map = ({ locationHubConnection }) => {
   const [rerenderMap, setRerenderMap] = useState(0);
@@ -28,7 +28,7 @@ const Map = ({ locationHubConnection }) => {
   return (
     <div className="rounded-lg bg-cover object-cover bg-clip-content relative w-full aspect-video" style={{ backgroundImage: `url(${map})` }}>
       <MissionList />
-      <GravestoneMarker />
+       <KillList />
       <SquadListMarkers
         key={rerenderMap}
         locationHubConnection={locationHubConnection}
