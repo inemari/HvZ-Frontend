@@ -59,5 +59,18 @@ export const saveUsername = async (username, gameId) => {
       throw new Error(`Error: ${error.message}`);
   }
 };  
+
+export const updatePlayerLocation = async (id, x, y) => {
+  try {
+    const response = await api.put(`/player/leaveMarker/${id}`, {
+      XCoordinate: x,
+      YCoordinate: y,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error leaving marker:", error);
+    throw error;
+  }
+};
   
 export default playerService;

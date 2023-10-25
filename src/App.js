@@ -151,11 +151,10 @@ const App = () => {
             />
           </Routes>
         </div>
-        {keycloak.authenticated && sessionStorage.getItem("joinedGame") && (
-          <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
-            <ChatComponent hubConnection={hubConnection} />
-          </div>
-        )}
+
+        <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
+          <ChatComponent hubConnection={hubConnection} />
+        </div>
       </LocationProvider>
     </BrowserRouter>
   );

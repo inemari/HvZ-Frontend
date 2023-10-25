@@ -3,6 +3,7 @@ import useGames from "../../services/useGames";
 import GameCard from "./GameCard";
 import NewGameBtn from "../admin/newGameBtn";
 import keycloak from "../../Keycloak";
+
 const Games = ({ activeTab }) => {
   const { games, handleGameClick } = useGames(activeTab);
 
@@ -19,8 +20,7 @@ const Games = ({ activeTab }) => {
       </div>
 
       {keycloak.authenticated && keycloak.hasRealmRole("admin") && (
-        <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 ">
-          {" "}
+        <div className="m-5 space-y-5 break-words absolute bottom-20 right-0 ">
           <NewGameBtn />
         </div>
       )}

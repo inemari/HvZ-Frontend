@@ -5,12 +5,11 @@ import {
   leaveSquad,
 } from "../../services/squadService";
 import ModalContainer from "../common/ModalContainer";
-import { updatePlayerLocation } from "../../services/locationService";
 import InputField from "../common/InputField";
 import Container from "../common/Container";
 import CustomButton from "../common/CustomButton";
-import ChatComponent from "../../components/chat/Chat";
 import * as signalR from "@microsoft/signalr";
+import { updatePlayerLocation } from "../../api/services/playerService";
 
 const SquadInformation = ({
   squadId,
@@ -108,8 +107,10 @@ const SquadInformation = ({
           <ul>
             {squadDetails.playerIds.map((member) => (
               <li key={member.username}>
+                <br/>
                 <p>Username: {member.username}</p>
                 <p>State: {member.zombie ? "Zombie" : "Human"}</p>
+                
               </li>
             ))}
           </ul>

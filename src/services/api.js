@@ -1,4 +1,4 @@
-//api.js
+
 import axios from 'axios';
 import keycloak from '../Keycloak';
 
@@ -159,4 +159,5 @@ export const createUser = async () => {
 
 
 
-export default api;
+export default api; 
+ 
