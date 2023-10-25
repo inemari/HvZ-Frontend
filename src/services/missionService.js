@@ -46,16 +46,16 @@ export const getGameMissions = async (missionIds) => {
   }
 };
 
-export const useFetchGameMissions = (ruleIds) => {
+export const useFetchGameMissions = (missionIds) => {
   const [gameMissions, setGameMissions] = useState([]);
 
   useEffect(() => {
     const fetchMissions = async () => {
       try {
-        const missions = await getGameMissions(ruleIds);
+        const missions = await getGameMissions(missionIds);
         setGameMissions(missions);
       } catch (error) {
-        console.error("Error fetching rules", error);
+        console.error("Error fetching missions", error);
       }
     };
     fetchMissions();

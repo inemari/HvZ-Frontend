@@ -1,4 +1,4 @@
-/* // ruleService.js
+// ruleService.js
 
 import { useState, useEffect } from "react";
 import api from "./api"; // Assuming you have an api.js file defining the axios instance
@@ -18,7 +18,7 @@ export const useFetchGameRules = (ruleIds) => {
   useEffect(() => {
     const fetchRules = async () => {
       try {
-        const rules = await fetchGameRulesByIds(ruleIds);
+        const rules = await getGameRules(ruleIds);
         setGameRules(rules);
       } catch (error) {
         console.error("Error fetching rules", error);
@@ -30,19 +30,15 @@ export const useFetchGameRules = (ruleIds) => {
   return gameRules;
 };
 
-export const fetchGameRulesByIds = async (ruleIds) => {
+export const getGameRules = async (ruleIds) => {
   try {
     const rules = [];
-
     for (const ruleId of ruleIds) {
-      const response = await api.get(`/rules/${ruleId}`);
+      const response = await api.get(`/Rules/${ruleId}`);
       rules.push(response.data);
     }
-
     return rules;
   } catch (error) {
-    console.error("Error fetching rules", error);
-    throw error;
+    throw new Error("Failed to get rules.");
   }
 };
- */

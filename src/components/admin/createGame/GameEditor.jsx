@@ -34,13 +34,15 @@ const GameEditor = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState(''); // State to store the image URL
+  const fetchedGameMissions = useFetchGameMissions(selectedGame?.missionIds) || [];
+  const fetchedGameRules = useFetchGameRules(selectedGame?.ruleIds) || [];
 
   const gameEntity = {
     title: editMode ? selectedGame.title : "",
     description: editMode ? selectedGame.description : "",
-    imgUrl: editMode ? selectedGame.pictureURL : noImage,
-    gameRules: useFetchGameRules(selectedGame?.ruleIds || []),
-    gameMissions: useFetchGameMissions(selectedGame?.missionIds || [])
+    imgUrl: editMode ? selectedGame.pictureURL : imageUrl,
+    gameRules: editMode ? fetchedGameRules : [],
+    gameMissions: editMode ? fetchedGameMissions : [],
   };
 
   const [gameFormData, setGameFormData] = useState(gameEntity);
@@ -49,6 +51,7 @@ const GameEditor = () => {
   const handleImageUrlChange = (e) => {
     // Update the imageUrl state when the input value changes
     setImageUrl(e.target.value);
+
   };
 
 
@@ -132,7 +135,7 @@ const GameEditor = () => {
       <form onSubmit={handleSubmit} className="justify-center flex-wrap w-full flex ">
 
         <div className="lg:grid md:grid-cols-7 pt-3  gap-3 w-full relative ">
-          <img src={imageUrl} id="imageUrl" alt="Game" className="aspect-square col-span-2 justify-center p-3" />
+          <img src={imageUrl || gameEntity.imgUrl || noImage} id="imageUrl" alt="Game" className="aspect-square col-span-2 justify-center p-3" />
           <div className="grid lg:col-span-5 lg:gap-3">
             {/* Title and description section */}
             <GameInfoInput
@@ -154,7 +157,7 @@ const GameEditor = () => {
               value={imageUrl}
               onChange={handleImageUrlChange}
               TooltipContent={"Insert a URL for the image you would like to represent the game."}
-              defaultContent={gameEntity.imgUrl}
+              defaultContent={gameEntity.imgUrl === noImage && editMode ? gameEntity.imgUrl : imageUrl}
               required
             />
 
@@ -173,7 +176,7 @@ const GameEditor = () => {
                 <AddNew action={openRuleModal} label="Add Rule" />
               </div>
 
-              <div className="flex flex-col">
+              <div className="flex flex-col"><div>
                 <h2 className="text-lg font-bold pb-2">MISSIONS</h2>
 
 
@@ -183,7 +186,7 @@ const GameEditor = () => {
                     <li>{mission.description}</li>
                   </ul>
                 ))}
-
+              </div>
                 <ListObjects list={gameEntity.gameMissions} />
                 <AddNew action={openMissionModal} label="Add Mission" />
               </div>
