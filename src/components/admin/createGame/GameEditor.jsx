@@ -17,6 +17,7 @@ import ModalContainer from "../../common/ModalContainer";
 import { fetchGameRulesByIds, useFetchGameRules } from "../../../services/ruleService";
 import ListObjects from "./ListObjects";
 import { fetchMissionsForGame } from "../../../services/mapService";
+import { getGameMissions, useFetchGameMissions } from "../../../services/missionService";
 
 const GameEditor = () => {
   const location = useLocation().pathname;
@@ -39,7 +40,7 @@ const GameEditor = () => {
     description: editMode ? selectedGame.description : "",
     imgUrl: editMode ? selectedGame.pictureURL : noImage,
     gameRules: useFetchGameRules(selectedGame?.ruleIds || []),
-    gameMissions: fetchMissionsForGame(selectedGame?.missionIds || [])
+    gameMissions: useFetchGameMissions(selectedGame?.missionIds || [])
   };
 
   const [gameFormData, setGameFormData] = useState(gameEntity);
@@ -182,7 +183,8 @@ const GameEditor = () => {
                     <li>{mission.description}</li>
                   </ul>
                 ))}
-                {/* <ListObjects list={gameEntity.gameMissions} /> */}
+
+                <ListObjects list={gameEntity.gameMissions} />
                 <AddNew action={openMissionModal} label="Add Mission" />
               </div>
             </div>
