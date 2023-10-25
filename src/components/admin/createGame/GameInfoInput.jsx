@@ -27,9 +27,7 @@ const GameInfoInput = ({ gameFormData, handleInputChange, defaultDescription, de
         TooltipContent="Enter a detailed description of the game, to let players know what to expect and why this game is exciting and unique."
         defaultContent={defaultDescription}
       />
-
     </div>
   );
 };
-
 export default GameInfoInput;

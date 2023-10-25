@@ -9,10 +9,10 @@ import clearSessionStorageData from "../helpers/SessionStorageUtils";
 import Container from "../components/common/Container";
 import Map from "../components/map/Map";
 import arrow from "../assets//ui/arrow.png";
-import { useFetchGameRules } from "../api/services/ruleService";
 import editIcon from "../assets/ui/edit.png";
 import { useNavigate } from "react-router-dom";
-import { useFetchGameMissions } from "../services/missionService";
+import { useFetchGameMissions } from "../api/services/missionService";
+import { useFetchGameRules } from "../api/services/ruleService";
 import ListObjects from "../components/admin/createGame/ListObjects";
 import ModalContainer from "../components/common/ModalContainer";
 

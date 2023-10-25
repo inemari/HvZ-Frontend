@@ -14,6 +14,7 @@ const MissionList = () => {
   useEffect(() => {
     async function fetchMissionData() {
       try {
+        console.log("idsids", missionIds);
         const missionData = await fetchMissionsForGame(missionIds);
         setMissionData(missionData);
         console.log("Missiondata", missionData);

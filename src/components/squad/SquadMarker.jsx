@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { getPlayerById } from "../../services/api";
-import { getLocation } from "../../services/locationService";
 import locationService from "../../api/services/locationService";
 import playerService from "../../api/services/playerService";
 
@@ -26,7 +24,7 @@ const SquadMarker = ({ playerId }) => {
 
         player.location = location;
         setPlayerData(player);
-        console.log("player: ", player)
+        console.log("player: ", player);
       } catch (error) {
         console.error("Failed to fetch player or location:", error);
       }
@@ -67,16 +65,14 @@ const SquadMarker = ({ playerId }) => {
                   {playerData.username}
                 </h3>
               </div>
-{/*               <div className="px-3 py-2">
+              {/*               <div className="px-3 py-2">
                 <p>{playerData.biteCode}</p>
               </div> */}
               <div className="px-3 py-2">
-              <p>{`x: ${playerData.location.xCoordinate}`}</p>
-
+                <p>{`x: ${playerData.location.xCoordinate}`}</p>
               </div>
               <div className="px-3 py-2">
-              <p>{`y: ${playerData.location.yCoordinate}`}</p>
-
+                <p>{`y: ${playerData.location.yCoordinate}`}</p>
               </div>
             </div>
           )}

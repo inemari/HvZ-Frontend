@@ -1,4 +1,4 @@
-//Squadservice.js: 
+
 import { fetchSquads, createSquad, getSquadById, getPlayerById, addPlayerToSquad, removePlayerFromSquad } from "./api";
 import axios from "axios";
 
@@ -104,4 +104,4 @@ export default {
     getSquadDetailsById,
     joinSquad,
     leaveSquad,
-}; 
+};  

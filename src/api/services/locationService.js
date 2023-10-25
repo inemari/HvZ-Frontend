@@ -3,5 +3,7 @@ import api from "../axios";
 
 const locationService = createCrudService("Location");
 
+
+  
   
 export default locationService;
