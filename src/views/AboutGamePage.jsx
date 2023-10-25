@@ -12,6 +12,8 @@ import arrow from '../assets//ui/arrow.png';
 import { useFetchGameRules } from '../services/ruleService';
 import editIcon from "../assets/ui/edit.png"
 import { useNavigate } from 'react-router-dom';
+import { useFetchGameMissions } from '../services/missionService';
+import ListObjects from '../components/admin/createGame/ListObjects';
 
 function AboutGame() {
     const { keycloak } = useKeycloak();
@@ -19,6 +21,7 @@ function AboutGame() {
     const [showModal, setShowModal] = useState(false);
     const gameRules = useFetchGameRules(selectedGame?.ruleIds || []); // Using the custom hook
     const navigate = useNavigate();
+    const gameMissions = useFetchGameMissions(selectedGame?.missionIds || [])
 
     const handleButtonClick = () => {
         setShowModal(true);
@@ -54,22 +57,12 @@ function AboutGame() {
                                     <h2 className="text-lg font-bold ">ABOUT GAME</h2>
                                     <p className="text-base ">{selectedGame.description} </p>
                                 </div>
-
-                                {gameRules.map((rule, index) => (
-                                    <div className='pb-2' key={index}>
-                                        <h2 className="text-lg font-bold">RULES</h2>
-                                        <ul className="list-disc list-inside pl-4  rounded-lg">
-
-                                            <p><b>{rule.title}</b></p>
-                                            <li>
-                                                {rule.description}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                ))}
-
-
-
+                                <div className='grid grid-cols-2 gap-2' >
+                                    <h2 className="text-lg font-bold">RULES</h2>
+                                    <h2 className="text-lg font-bold">MISSIONS</h2>
+                                    <ListObjects list={gameRules} />
+                                    <ListObjects list={gameMissions} />
+                                </div>
                             </div>
 
 
@@ -90,6 +83,7 @@ function AboutGame() {
 
             </Container><div className="z-20 bottom-0 right-0 absolute p-12 pb-24 py-2 ">
                 <CustomBtn label={"Edit game"} icon={editIcon} iconPosition={'after'} onClick={() => navigate('/EditGame')} />
+
                 {keycloak.authenticated && (
                     <CustomBtn onClick={handleButtonClick} label="Join Game" className="static" icon={arrow} rounded={"3xl"} iconPosition={'after'} />
                 )}

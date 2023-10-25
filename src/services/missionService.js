@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -30,4 +31,35 @@ export const addLocationToMission = async (missionId, locationId) => {
     }
     throw new Error("Failed to add location to mission");
   }
+};
+
+export const getGameMissions = async (missionIds) => {
+  try {
+    const missions = [];
+    for (const missionId of missionIds) {
+      const response = await api.get(`/Mission/${missionId}`);
+      missions.push(response.data);
+    }
+    return missions;
+  } catch (error) {
+    throw new Error("Failed to get missions.");
+  }
+};
+
+export const useFetchGameMissions = (ruleIds) => {
+  const [gameMissions, setGameMissions] = useState([]);
+
+  useEffect(() => {
+    const fetchMissions = async () => {
+      try {
+        const missions = await getGameMissions(ruleIds);
+        setGameMissions(missions);
+      } catch (error) {
+        console.error("Error fetching rules", error);
+      }
+    };
+    fetchMissions();
+  }, []);
+
+  return gameMissions;
 };
