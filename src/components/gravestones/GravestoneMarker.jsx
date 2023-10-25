@@ -53,7 +53,7 @@ const GravestoneMarker = () => {
                 <img
                   src={gravestoneIcon}
                   alt="Gravestone"
-                  className="w-8 h-8"
+                  className="w-10 h-10"
                 />
               </div>
             );

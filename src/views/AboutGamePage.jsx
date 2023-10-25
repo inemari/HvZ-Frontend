@@ -59,11 +59,11 @@ function AboutGame() {
                   <h2 className="text-lg font-bold ">ABOUT</h2>
                   <p className="text-base ">{selectedGame.description} </p>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <h2 className="text-lg font-bold">RULES</h2>
-                  <h2 className="text-lg font-bold">MISSIONS</h2>
-                  <ListObjects list={gameRules} />
-                  <ListObjects list={gameMissions} />
+                <div className="grid grid-cols-2 gap-2 ">
+                  <div className="grid col-span-1 mt-0 h-fit">
+                    <h2 className="text-lg font-bold">RULES</h2><ListObjects list={gameRules} /></div>
+                  <div className="grid col-span-1 mt-0 h-fit"><h2 className="text-lg font-bold">MISSIONS</h2><ListObjects list={gameMissions} /></div>
+
                 </div>
               </div>
             </div>
@@ -92,7 +92,7 @@ function AboutGame() {
             onClick={() => navigate("/EditGame")}
           />
         )}
-        {keycloak.authenticated && keycloak.hasRealmRole("user") && (
+        {/* {keycloak.authenticated && keycloak.hasRealmRole("user") && ( */}
           <CustomBtn
             onClick={handleButtonClick}
             label="Join Game"
@@ -101,7 +101,7 @@ function AboutGame() {
             rounded={"3xl"}
             iconPosition={"after"}
           />
-        )}
+        k
       </div>
     </>
   );

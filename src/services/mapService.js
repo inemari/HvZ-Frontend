@@ -7,7 +7,7 @@ export const fetchMissionsForGame = async (missionIds) => {
     const missionData = [];
     console.log("Fetch missions:", missionIds);
     for (const id of missionIds) {
-      const response = await api  .get(`/Mission/${id}`);
+      const response = await api.get(`/Mission/${id}`);
       const mission = response.data;
       const locationResponse = await api.get(`/Location/${mission.locationId}`);
       const location = locationResponse.data;

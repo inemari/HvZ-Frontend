@@ -167,7 +167,7 @@ const GameEditor = () => {
                 {missionObjects.map((mission) => (
                   <ul className="bg-white bg-opacity-25 justify-center flex-col flex p-3 rounded-lg gap-3 hover:bg-opacity-40 my-3">
                     <p>
-                      <b>{mission.title}</b>
+                      <b>{mission.name}</b>
                     </p>
                     <li>{mission.description}</li>
                   </ul>

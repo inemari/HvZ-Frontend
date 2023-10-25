@@ -104,9 +104,9 @@ const App = () => {
             <Route
               path="/Map"
               element={
-                <KeycloakRoute role="user">
-                  <MapPage locationHubConnection={locationHubConnection} />
-                </KeycloakRoute>
+                // <KeycloakRoute role="user">
+                <MapPage locationHubConnection={locationHubConnection} />
+                /* </KeycloakRoute>*/
               }
             />
             <Route
