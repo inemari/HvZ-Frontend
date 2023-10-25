@@ -1,4 +1,4 @@
-import api from "./api";
+/* import api from "./api";
 
 export const getPlayer = async (playerId) => {
   try {
@@ -43,4 +43,4 @@ export const setZombieToTrue = async (bitecode, gameId) => {
     // Handle other errors, and return an error message
     return "No player has the provided bitecode.";
   }
-};
+}; */

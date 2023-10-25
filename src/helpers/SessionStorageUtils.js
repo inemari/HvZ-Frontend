@@ -2,7 +2,8 @@
 const clearSessionStorageData = () => {
     sessionStorage.removeItem('playerId');
     sessionStorage.removeItem('selectedSquadId');
-    sessionStorage.removeItem('username');
+  sessionStorage.removeItem('username');
+  sessionStorage.removeItem('joinedGame');
   };
   
   export default clearSessionStorageData;

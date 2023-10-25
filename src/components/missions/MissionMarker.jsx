@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getMission } from "../../services/mapService";
-import { getLocation } from "../../services/locationService";
+import missionService from "../../api/services/missionService";
+import locationService from "../../api/services/locationService";
+
 
 const MissionMarker = ({ missionId }) => {
   const [missionData, setMissionData] = useState(null);
@@ -11,8 +12,8 @@ const MissionMarker = ({ missionId }) => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const mission = await getMission(missionId);
-        const location = await getLocation(mission.locationId);
+        const mission = await missionService.getById(missionId);
+        const location = await locationService.getById(mission.locationId);
 
         // Extract x and y coordinates from the location object
         const xCoordinate = location.xCoordinate;

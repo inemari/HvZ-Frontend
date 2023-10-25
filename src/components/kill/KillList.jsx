@@ -1,7 +1,8 @@
 // MissionList.js
 import React, { useEffect, useState } from "react";
 import KillMarker from "./KillMarker";
-import { getKillsInGame } from "../../services/killService";
+import { getKillsInGame } from "../../api/services/killService";
+
 
 const KillList = () => {
   // Log information before rendering
