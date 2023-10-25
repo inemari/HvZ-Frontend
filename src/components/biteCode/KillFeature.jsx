@@ -1,14 +1,10 @@
-
 import React, { useState } from "react";
 import InputField from "../common/InputField";
 import CustomButton from "../common/CustomButton";
 import ModalContainer from "../common/ModalContainer";
-import {
-  getPlayerByBiteCode,
-  setZombieToTrue,
-} from "../../services/playerService";
-import { postKill } from "../../services/killService";
-import { getLocation, postLocation } from "../../services/locationService";
+import locationService from "../../api/services/locationService";
+import playerService, { setZombieToTrue, getPlayerByBiteCode }from "../../api/services/playerService";
+import killService from "../../api/services/killService";
 
 const KillFeature = () => {
   const [bitecode, setBitecode] = useState("");
@@ -50,8 +46,8 @@ const KillFeature = () => {
     const player = await getPlayerByBiteCode(bitecode);
     setPlayer(player);
 
-    const location = await getLocation(player.locationId);
-    const locationResponse = await postLocation({
+    const location = await locationService.getById(player.locationId);
+    const locationResponse = await locationService.add({
       xCoordinate: location.xCoordinate,
       yCoordinate: location.yCoordinate,
     });
@@ -76,7 +72,7 @@ const KillFeature = () => {
         locationId: locationId,
       };
 
-      const killResponse = await postKill(killData);
+      const killResponse = await killService.add(killData);
       setShowModal(false);
       return killResponse;
     } catch (error) {
@@ -84,12 +80,6 @@ const KillFeature = () => {
       throw error;
     }
   }
-
-
-
-
-
-
 
   return (
     <div className="w-full max-w-md p-6 text-center">
@@ -123,7 +113,7 @@ const KillFeature = () => {
               {player.username} got killed at{" "}
               {new Date(killInfo.timeOfKill).toLocaleString()}
             </p>
-            <p className="text-white">Cause: {killInfo.description}</p>
+            <p className="text-white">Cause of death: {killInfo.description}</p>
           </div>
         ) : null}
       </div>

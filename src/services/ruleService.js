@@ -1,4 +1,4 @@
-// ruleService.js
+/* // ruleService.js
 
 import { useState, useEffect } from "react";
 import api from "./api"; // Assuming you have an api.js file defining the axios instance
@@ -45,3 +45,4 @@ export const fetchGameRulesByIds = async (ruleIds) => {
     throw error;
   }
 };
+ */

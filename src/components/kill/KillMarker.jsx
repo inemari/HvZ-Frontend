@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getMission } from "../../services/mapService";
-import { getLocation } from "../../services/locationService";
-import { getKill } from "../../services/killService";
 import gravestoneIcon from "../../assets/icons/gravestone1.png";
-import { getPlayer } from "../../services/playerService";
+import locationService from "../../api/services/locationService";
+import playerService from "../../api/services/playerService";
+import killService from "../../api/services/killService";
+
 
 const KillMarker = ({ killId }) => {
   const [killData, setKillData] = useState(null);
@@ -15,9 +15,9 @@ const KillMarker = ({ killId }) => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const kill = await getKill(killId);
-        const location = await getLocation(kill.locationId);
-        const player = await getPlayer(kill.playerId);
+        const kill = await killService.getById(killId);
+        const location = await locationService.getById(kill.locationId);
+        const player = await playerService.getById(kill.playerId);
         setPlayerName(player.username)
 
         // Extract x and y coordinates from the location object

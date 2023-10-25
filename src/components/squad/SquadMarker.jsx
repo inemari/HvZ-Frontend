@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getPlayerById } from "../../services/api";
 import { getLocation } from "../../services/locationService";
+import locationService from "../../api/services/locationService";
+import playerService from "../../api/services/playerService";
 
 const SquadMarker = ({ playerId }) => {
   const [playerData, setPlayerData] = useState(null);
@@ -11,8 +13,8 @@ const SquadMarker = ({ playerId }) => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const player = await getPlayerById(playerId);
-        const location = await getLocation(player.locationId);
+        const player = await playerService.getById(playerId);
+        const location = await locationService.getById(player.locationId);
 
         // Extract x and y coordinates from the location object
         const xCoordinate = location.xCoordinate;

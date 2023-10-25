@@ -39,7 +39,7 @@ export const postGame = async (gameData) => {
 
 export const updatePlayerLocation = async (id, x, y) => {
   try {
-    const response = await api.put(`/players/leaveMarker/${id}`, {
+    const response = await api.put(`/Player/leaveMarker/${id}`, {
       XCoordinate: x,
       YCoordinate: y,
     });

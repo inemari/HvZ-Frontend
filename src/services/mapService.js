@@ -3,6 +3,8 @@ import api from "./api";
 import { getKills } from "./killService";
 import { getPlayer } from "./playerService";
 import { getLocation } from "./locationService";
+import playerService from "../api/services/playerService";
+import locationService from "../api/services/locationService";
 
 export const getMission = async (id) => {
   try {
@@ -44,9 +46,9 @@ export const fetchPlayerLocationsForGame = async (playerIds) => {
 
     console.log("playerids ", playerIds);
     for (const id of playerIds) {
-      const player = await getPlayer(id);
+      const player = await playerService.getById(id);
       if (player.squadId == joinedSquadId) {
-        const location = await getLocation(player.locationId);
+        const location = await locationService.getById(player.locationId);
         console.log("Player location", location);
         player.location = location;
         playerData.push(player);

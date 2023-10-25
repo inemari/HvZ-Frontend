@@ -1,3 +1,4 @@
+/* 
 //gameService.js
 import { fetchGames, fetchGamesByState } from "./api";
 import axios from "axios";
@@ -101,4 +102,4 @@ export const getGame = async (gameId) => {
     }
     throw error;
   }
-};
+}; */
