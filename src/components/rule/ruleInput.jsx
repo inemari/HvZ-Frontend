@@ -23,8 +23,9 @@ const RuleInput = ({ onAddRule, closeModal }) => {
     onAddRule(ruleData);
 
     // Close the modal and reset the form
-    closeModal();
+  
     setRuleFormData(ruleEntity); // Reset to initial state
+    closeModal();
   };
 
   return (
@@ -35,7 +36,7 @@ const RuleInput = ({ onAddRule, closeModal }) => {
         textComponent="input"
         type="text"
         fieldname="title"
-        field={ruleFormData.title}
+        value={ruleFormData.title}
         onChange={handleInputChange}
         id="title"
         TooltipContent={"The title or name of this rule."}
@@ -46,7 +47,7 @@ const RuleInput = ({ onAddRule, closeModal }) => {
         textComponent="textarea"
         type="text"
         fieldname="description"
-        field={ruleFormData.description}
+        value={ruleFormData.description}
         onChange={handleInputChange}
         id="description"
         TooltipContent="Enter a clear and concise description of the rule. This will help users understand the rule's purpose and how to adhere to it. Make sure to provide all necessary details."
