@@ -17,7 +17,7 @@ import ListObjects from "./ListObjects";
 import { useFetchGameRules } from "../../../api/services/ruleService";
 import { useFetchGameMissions } from "../../../api/services/missionService";
 
-const GameEditor = () => {
+const GameEditor = (gameinput) => {
   const location = useLocation().pathname;
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const editMode = location === "/EditGame";
@@ -134,7 +134,7 @@ const GameEditor = () => {
               label="Image URL"
               textComponent="input"
               type="url"
-              fieldName="imgUrl" // Use the correct field name here
+              fieldname="imgUrl"
               value={imageUrl}
               onChange={handleImageUrlChange}
               TooltipContent={

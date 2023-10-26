@@ -1,7 +1,8 @@
-import gameService, {  addMissionToGame, addRuleToGame } from "../api/services/gameService";
-import missionService, {  addLocationToMission } from "../api/services/missionService";
+import gameService, { addMissionToGame, addRuleToGame } from "../api/services/gameService";
+import missionService, { addLocationToMission } from "../api/services/missionService";
 import ruleService from "../api/services/ruleService";
 import locationService from "../api/services/locationService";
+import { useNavigate } from "react-router-dom";
 
 export const createGame = async (gameData, missions, rules, locations) => {
   try {
@@ -83,4 +84,10 @@ export const createGame = async (gameData, missions, rules, locations) => {
     console.error("Failed to create the game:", error);
     return null;
   }
+};
+
+export const setEditGame = (game, navigate) => {
+  // Save game information to localStorage when a game is clicked
+  localStorage.setItem('selectedGame', JSON.stringify(game));
+  navigate('/EditGame');
 };

@@ -17,6 +17,7 @@ import { LocationProvider } from "./LocationContext";
 import CreateGame from "./views/admin/CreateGame";
 import EditGame from "./views/admin/EditGame";
 import KeycloakRoute from "./routes/KeyCloakRoute";
+import DashBoard from "./views/admin/DashBoard";
 
 const App = () => {
   const { keycloak, initialized } = useKeycloak(); // Use the hook to get keycloak instance
@@ -96,7 +97,7 @@ const App = () => {
           <div className="background-image absolute top-0 left-0 "></div>
           <NavBar />
         </div>
-        <div className="m-5 space-y-5 break-words">
+        <div className="m-5 space-y-5 break-words static">
           <Routes>
             <Route path="/LandingPage" element={<LandingPage />} />
             <Route path="/" element={<LandingPage />} />
@@ -149,11 +150,19 @@ const App = () => {
                 </KeycloakRoute>
               }
             />
+            <Route
+              path="/Dashboard"
+              element={
+                // <KeycloakRoute role="admin">
+                <DashBoard />
+                // </KeycloakRoute>
+              }
+            />
           </Routes>
         </div>
 
         <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
-          <ChatComponent hubConnection={hubConnection} />
+          {/* <ChatComponent hubConnection={hubConnection} /> */}
         </div>
       </LocationProvider>
     </BrowserRouter>

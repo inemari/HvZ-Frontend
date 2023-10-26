@@ -1,15 +1,15 @@
 import React from 'react';
 import GameIMG from './GameIMG';
 
-const GameCard = ({ game, onClick }) => {
+const GameCard = ({ game, onClick, newBackground }) => {
     const { title, gameStateString, description } = game;
 
     return (
         <div
-            className="grid md:grid-cols-4 grid-cols-1 bg-customLightBrown bg-opacity-70 shadow-md rounded-xl cursor-pointer w-full p-3 space-x-3"
+            className={`grid md:grid-cols-4 grid-cols-1 rounded-xl cursor-pointer w-full p-3 space-x-3  shadow-xs  ${newBackground ? newBackground : 'bg-customLightBrown shadow-black bg-opacity-70 hover:bg-opacity-90'}`}
             onClick={onClick}
         >
-            <div className="md:col-span-1">
+            <div className="md:col-span-1 aspect-square">
                 <GameIMG game={game} />
             </div>
 
