@@ -32,7 +32,7 @@ const GameEditor = (gameinput) => {
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState(""); // State to store the image URL
   const fetchedGameMissions = useFetchGameMissions(selectedGame?.missionIds);
-  const fetchedGameRules = useFetchGameRules(selectedGame?.ruleIds || []);
+  const fetchedGameRules = useFetchGameRules(selectedGame?.ruleIds);
   const gameEntity = {
     title: editMode ? selectedGame.title : "",
     description: editMode ? selectedGame.description : "",
@@ -73,6 +73,7 @@ const GameEditor = (gameinput) => {
       ...prevGameData,
       [name]: value,
     })); console.log("HandleInputChange function.");
+    console.log(name, value);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -190,14 +191,7 @@ const GameEditor = (gameinput) => {
             handleInputChange={handleInputChange}
           />
         </div>
-        <div className="z-20 bottom-24 right-12 absolute ">
-          <button
 
-            type={"submit"}
-            className=" w-full static text-3xl "
-            rounded={"3xl"}
-          >Submit</button>
-        </div>
 
         {/* add Mission modal */}
         <MissionContainer
@@ -207,7 +201,7 @@ const GameEditor = (gameinput) => {
                 <MissionInput
                   gameId={gameId}
                   onAddMission={handleAddMission}
-                  onAddLocation={handleAddMarker}
+                  onAddLocation={handleAddMission}
                   closeModal={closeModal}
                   showModal={isMissionModalOpen}
                 />
@@ -224,15 +218,24 @@ const GameEditor = (gameinput) => {
         <RuleContainer
           children={
             <RuleInput
-              gameId={gameId}
+              // gameId={gameId}
               onAddRule={handleAddRule}
               closeModal={closeModal}
               showModal={isRuleModalOpen}
+
             />
           }
           showModal={isRuleModalOpen}
           handleCloseModal={closeModal}
-        /> </form>
+        />    <div className="z-20 bottom-24 right-12 absolute ">
+          <button
+            type={"submit"}
+            className=" w-full static text-3xl "
+            name="submit"
+          // rounded={"3xl"}
+          >Submit</button>
+        </div>
+      </form>
     </>
   );
 };

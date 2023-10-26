@@ -34,10 +34,10 @@ const RuleInput = ({ onAddRule, closeModal }) => {
         label="Rule title"
         textComponent="input"
         type="text"
-        fieldname="title"
-        field={ruleFormData.title}
+        fieldname="ruletitle"
+        value={ruleFormData.title}
         onChange={handleInputChange}
-        id="title"
+        id={ruleFormData.id}
         TooltipContent={"The title or name of this rule."}
         required />
 
@@ -45,7 +45,7 @@ const RuleInput = ({ onAddRule, closeModal }) => {
         label="Rule description"
         textComponent="textarea"
         type="text"
-        fieldname="description"
+        fieldname="ruledescription"
         field={ruleFormData.description}
         onChange={handleInputChange}
         id="description"

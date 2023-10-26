@@ -17,15 +17,15 @@ const AddLocation = ({ onAddLocation, closeModal }) => {
   };
 
   // Handler for adding a marker
-  const handleAddLocation = () => {
+  const handleAddLocation = (object) => {
     // Create a location object
     const locationData = { ...locationFormData };
 
     // Notify the parent component that a marker has been added
-    onAddLocation(locationData); // Pass the location data to the parent
+    onAddLocation(object, locationData); // Pass the location data to the parent
 
     // Close the modal after successfully adding the marker
-    closeModal();
+
     setLocationFormData(locationEntity);
   };
 

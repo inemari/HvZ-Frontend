@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AddLocation from "../location/AddLocation";
 import InputAdmin from "../common/CustomInput";
 
-const MissionInput = ({ gameId, onAddMission, closeModal }) => {
+const MissionInput = ({ gameId, onAddLocation, closeModal }) => {
   const missionEntity = {
     name: "",
     description: "",
@@ -15,12 +15,12 @@ const MissionInput = ({ gameId, onAddMission, closeModal }) => {
     setMissionFormData(updatedFormData);
   };
 
-  const handleAddMission = (locationData) => {
+  const handleAddMission = () => {
     // Create a mission object using missionFormData
     const missionObject = { ...missionFormData };
 
     // Pass the mission object and location data to the parent component
-    onAddMission(missionObject, locationData);
+    onAddLocation(missionObject);
 
     // Close the modal and reset the form
     closeModal();
@@ -35,8 +35,8 @@ const MissionInput = ({ gameId, onAddMission, closeModal }) => {
         label="Mission Name"
         textComponent="input"
         type="text"
-        fieldname="name"
-        field={missionFormData.title}
+        fieldname="missionname"
+        value={missionFormData.title}
         onChange={handleInputChange}
         TooltipContent={"Enter the name or title of this mission. Be concise and descriptive."}
         required />
@@ -52,7 +52,7 @@ const MissionInput = ({ gameId, onAddMission, closeModal }) => {
         required />
 
       <AddLocation
-        gameId={gameId}
+        // gameId={gameId}
         onAddLocation={handleAddMission}
         closeModal={closeModal}
       />
