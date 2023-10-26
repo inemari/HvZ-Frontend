@@ -104,15 +104,15 @@ const App = () => {
             <Route
               path="/Map"
               element={
-                // <KeycloakRoute role="user">
-                <MapPage locationHubConnection={locationHubConnection} />
-                /* </KeycloakRoute>*/
+                <KeycloakRoute role="user" requiresGameJoin={true}>
+                  <MapPage locationHubConnection={locationHubConnection} />
+                </KeycloakRoute>
               }
             />
             <Route
               path="/SquadRegistration"
               element={
-                <KeycloakRoute role="user">
+                <KeycloakRoute role="user" requiresGameJoin={true}>
                   <SquadRegistration />
                 </KeycloakRoute>
               }
@@ -120,7 +120,7 @@ const App = () => {
             <Route
               path="/SquadDetails"
               element={
-                <KeycloakRoute role="user">
+                <KeycloakRoute role="user" requiresGameJoin={true}>
                   <SquadDetails locationHubConnection={locationHubConnection} />
                 </KeycloakRoute>
               }
@@ -128,7 +128,7 @@ const App = () => {
             <Route
               path="/BiteCode"
               element={
-                <KeycloakRoute role="user">
+                <KeycloakRoute role="user" requiresGameJoin={true}>
                   <BiteCode />
                 </KeycloakRoute>
               }

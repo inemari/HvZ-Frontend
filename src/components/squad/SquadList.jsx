@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchSquadsByGameId } from "../../services/squadService";
+import { fetchSquadsByGameId } from "../../api/services/squadService";
 import { useNavigate } from "react-router-dom";
 
 const SquadList = ({ squadListUpdated }) => {
