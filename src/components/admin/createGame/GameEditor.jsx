@@ -58,19 +58,21 @@ const GameEditor = (gameinput) => {
   const handleAddMission = (missionData, locationData) => {
     setMissionObjects((prevMissions) => [...prevMissions, missionData]);
     setLocationObjects((prevLocations) => [...prevLocations, locationData]);
+    console.log("HandleAddMission function.");
   };
   const handleAddRule = (ruleData) => {
     setRuleObjects((prevRules) => [...prevRules, ruleData]);
   };
   const handleAddMarker = (locationData) => {
     setLocationObjects((prevLocations) => [...prevLocations, locationData]);
+    console.log("HandleAddMarker function.");
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setGameFormData((prevGameData) => ({
       ...prevGameData,
       [name]: value,
-    }));
+    })); console.log("HandleInputChange function.");
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,6 +83,7 @@ const GameEditor = (gameinput) => {
       ruleObjects,
       locationObjects
     );
+    console.log("HandleSubmit function.");
     if (gameId) {
       setGameCreated(true);
       setGameId(gameId);
@@ -188,48 +191,48 @@ const GameEditor = (gameinput) => {
           />
         </div>
         <div className="z-20 bottom-24 right-12 absolute ">
-          <CustomButton
-            label={"Submit"}
+          <button
+
             type={"submit"}
             className=" w-full static text-3xl "
             rounded={"3xl"}
-          />
+          >Submit</button>
         </div>
-      </form>
-      {/* add Mission modal */}
-      <MissionContainer
-        children={
-          <>
-            <div className="grid lg:grid-cols-3 grid-cols-1 items-center gap-2">
-              <MissionInput
-                gameId={gameId}
-                onAddMission={handleAddMission}
-                onAddLocation={handleAddMarker}
-                closeModal={closeModal}
-                showModal={isMissionModalOpen}
-              />
-              <div className="grid col-span-full lg:col-span-2 h-full items-center lg:p-5">
-                <Map creating={missionObjects.length > 0} />
+
+        {/* add Mission modal */}
+        <MissionContainer
+          children={
+            <>
+              <div className="grid lg:grid-cols-3 grid-cols-1 items-center gap-2">
+                <MissionInput
+                  gameId={gameId}
+                  onAddMission={handleAddMission}
+                  onAddLocation={handleAddMarker}
+                  closeModal={closeModal}
+                  showModal={isMissionModalOpen}
+                />
+                <div className="grid col-span-full lg:col-span-2 h-full items-center lg:p-5">
+                  <Map creating={missionObjects.length > 0} />
+                </div>
               </div>
-            </div>
-          </>
-        }
-        showModal={isMissionModalOpen}
-        handleCloseModal={closeModal}
-      />
-      {/* add rule modal */}
-      <RuleContainer
-        children={
-          <RuleInput
-            gameId={gameId}
-            onAddRule={handleAddRule}
-            closeModal={closeModal}
-            showModal={isRuleModalOpen}
-          />
-        }
-        showModal={isRuleModalOpen}
-        handleCloseModal={closeModal}
-      />
+            </>
+          }
+          showModal={isMissionModalOpen}
+          handleCloseModal={closeModal}
+        />
+        {/* add rule modal */}
+        <RuleContainer
+          children={
+            <RuleInput
+              gameId={gameId}
+              onAddRule={handleAddRule}
+              closeModal={closeModal}
+              showModal={isRuleModalOpen}
+            />
+          }
+          showModal={isRuleModalOpen}
+          handleCloseModal={closeModal}
+        /> </form>
     </>
   );
 };
