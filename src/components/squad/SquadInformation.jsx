@@ -3,7 +3,7 @@ import {
   getSquadDetailsById,
   joinSquad,
   leaveSquad,
-} from "../../services/squadService";
+} from "../../api/services/squadService";
 import ModalContainer from "../common/ModalContainer";
 import InputField from "../common/InputField";
 import Container from "../common/Container";

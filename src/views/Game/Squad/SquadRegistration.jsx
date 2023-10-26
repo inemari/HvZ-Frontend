@@ -7,7 +7,7 @@ const SquadRegistration = () => {
 
   const handleSquadCreated = () => {
     // This function will be called when a new squad is created.
-    setSquadListUpdated(true);
+    setSquadListUpdated((currentValue) => !currentValue);
   };
 
   return (
