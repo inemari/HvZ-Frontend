@@ -37,73 +37,74 @@ function AboutGame() {
   }, []);
 
   return (
-    <>
-      <Container>
-        <div className="grid grid-cols-2 justify-between top-0">
-          <div className="flex flex-row pb-5 text-white ">
-            <h1 className="text-3xl md:text-4xl font-bold mt-2 pr-3 ">
-              {selectedGame?.title}
-            </h1>
-            <p className="bg-customGreen text-xs mt-0 self-center font-medium px-2.5 py-2 rounded-full w-fit">
-              {selectedGame?.gameStateString}
-            </p>
-          </div>
-          <div className="flex flex-row justify-end w-full h-fit"></div>
+
+    <Container>
+      <div className="flex flex-row  text-white  h-fit justify-center border-b pb-3 mb-3">
+        <h1 className="text-3xl md:text-4xl font-bold mt-2 pr-3 ">
+          {selectedGame?.title}
+        </h1>
+        <p className="bg-customGreen text-xs mt-0 self-center font-medium px-2.5 py-2 rounded-full w-fit">
+          {selectedGame?.gameStateString}
+        </p>
+      </div>
+      <div className="lg:grid md:grid-flow-col gap-3 mx-auto w-full ">
+
+        <div className=" md:pb-0 px-auto   aspect-square">
+          <GameImage game={selectedGame} />
         </div>
 
-        <div className="lg:grid md:grid-cols-5 gap-5 w-full relative ">
-          {selectedGame && (
-            <div className=" rounded lg:col-span-4 ">
-              <div className=" grid grid-flow-rows gap-5">
-                <div className="pb-5">
-                  <h2 className="text-lg font-bold ">ABOUT</h2>
-                  <p className="text-base ">{selectedGame.description} </p>
-                </div>
-                <div className="grid grid-cols-2 gap-2 ">
-                  <div className="grid col-span-1 mt-0 h-fit">
-                    <h2 className="text-lg font-bold">RULES</h2><ListObjects list={gameRules} /></div>
-                  <div className="grid col-span-1 mt-0 h-fit"><h2 className="text-lg font-bold">MISSIONS</h2><ListObjects list={gameMissions} /></div>
+        {selectedGame && (
+          <div className=" rounded lg:col-span-4 ">
+            <div className=" grid grid-flow-rows gap-5">
+              <div className="pb-5">
+                <h2 className="text-lg font-bold ">ABOUT</h2>
+                <p className="text-base ">{selectedGame.description} </p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 ">
+                <div className="grid col-span-1 mt-0 h-fit">
+                  <h2 className="text-lg font-bold">RULES</h2><ListObjects list={gameRules} /></div>
+                <div className="grid col-span-1 mt-0 h-fit"><h2 className="text-lg font-bold">MISSIONS</h2><ListObjects list={gameMissions} /></div>
 
-                </div>
               </div>
             </div>
-          )}{" "}
-          <div className="lg:col-span-1 md:pb-0 pb-3 mx-auto max-w-sm">
-            <GameImage game={selectedGame} />
           </div>
-        </div>
-        <div className="w-full h-44">
-          <h2 className="text-lg font-bold pb-3">MAP</h2>
-          <Map className="aspect-video" />
-        </div>
+        )}{" "}
 
-        {showModal && (
-          <ModalContainer showModal={showModal} closeModal={handleCloseModal}>
-            <UserNameModal onClose={handleCloseModal} />
-          </ModalContainer>
-        )}
-      </Container>
-      <div className="z-20  bottom-0 right-0 px-14 absolute  py-2 ">
+      </div>
+      <div className="h-full justify-center flex flex-col mx-auto px-auto pb-20 text-center">
+        <h2 className="text-lg font-bold pb-3">MAP</h2>
+        <Map />
+      </div>
+
+      {showModal && (
+        <ModalContainer showModal={showModal} handleCloseModal={handleCloseModal}>
+          <UserNameModal onClose={handleCloseModal} />
+        </ModalContainer>
+      )}
+
+      <div className="mb-20 mr-8 space-y-5 fixed bottom-0 right-0 flex flex-row">
         {keycloak.authenticated && keycloak.hasRealmRole("admin") && (
           <CustomBtn
             label={"Edit game"}
             icon={editIcon}
             iconPosition={"after"}
+            rounded={"3xl"}
             onClick={() => navigate("/EditGame")}
           />
         )}
         {/* {keycloak.authenticated && keycloak.hasRealmRole("user") && ( */}
-          <CustomBtn
-            onClick={handleButtonClick}
-            label="Join Game"
-            className="start-0 mb-0 static text-lg"
-            icon={arrow}
-            rounded={"3xl"}
-            iconPosition={"after"}
-          />
-        k
+        <CustomBtn
+          onClick={handleButtonClick}
+          label="Join Game"
+          className=" "
+          icon={arrow}
+          rounded={"3xl"}
+          iconPosition={"after"}
+        />
+
       </div>
-    </>
+
+    </Container>
   );
 }
 

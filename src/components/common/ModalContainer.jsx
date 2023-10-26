@@ -1,9 +1,9 @@
 import React from 'react';
 
-const ModalContainer = ({ children, showModal, handleCloseModal }) => {
+const ModalContainer = ({ children, showModal, handleCloseModal, newBackground }) => {
 
     return (
-        <div>
+        <div className='justify-center  '>
             {/* Background Overlay */}
             {showModal && (
                 <div
@@ -16,7 +16,7 @@ const ModalContainer = ({ children, showModal, handleCloseModal }) => {
                 className={`fixed top-0 left-0 right-0 mx-auto max-w-6xl w-full z-30 ${showModal ? '' : 'hidden'
                     } w-full h-full flex items-center justify-center`}
             >
-                <div className="relative p-5 rounded-2xl bg-customLightBrown shadow-xl min-w-fit  h-fit container ">
+                <div className={`relative p-5 rounded-2xl shadow-xl min-w-fit h-fit container ${newBackground ? newBackground : 'bg-customLightBrown'}`}>
 
                     {/* Close (X) Button */}
                     <button
