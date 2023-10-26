@@ -25,6 +25,8 @@ const App = () => {
   const [hubConnection, setHubConnection] = useState(null);
   const [triggerBool, setTriggerBool] = useState(false);
 
+console.log(keycloak.token);
+
   useEffect(() => {
     const createLocationHubConnection = async () => {
       if (initialized && keycloak.authenticated) {

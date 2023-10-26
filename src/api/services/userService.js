@@ -17,7 +17,6 @@ export const checkUserExistence = async () => {
     }
 }
 
-
 export const checkIfExists = async () => {
   try {
       const user = await checkUserExistence();
@@ -40,5 +39,6 @@ export const createUser = async () => {
     throw error;
   }
 }
+
 
 export default userService;
