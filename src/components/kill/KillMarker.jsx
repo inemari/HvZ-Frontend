@@ -62,13 +62,13 @@ const KillMarker = ({ killId }) => {
           />
           {isPopOverVisible && killData && (
             <div
-              className="w-96 absolute whitespace-normal bg-white border-gray-200 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 break-words rounded-lg border font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
+              className="w-96 absolute whitespace-normal text-gray-400 border-gray-600 bg-gray-800 break-words rounded-lg border font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
               style={{
                 left: `${x + 60}%`,
                 top: `${y}%`,
               }}
             >
-              <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+              <div className="px-3 py-2  border-b rounded-t-lg border-gray-600 bg-gray-700">
                 <h3 className="font-semibold text-white">
                   {playerName}
                 </h3>

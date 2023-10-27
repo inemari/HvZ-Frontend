@@ -50,7 +50,7 @@ const CustomInput = ({
                 name={fieldname}
                 placeholder={placeholder}
                 id={id}
-                className={`border w-full col-span-full border-gray-300 text-gray-900 text-sm rounded-lg focus:ring--customOrange focus:border-customOrange block p-2.5 bg-customBrown dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-customOrange dark:focus:border-customOrange ${textComponent === 'textarea' ? 'h-44' : ''
+                className={`border w-full col-span-full  text-sm rounded-lg focus:ring--customOrange  block p-2.5 bg-customBrown border-gray-600 placeholder-gray-400 text-white  ${textComponent === 'textarea' ? 'h-44' : ''
                     }${className}`}
                 required
                 value={value}

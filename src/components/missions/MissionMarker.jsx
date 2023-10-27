@@ -48,7 +48,7 @@ const MissionMarker = ({ missionId }) => {
           M{missionId}
           {isPopOverVisible && missionData && (
             <div
-              className="text-black w-64 absolute whitespace-normal bg-white border-gray-200 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 break-words rounded-lg border font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
+              className=" w-64 absolute whitespace-normal  text-gray-400 border-gray-600 bg-gray-800 break-words rounded-lg border font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
               style={{
                 left: `${x + 60}%`,
                 top: `${y}%`,

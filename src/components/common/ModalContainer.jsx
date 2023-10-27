@@ -21,7 +21,7 @@ const ModalContainer = ({ children, showModal, handleCloseModal, newBackground }
                     {/* Close (X) Button */}
                     <button
                         type="button"
-                        className=" absolute top-3 right-2.5 text-gray-400 bg-transparent  hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center  dark:hover:text-white"
+                        className=" absolute top-3 right-2.5 text-gray-400 bg-transparent rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center hover:text-white"
                         data-modal-hide="authentication-modal"
                         onClick={handleCloseModal}
                     >
