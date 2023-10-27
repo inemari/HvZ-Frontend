@@ -1,5 +1,10 @@
-import gameService, { addMissionToGame, addRuleToGame } from "../api/services/gameService";
-import missionService, { addLocationToMission } from "../api/services/missionService";
+import gameService, {
+  addMissionToGame,
+  addRuleToGame,
+} from "../api/services/gameService";
+import missionService, {
+  addLocationToMission,
+} from "../api/services/missionService";
 import ruleService from "../api/services/ruleService";
 import locationService from "../api/services/locationService";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +13,7 @@ export const createGame = async (gameData, missions, rules, locations) => {
   try {
     // Step 1: Create the game
     const gameResponse = await gameService.add(gameData);
-
+    console.log("createdata2", gameData);
     if (gameResponse && gameResponse.id) {
       const gameId = gameResponse.id;
 
@@ -86,8 +91,24 @@ export const createGame = async (gameData, missions, rules, locations) => {
   }
 };
 
+export const editGame = async (gameData, gameId) => {
+  try {
+    const editedGameData = {
+      id: gameId,
+      ...gameData,
+    };
+
+    const gameResponse = await gameService.updateById(gameId, editedGameData);
+
+    return gameId;
+  } catch (error) {
+    console.error("Failed to update the game:", error);
+    return null;
+  }
+};
+
 export const setEditGame = (game, navigate) => {
   // Save game information to localStorage when a game is clicked
-  localStorage.setItem('selectedGame', JSON.stringify(game));
-  navigate('/EditGame');
+  localStorage.setItem("selectedGame", JSON.stringify(game));
+  navigate("/EditGame");
 };

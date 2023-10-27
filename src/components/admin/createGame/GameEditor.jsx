@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddNew from "./AddNew";
 import AddMapModal from "./AddMapModal";
 import MissionInput from "../../missions/MissionInput";
@@ -6,7 +6,7 @@ import MissionContainer from "../../common/ModalContainer";
 import RuleContainer from "../../common/ModalContainer";
 import Map from "../../map/Map";
 import RuleInput from "../../rule/ruleInput";
-import { createGame } from "../../../services/adminService"; // Import the createGame function
+import { createGame, editGame } from "../../../services/adminService"; // Import the createGame function
 import CustomButton from "../../common/CustomButton";
 import noImage from "../../../assets/ui/noImage.png";
 import GameInfoInput from "./GameInfoInput";
@@ -14,8 +14,9 @@ import InputAdmin from "../../common/CustomInput";
 import { useLocation, useNavigate } from "react-router-dom";
 import SuccessMessage from "../../common/feedback/successMessage";
 import ListObjects from "./ListObjects";
-import { useFetchGameRules } from "../../../api/services/ruleService";
-import { useFetchGameMissions } from "../../../api/services/missionService";
+import { fetchGameRulesByIds, useFetchGameRules } from "../../../api/services/ruleService";
+import { getGameMissions, useFetchGameMissions } from "../../../api/services/missionService";
+import { fetchMissionsForGame } from "../../../services/mapService";
 
 const GameEditor = () => {
   const navigate = useNavigate();
@@ -33,15 +34,40 @@ const GameEditor = () => {
   const [pictureURL, setPictureURL] = useState(
     noImage
   ); // State to store the image URL
-  const fetchedGameMissions = useFetchGameMissions(selectedGame?.missionIds);
-  const fetchedGameRules = useFetchGameRules(selectedGame?.ruleIds || []);
+
+
+
+
+  useEffect(() => {
+    if (editMode) {
+      // In edit mode, load existing rules and missions from the selectedGame
+      console.log("in edit mode", selectedGame.rules);
+      setGameFormData({
+        title: selectedGame.title,
+        description: selectedGame.description,
+        pictureURL: selectedGame.pictureURL || noImage,
+        mapURL: selectedGame.mapURL || "",
+      });
+
+      // Use your custom hooks here
+      const loadRulesAndMissions = async () => {
+        const rules = await fetchGameRulesByIds(selectedGame.ruleIds);
+        const missions = await getGameMissions(selectedGame.missionIds);
+        setRuleObjects(rules);
+        setMissionObjects(missions);
+      };
+
+      loadRulesAndMissions();
+    }
+  }, []);
+
   const gameEntity = {
     title: editMode ? selectedGame.title : "",
     description: editMode ? selectedGame.description : "",
     pictureURL: editMode ? selectedGame.pictureURL : "",
-    mapURL: editMode ? selectedGame.mapURL : "",
-    gameRules: editMode ? fetchedGameRules : [],
-    gameMissions: editMode ? fetchedGameMissions : [],
+    mapURL: editMode ? selectedGame.mapURL : ""
+    //gameRules: editMode ? fetchedGameRules : [],
+    //gameMissions: editMode ? fetchedGameMissions : [],
   };
   const [gameFormData, setGameFormData] = useState(gameEntity);
   const handleImageUrlChange = (e) => {
@@ -104,6 +130,34 @@ const GameEditor = () => {
     }
   };
 
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+
+    // Create the game and get the game ID
+    const gameId = await editGame(
+      gameFormData,
+      missionObjects,
+      ruleObjects,
+      locationObjects, parseInt(selectedGame.id)
+    );
+    if (gameId) {
+      setGameCreated(true);
+      setGameId(gameId);
+      // Show the success message
+      setShowSuccessMessage(true);
+      // Update the placeholders and reset the form
+      setGameFormData(gameEntity);
+      setMissionObjects([]);
+      setRuleObjects([]);
+      setLocationObjects([]);
+      // Hide the success message after 3 seconds
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+        navigate("/LandingPage");
+      }, 3000);
+    }
+  };
+
   return (
     <>
       {" "}
@@ -147,7 +201,7 @@ const GameEditor = () => {
                   </div>
                 ))}
 
-                <ListObjects list={gameEntity.gameRules} />
+                {/* <ListObjects list={gameEntity.gameRules} /> */}
                 <AddNew action={openRuleModal} label="Add Rule" />
               </div>
               <div className="flex flex-col">
@@ -162,7 +216,7 @@ const GameEditor = () => {
                     </ul>
                   </div>
                 ))}
-                <ListObjects list={gameEntity.gameMissions} />
+                {/* <ListObjects list={gameEntity.gameMissions} /> */}
                 <AddNew action={openMissionModal} label="Add Mission" />
               </div>
             </div>
@@ -184,7 +238,7 @@ const GameEditor = () => {
             id={"submit-button"}
             className=" w-full static text-3xl "
             rounded={"3xl"}
-            onClick={handleSubmit}
+            onClick={editMode ? handleEditSubmit : handleSubmit}
           />
         </div>
 
