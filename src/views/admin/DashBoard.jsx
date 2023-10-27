@@ -8,7 +8,7 @@ import ChooseGameModal from '../../components/admin/editGame/ChooseGameModal';
 import playerService, { changePlayerState } from "../../api/services/playerService";
 
 
-function Dashboard() {
+function DashBoard() {
     const [isModalVisible, setModalVisible] = useState(false);
     const [confirmationMessage, setConfirmationMessage] = useState('');
     const [error, setError] = useState('');
@@ -97,7 +97,7 @@ function Dashboard() {
                             <option value="true">Zombie</option>
                         </select>
                     </div>
-                    <CustomButton type="submit" label="Update Player State" onClick={handleSubmit} />   
+                    <CustomButton type="submit" label="Update Player State" onClick={handleSubmit} />
                     {error && (
                         <p className="text-red-500">{error}</p>
                     )}
@@ -113,4 +113,4 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;
+export default DashBoard;

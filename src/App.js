@@ -142,7 +142,7 @@ const App = () => {
               }
             />
             <Route
-              path="/Dashboard"
+              path="/DashBoard"
               element={
                 <KeycloakRoute role="admin">
                   <Dashboard />
