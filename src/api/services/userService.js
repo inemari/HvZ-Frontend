@@ -1,8 +1,10 @@
 import createCrudService from "../ICrudService";
 import api from "../axios";
 
+// service for managing user data.
 const userService = createCrudService("AppUser");
 
+// Check if a user exists using an API call.
 export const checkUserExistence = async () => {
     try {
       const response = await api.get('/AppUser/exists');
@@ -17,11 +19,12 @@ export const checkUserExistence = async () => {
     }
 }
 
-
+// Check if a user exists, and create one if not.
 export const checkIfExists = async () => {
   try {
       const user = await checkUserExistence();
       if (user === null) {
+        // If the user doesn't exist, create a new user.
           const user = await createUser();
           return user;
       } else {
@@ -31,7 +34,7 @@ export const checkIfExists = async () => {
       throw error;
   }
 }
-
+// Create a new user using an API call.
 export const createUser = async () => {
   try {
     const response = await api.post('/AppUser/register');

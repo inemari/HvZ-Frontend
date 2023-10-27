@@ -15,6 +15,7 @@ export const getPlayerByBiteCode = async (bitecode) => {
     }
   };
 
+  // Change a player's state using an API call.
 export const changePlayerState = async (id, state) => {
   try {
     const response = await api.put(`/player/${id}/update-state`, state, {
@@ -25,6 +26,7 @@ export const changePlayerState = async (id, state) => {
     return response.data;
   } catch (error)  {
     if (error.response) {
+      // Log error and details if there is a response error.
       console.error("Failed to update player state:", error.response.data);
     }
     throw error;
@@ -52,6 +54,7 @@ export const setZombieToTrue = async (bitecode, gameId) => {
     }
 };
 
+// Save a username and related data using a POST request.
 export const saveUsername = async (username, gameId) => {
   try {
       const data = {
@@ -76,6 +79,7 @@ export const saveUsername = async (username, gameId) => {
   }
 };  
 
+// Update a player's location coordinates using an API call.
 export const updatePlayerLocation = async (id, x, y) => {
   try {
     const response = await api.put(`/player/leaveMarker/${id}`, {
