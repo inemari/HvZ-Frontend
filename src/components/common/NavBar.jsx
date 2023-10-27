@@ -54,15 +54,17 @@ const NavBar = () => {
 
                 <div className={`text-white md:flex md:mr-0 md:ml-auto w-full md:w-auto pb-3 `}>
                     <ul className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 justify-center rounded md:bg-transparent md:p-0 ">
+
+                        <li>
+                            <NavLink
+                                to={"/LandingPage"}
+                                className={`aria-[current=page]:font-bold aria-[current=page]:hover:font-bold hover:font-semibold`}
+                            >
+                                LandingPage
+                            </NavLink>
+                        </li>
                         {!disallowedPaths.includes(location.pathname) && (
-                            <>     <li>
-                                <NavLink
-                                    to={"/LandingPage"}
-                                    className={`aria-[current=page]:font-bold aria-[current=page]:hover:font-bold hover:font-semibold`}
-                                >
-                                    LandingPage
-                                </NavLink>
-                            </li>
+                            <>
                                 <li>
                                     <NavLink
                                         to={'/MapPage'}

@@ -25,7 +25,8 @@ const App = () => {
   const [locationHubConnection, setLocationHubConnection] = useState(null);
   const [hubConnection, setHubConnection] = useState(null);
   const [triggerBool, setTriggerBool] = useState(false);
-
+  // const location = useLocation().pathname;
+  // const disallowedPaths = ['/', '/LandingPage', '/AboutGame', '/EditGame', '/CreateGame', '/Dashboard'];
   useEffect(() => {
     const createLocationHubConnection = async () => {
       if (initialized && keycloak.authenticated) {
@@ -101,6 +102,9 @@ const App = () => {
               element={
                 <KeycloakRoute role="user" requiresGameJoin={true}>
                   <MapPage locationHubConnection={locationHubConnection} />
+                  <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
+                    <ChatComponent hubConnection={hubConnection} />
+                  </div>
                 </KeycloakRoute>
               }
             />
@@ -109,6 +113,9 @@ const App = () => {
               element={
                 <KeycloakRoute role="user" requiresGameJoin={true}>
                   <SquadRegistration />
+                  <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
+                    <ChatComponent hubConnection={hubConnection} />
+                  </div>
                 </KeycloakRoute>
               }
             />
@@ -117,6 +124,9 @@ const App = () => {
               element={
                 <KeycloakRoute role="user" requiresGameJoin={true}>
                   <SquadDetails locationHubConnection={locationHubConnection} />
+                  <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
+                    <ChatComponent hubConnection={hubConnection} />
+                  </div>
                 </KeycloakRoute>
               }
             />
@@ -125,6 +135,9 @@ const App = () => {
               element={
                 <KeycloakRoute role="user" requiresGameJoin={true}>
                   <BiteCode />
+                  <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
+                    <ChatComponent hubConnection={hubConnection} />
+                  </div>
                 </KeycloakRoute>
               }
             />
@@ -133,6 +146,7 @@ const App = () => {
               element={
                 <KeycloakRoute role="admin" >
                   <Dashboard />
+
                 </KeycloakRoute>
               }
             />
@@ -156,9 +170,7 @@ const App = () => {
           </Routes>
         </div>
 
-        <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
-          {/* <ChatComponent hubConnection={hubConnection} /> */}
-        </div>
+
       </LocationProvider>
     </BrowserRouter>
   );
