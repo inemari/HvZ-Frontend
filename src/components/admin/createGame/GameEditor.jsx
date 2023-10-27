@@ -31,14 +31,14 @@ const GameEditor = () => {
   const [gameId, setGameId] = useState(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [pictureURL, setPictureURL] = useState(
-    "https://fastly.picsum.photos/id/1/200/300.jpg?hmac=jH5bDkLr6Tgy3oAg5khKCHeunZMHq0ehBZr6vGifPLY"
+    noImage
   ); // State to store the image URL
   const fetchedGameMissions = useFetchGameMissions(selectedGame?.missionIds);
   const fetchedGameRules = useFetchGameRules(selectedGame?.ruleIds || []);
   const gameEntity = {
     title: editMode ? selectedGame.title : "",
     description: editMode ? selectedGame.description : "",
-    pictureURL: editMode ? selectedGame.pictureURL : pictureURL,
+    pictureURL: editMode ? selectedGame.pictureURL : "",
     mapURL: editMode ? selectedGame.mapURL : "",
     gameRules: editMode ? fetchedGameRules : [],
     gameMissions: editMode ? fetchedGameMissions : [],
@@ -47,6 +47,7 @@ const GameEditor = () => {
   const handleImageUrlChange = (e) => {
     // Update the imageUrl state when the input value changes
     setPictureURL(e.target.value);
+    handleInputChange(e);
   };
   const openMissionModal = () => {
     setIsMissionModalOpen(true);
