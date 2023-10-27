@@ -30,8 +30,10 @@ To set up the HvZ Game Management System Front-End on your local machine, follow
 - You need to make a client for the application in your realm. In the client you can make 'User Realm Role' and 'User Client Role' mappers. Set the token claim names to "roles".
 - In the 'Users' tab in the Admin Console, you can add role mappings to users to assign the roles you've made, for both the Realm itself and the client.
 
-7. Add a `.env` file in the root of the project, and add this line:
+7. Add a `.env` file in the root of the project, and add these lines:
 
+`REACT_APP_LOCATIONHUB_URL = your_location_hub_url` 
+`REACT_APP_CHATHUB_URL = your_chathub_url` 
 `REACT_APP_API_URL= your_api_url` 
 
 ## Usage
