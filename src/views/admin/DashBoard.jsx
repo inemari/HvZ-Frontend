@@ -6,8 +6,11 @@ import editIcon from "../../assets/ui/edit.png";
 import ChooseGameModal from '../../components/admin/editGame/ChooseGameModal';
 import playerService, { changePlayerState } from "../../api/services/playerService";
 
-
-function DashBoard() {
+/**
+ * The `DashBoard` component represents the admin-dashboard of the application.
+ * It provides options to create new games, edit existing games, and manage player states (Human or Zombie)..
+ */
+const DashBoard = () => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [confirmationMessage, setConfirmationMessage] = useState('');
     const [error, setError] = useState('');

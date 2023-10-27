@@ -1,5 +1,6 @@
 import React from 'react';
 
+// PlayerList component displays a list of players, including their avatars, names, and statuses (Zombie or Human).
 const PlayerList = ({ players }) => {
   return (
     <div>
@@ -14,9 +15,8 @@ const PlayerList = ({ players }) => {
             />
             <p>{player.name}</p>
             <span
-              className={`${
-                player.isZombie ? 'text-red-500' : 'text-green-500'
-              }`}
+              className={`${player.isZombie ? 'text-red-500' : 'text-green-500'
+                }`}
             >
               {player.isZombie ? 'Zombie' : 'Human'}
             </span>

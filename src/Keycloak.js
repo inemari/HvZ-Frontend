@@ -1,12 +1,11 @@
 import Keycloak from "keycloak-js";
 
-// NB! Leave the / or the relative path will use the Router path
+
+// Initialize a new Keycloak instance using the keycloak.json configuration file.
 const keycloak = new Keycloak("/keycloak.json");
 
 /**
- * Initialize Keycloak and silently checking for an existing login.
- * @description Should be called before render() of app.
- * @returns { Promise<void> } Promise
+ * Initialize Keycloak and silently check for an existing login. Should be called before render() of app.
  */
 export const initialize = () => {
   const config = {
@@ -18,5 +17,4 @@ export const initialize = () => {
   return keycloak.init(config);
 };
 
-/** @type { Keycloak } keycloak */
 export default keycloak;

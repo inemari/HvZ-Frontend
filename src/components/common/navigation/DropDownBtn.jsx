@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 
+// Dropdown component displays a dropdown menu with a label and a list of options.
+// Props:
+// - label: The label displayed on the dropdown button.
+// - options: An array of options to display in the dropdown.
+// - onClickOption: A callback function called when an option is clicked.
 
 const Dropdown = ({ label, options, onClickOption }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [setSelectedOption] = useState(null);
 
+    // Function to toggle the dropdown's open/closed state.
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
 
+    // Function to  update the selected option, close the dropdown, and invoke the provided onClickOption callback if available.
     const handleOptionClick = (option) => {
         setSelectedOption(option);
-        toggleDropdown ();
-        // Call the onClickOption callback with the selected option
+        toggleDropdown();
+
         if (onClickOption) {
             onClickOption(option);
         }
@@ -58,9 +64,7 @@ const Dropdown = ({ label, options, onClickOption }) => {
                     </ul>
                 </div>
             )}
-       
         </div >
     );
 };
-
 export default Dropdown;

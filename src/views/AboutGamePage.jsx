@@ -15,11 +15,11 @@ import ListObjects from "../components/admin/createGame/ListObjects";
 import ModalContainer from "../components/common/ModalContainer";
 
 // Component responsible for displaying information and actions related to a selected game
-function AboutGame() {
+const AboutGame = () => {
   const { keycloak } = useKeycloak();
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const [showModal, setShowModal] = useState(false);
-  const gameRules = useFetchGameRules(selectedGame?.ruleIds || []); 
+  const gameRules = useFetchGameRules(selectedGame?.ruleIds || []);
   const navigate = useNavigate();
   const gameMissions = useFetchGameMissions(selectedGame?.missionIds || []);
 
