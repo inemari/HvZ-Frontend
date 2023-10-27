@@ -81,7 +81,7 @@ function Dashboard() {
                             placeholder="Enter Player ID"
                             value={playerId}
                             onChange={(e) => setPlayerId(e.target.value)}
-                            className="border w-full col-span-full border-gray-300 text-gray-900 text-sm rounded-lg focus:ring--customOrange focus:border-customOrange block p-2.5 bg-customBrown dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-customOrange dark:focus:border-customOrange"
+                            className="text-white border w-full col-span-full border-gray-300 text-sm rounded-lg focus:ring--customOrange focus:border-customOrange block p-2.5 bg-customBrown dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-customOrange dark:focus:border-customOrange"
                         />
                     </div>
                     <div>
@@ -90,14 +90,14 @@ function Dashboard() {
                             id="playerState"
                             value={playerState === true ? "true" : playerState === false ? "false" : ""}
                             onChange={(e) => setPlayerState(e.target.value === "true")}
-                            className="border w-full col-span-full border-gray-300 text-gray-900 text-sm rounded-lg focus:ring--customOrange focus:border-customOrange block p-2.5 bg-customBrown dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-customOrange dark:focus:border-customOrange"
+                            className="border w-full col-span-full border-gray-300 text-white text-sm rounded-lg focus:ring--customOrange focus:border-customOrange block p-2.5 bg-customBrown dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-customOrange dark:focus:border-customOrange"
                         >
                             <option value="">Select a state</option>
                             <option value="false">Human</option>
                             <option value="true">Zombie</option>
                         </select>
                     </div>
-                    <CustomButton type="submit" label="Update Player State" onClick={handleSubmit} />
+                    <CustomButton type="submit" label="Update Player State" onClick={handleSubmit} />   
                     {error && (
                         <p className="text-red-500">{error}</p>
                     )}

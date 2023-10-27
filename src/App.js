@@ -98,7 +98,7 @@ const App = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/AboutGame" element={<AboutGame />} />
             <Route
-              path="/Map"
+              path="/MapPage"
               element={
                 <KeycloakRoute role="user" requiresGameJoin={true}>
                   <MapPage locationHubConnection={locationHubConnection} />
@@ -144,9 +144,8 @@ const App = () => {
             <Route
               path="/Dashboard"
               element={
-                <KeycloakRoute role="admin" >
+                <KeycloakRoute role="admin">
                   <Dashboard />
-
                 </KeycloakRoute>
               }
             />
@@ -166,11 +165,8 @@ const App = () => {
                 </KeycloakRoute>
               }
             />
-
           </Routes>
         </div>
-
-
       </LocationProvider>
     </BrowserRouter>
   );
