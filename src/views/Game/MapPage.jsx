@@ -5,7 +5,7 @@ import GameStats from '../../components/game/GameStats';
 import MarkerInfo from '../../components/map/MarkerInfo';
 
 function MapPage({ locationHubConnection }) {
-  
+
   return (
     <div className="flex items-center justify-center">
       <Container>

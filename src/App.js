@@ -17,7 +17,7 @@ import { LocationProvider } from "./LocationContext";
 import CreateGame from "./views/admin/CreateGame";
 import EditGame from "./views/admin/EditGame";
 import KeycloakRoute from "./routes/KeyCloakRoute";
-import DashBoard from "./views/admin/DashBoard";
+import Dashboard from "./views/admin/Dashboard";
 
 const App = () => {
   const { keycloak, initialized } = useKeycloak(); // Use the hook to get keycloak instance
@@ -135,6 +135,14 @@ const App = () => {
               }
             />
             <Route
+              path="/Dashboard"
+              element={
+                <KeycloakRoute role="admin" >
+                  <Dashboard />
+                </KeycloakRoute>
+              }
+            />
+            <Route
               path="/CreateGame"
               element={
                 <KeycloakRoute role="admin">
@@ -150,14 +158,7 @@ const App = () => {
                 </KeycloakRoute>
               }
             />
-            <Route
-              path="/Dashboard"
-              element={
-                // <KeycloakRoute role="admin">
-                <DashBoard />
-                // </KeycloakRoute>
-              }
-            />
+
           </Routes>
         </div>
 

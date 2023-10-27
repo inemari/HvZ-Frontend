@@ -39,7 +39,7 @@ function AboutGame() {
   return (
 
     <Container>
-      <div className="flex flex-row  text-white  h-fit justify-center border-b pb-3 mb-3">
+      <div className="flex flex-row  text-white h-fit justify-center border-b pb-3 mb-3">
         <h1 className="text-3xl md:text-4xl font-bold mt-2 pr-3 ">
           {selectedGame?.title}
         </h1>
@@ -47,31 +47,36 @@ function AboutGame() {
           {selectedGame?.gameStateString}
         </p>
       </div>
-      <div className="lg:grid md:grid-flow-col gap-3 mx-auto w-full ">
 
-        <div className=" md:pb-0 px-auto   aspect-square">
-          <GameImage game={selectedGame} />
-        </div>
+
+      <div className="grid grid-cols-5 gap-3 mx-auto w-full ">
+
+        <div className='col-span-1 grid'>
+          <div className=' flex'>
+            <GameImage game={selectedGame} maxW={"max-w-xs "} square={true} />
+
+          </div></div>
 
         {selectedGame && (
-          <div className=" rounded lg:col-span-4 ">
-            <div className=" grid grid-flow-rows gap-5">
-              <div className="pb-5">
+          <div className=" rounded w-full ml-auto mr-auto grid col-span-4">
+            <div className=" gap-5 w-full ">
+              <div className="pb-5 ">
                 <h2 className="text-lg font-bold ">ABOUT</h2>
                 <p className="text-base ">{selectedGame.description} </p>
               </div>
               <div className="grid grid-cols-2 gap-2 ">
-                <div className="grid col-span-1 mt-0 h-fit">
+                <div className="grid col-span-1 mt-0 h-fit ">
                   <h2 className="text-lg font-bold">RULES</h2><ListObjects list={gameRules} /></div>
-                <div className="grid col-span-1 mt-0 h-fit"><h2 className="text-lg font-bold">MISSIONS</h2><ListObjects list={gameMissions} /></div>
+                <div className="grid col-span-1 mt-0 h-fit"><h2 className="text-lg font-bold">MISSIONS
+                </h2><ListObjects list={gameMissions} /></div>
 
               </div>
             </div>
           </div>
-        )}{" "}
+        )}
 
       </div>
-      <div className="h-full justify-center flex flex-col mx-auto px-auto pb-20 text-center">
+      <div className=" justify-center mx-auto px-auto pb-20 text-center">
         <h2 className="text-lg font-bold pb-3">MAP</h2>
         <Map />
       </div>
@@ -83,7 +88,7 @@ function AboutGame() {
       )}
 
       <div className="mb-20 mr-8 space-y-5 fixed bottom-0 right-0 flex flex-row">
-        {keycloak.authenticated && keycloak.hasRealmRole("admin") && (
+        {/* {keycloak.authenticated && keycloak.hasRealmRole("admin") && (
           <CustomBtn
             label={"Edit game"}
             icon={editIcon}
@@ -91,17 +96,17 @@ function AboutGame() {
             rounded={"3xl"}
             onClick={() => navigate("/EditGame")}
           />
+        )} */}
+        {keycloak.authenticated && (
+          <CustomBtn
+            onClick={handleButtonClick}
+            label="Join Game"
+            className=" "
+            icon={arrow}
+            rounded={"3xl"}
+            iconPosition={"after"}
+          />
         )}
-        {/* {keycloak.authenticated && keycloak.hasRealmRole("user") && ( */}
-        <CustomBtn
-          onClick={handleButtonClick}
-          label="Join Game"
-          className=" "
-          icon={arrow}
-          rounded={"3xl"}
-          iconPosition={"after"}
-        />
-
       </div>
 
     </Container>

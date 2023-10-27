@@ -8,7 +8,7 @@ import ChooseGameModal from '../../components/admin/editGame/ChooseGameModal';
 import CustomInput from '../../components/common/CustomInput';
 
 
-function DashBoard() {
+function Dashboard() {
     const [isModalVisible, setModalVisible] = useState(false);
 
     const openModal = () => {
@@ -48,4 +48,4 @@ function DashBoard() {
     );
 }
 
-export default DashBoard;
+export default Dashboard;
