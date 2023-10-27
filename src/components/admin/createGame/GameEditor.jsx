@@ -17,7 +17,8 @@ import ListObjects from "./ListObjects";
 import { useFetchGameRules } from "../../../api/services/ruleService";
 import { useFetchGameMissions } from "../../../api/services/missionService";
 
-const GameEditor = (gameinput) => {
+const GameEditor = () => {
+  const navigate = useNavigate();
   const location = useLocation().pathname;
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const editMode = location === "/EditGame";
@@ -29,21 +30,23 @@ const GameEditor = (gameinput) => {
   const [gameCreated, setGameCreated] = useState(false);
   const [gameId, setGameId] = useState(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const navigate = useNavigate();
-  const [imageUrl, setImageUrl] = useState(""); // State to store the image URL
+  const [pictureURL, setPictureURL] = useState(
+    "https://fastly.picsum.photos/id/1/200/300.jpg?hmac=jH5bDkLr6Tgy3oAg5khKCHeunZMHq0ehBZr6vGifPLY"
+  ); // State to store the image URL
   const fetchedGameMissions = useFetchGameMissions(selectedGame?.missionIds);
   const fetchedGameRules = useFetchGameRules(selectedGame?.ruleIds || []);
   const gameEntity = {
     title: editMode ? selectedGame.title : "",
     description: editMode ? selectedGame.description : "",
-    imageUrl: editMode ? selectedGame.pictureURL : imageUrl,
+    pictureURL: editMode ? selectedGame.pictureURL : pictureURL,
+    mapURL: editMode ? selectedGame.mapURL : "",
     gameRules: editMode ? fetchedGameRules : [],
     gameMissions: editMode ? fetchedGameMissions : [],
   };
   const [gameFormData, setGameFormData] = useState(gameEntity);
   const handleImageUrlChange = (e) => {
     // Update the imageUrl state when the input value changes
-    setImageUrl(e.target.value);
+    setPictureURL(e.target.value);
   };
   const openMissionModal = () => {
     setIsMissionModalOpen(true);
@@ -58,24 +61,23 @@ const GameEditor = (gameinput) => {
   const handleAddMission = (missionData, locationData) => {
     setMissionObjects((prevMissions) => [...prevMissions, missionData]);
     setLocationObjects((prevLocations) => [...prevLocations, locationData]);
-    console.log("HandleAddMission function.");
   };
   const handleAddRule = (ruleData) => {
     setRuleObjects((prevRules) => [...prevRules, ruleData]);
   };
   const handleAddMarker = (locationData) => {
     setLocationObjects((prevLocations) => [...prevLocations, locationData]);
-    console.log("HandleAddMarker function.");
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setGameFormData((prevGameData) => ({
       ...prevGameData,
       [name]: value,
-    })); console.log("HandleInputChange function.");
+    }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     // Create the game and get the game ID
     const gameId = await createGame(
       gameFormData,
@@ -83,7 +85,6 @@ const GameEditor = (gameinput) => {
       ruleObjects,
       locationObjects
     );
-    console.log("HandleSubmit function.");
     if (gameId) {
       setGameCreated(true);
       setGameId(gameId);
@@ -100,8 +101,8 @@ const GameEditor = (gameinput) => {
         navigate("/LandingPage");
       }, 3000);
     }
-    //
   };
+
   return (
     <>
       {" "}
@@ -111,69 +112,54 @@ const GameEditor = (gameinput) => {
           message="You will be redirected to the landingPage"
         />
       )}
-      <form
-        onSubmit={handleSubmit}
-        className="justify-center flex-wrap w-full flex "
-      >
+      <form className="justify-center flex-wrap w-full flex ">
         <div className="lg:grid md:grid-cols-7 pt-3  gap-3 w-full relative ">
           <img
-            src={imageUrl || gameEntity.imgUrl || noImage}
-            id="imageUrl"
+            src={pictureURL || noImage}
+            id="imgURL"
             alt="Game"
             className="aspect-square col-span-2 justify-center p-3"
           />
           <div className="grid lg:col-span-5 lg:gap-3">
             {/* Title and description section */}
             <GameInfoInput
+              handleImageUrlChange={handleImageUrlChange}
               gameFormData={gameFormData}
               handleInputChange={handleInputChange}
               placeholder={gameCreated}
-              defaultTitle={gameEntity.title}
-              defaultDescription={gameEntity.description}
+              //defaultTitle={gameEntity.title}
+              //defaultDescription={gameEntity.description}
             />
-            {/* Image url field */}
-            <InputAdmin
-              id="img-url"
-              label="Image URL"
-              textComponent="input"
-              type="url"
-              fieldname="imgUrl"
-              value={imageUrl}
-              onChange={handleImageUrlChange}
-              TooltipContent={
-                "Insert a URL for the image you would like to represent the game."
-              }
-              defaultContent={
-                gameEntity.imgUrl === noImage && editMode
-                  ? gameEntity.imgUrl
-                  : imageUrl
-              }
-              required
-            />
+
             {/* Rule and mission section */}
             <div className="grid md:grid-cols-2 gap-3">
               <div className="flex flex-col">
                 <h2 className="text-lg font-bold pb-2">RULES</h2>
                 {ruleObjects.map((rule, index) => (
-                  <ul className="bg-white bg-opacity-25 justify-center flex-col flex p-3 rounded-lg gap-3 hover:bg-opacity-40 my-3">
-                    <p>
-                      <b>{rule.title}</b>
-                    </p>
-                    <li>{rule.description}</li>
-                  </ul>
+                  <div key={index}>
+                    <ul className="bg-white bg-opacity-25 justify-center flex-col flex p-3 rounded-lg gap-3 hover:bg-opacity-40 my-3">
+                      <p>
+                        <b>{rule.title}</b>
+                      </p>
+                      <li>{rule.description}</li>
+                    </ul>
+                  </div>
                 ))}
+
                 <ListObjects list={gameEntity.gameRules} />
                 <AddNew action={openRuleModal} label="Add Rule" />
               </div>
               <div className="flex flex-col">
                 <h2 className="text-lg font-bold pb-2">MISSIONS</h2>
-                {missionObjects.map((mission) => (
-                  <ul className="bg-white bg-opacity-25 justify-center flex-col flex p-3 rounded-lg gap-3 hover:bg-opacity-40 my-3">
-                    <p>
-                      <b>{mission.name}</b>
-                    </p>
-                    <li>{mission.description}</li>
-                  </ul>
+                {missionObjects.map((mission, index) => (
+                  <div key={index}>
+                    <ul className="bg-white bg-opacity-25 justify-center flex-col flex p-3 rounded-lg gap-3 hover:bg-opacity-40 my-3">
+                      <p>
+                        <b>{mission.name}</b>
+                      </p>
+                      <li>{mission.description}</li>
+                    </ul>
+                  </div>
                 ))}
                 <ListObjects list={gameEntity.gameMissions} />
                 <AddNew action={openMissionModal} label="Add Mission" />
@@ -191,12 +177,14 @@ const GameEditor = (gameinput) => {
           />
         </div>
         <div className="z-20 bottom-24 right-12 absolute ">
-          <button
-
+          <CustomButton
+            label={"Submit"}
             type={"submit"}
+            id={"submit-button"}
             className=" w-full static text-3xl "
             rounded={"3xl"}
-          >Submit</button>
+            onClick={handleSubmit}
+          />
         </div>
 
         {/* add Mission modal */}
@@ -232,7 +220,8 @@ const GameEditor = (gameinput) => {
           }
           showModal={isRuleModalOpen}
           handleCloseModal={closeModal}
-        /> </form>
+        />
+      </form>
     </>
   );
 };

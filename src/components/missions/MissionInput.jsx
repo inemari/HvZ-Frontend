@@ -23,8 +23,9 @@ const MissionInput = ({ gameId, onAddMission, closeModal }) => {
     onAddMission(missionObject, locationData);
 
     // Close the modal and reset the form
-    closeModal();
+
     setMissionFormData(missionEntity); // Reset to initial state
+    closeModal();
   };
 
   return (
@@ -36,7 +37,7 @@ const MissionInput = ({ gameId, onAddMission, closeModal }) => {
         textComponent="input"
         type="text"
         fieldname="name"
-        field={missionFormData.title}
+        value={missionFormData.name}
         onChange={handleInputChange}
         TooltipContent={"Enter the name or title of this mission. Be concise and descriptive."}
         required />
@@ -46,7 +47,7 @@ const MissionInput = ({ gameId, onAddMission, closeModal }) => {
         textComponent="input"
         type="text"
         fieldname="description"
-        field={missionFormData.description}
+        value={missionFormData.description}
         onChange={handleInputChange}
         TooltipContent={"Provide a brief description of this mission. What is its objective or purpose?"}
         required />
