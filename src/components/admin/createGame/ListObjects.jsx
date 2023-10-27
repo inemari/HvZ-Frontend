@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Renders a list of objects, typically with a name (or title) and a description, in a styled format
 const ListObjects = ({ list }) => {
     return (
         <>

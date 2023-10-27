@@ -3,8 +3,10 @@ import map from "../../assets/images/Map1.png";
 import MissionList from "../missions/MissionList";
 import SquadListMarkers from "../squad/SquadListMarkers";
 import KillList from "../kill/KillList";
-import MarkerInfo from "./MarkerInfo";
 
+// Map component displays a map and updates based on location updates received through a hub connection.
+// Props:
+// - locationHubConnection: A connection to a hub for receiving location updates.
 const Map = ({ locationHubConnection }) => {
   const [rerenderMap, setRerenderMap] = useState(0);
 

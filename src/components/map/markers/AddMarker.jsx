@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 
+// AddMarker component allows users to add a marker at the current coordinates
+// Props:
+// - onAddMarker: A function to handle marker addition
+// - closeModal: A function to close the modal
 const AddMarker = ({ onAddMarker, closeModal }) => {
   const [currentCoordinate, setCurrentCoordinate] = useState({ x: 0, y: 0 });
 

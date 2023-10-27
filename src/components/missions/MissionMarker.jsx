@@ -3,11 +3,13 @@ import missionService from "../../api/services/missionService";
 import locationService from "../../api/services/locationService";
 
 const MissionMarker = ({ missionId }) => {
+  // State variables to store mission data, popover visibility, and coordinates
   const [missionData, setMissionData] = useState(null);
   const [isPopOverVisible, setIsPopOverVisible] = useState(false);
   const [x, setX] = useState(null);
   const [y, setY] = useState(null);
 
+  // UseEffect to fetch mission data and location when missionId changes
   useEffect(() => {
     async function fetchData() {
       try {
@@ -24,9 +26,11 @@ const MissionMarker = ({ missionId }) => {
       }
     }
 
+    // Fetch mission data when the missionId changes
     fetchData();
   }, [missionId]);
 
+  // Handler to toggle popover visibility when the marker is clicked
   const handleMarkerClick = (e) => {
     e.preventDefault();
     setIsPopOverVisible(!isPopOverVisible);

@@ -4,11 +4,15 @@ import InputField from "../common/InputField";
 import squadService, { addGameIdToSquad } from "../../api/services/squadService";
 
 const SquadNameModal = ({ onSquadCreated, setIsSquadCreated }) => {
+  // Initialize state variables to manage squad name and error messages
   const [squadName, setSquadName] = useState("");
   const [error, setError] = useState("");
+
+  // Retrieve the selected game data from local storage
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const selectedGameId = selectedGame.id;
 
+  // Function 'handleSubmit' is used to handle the submission of the squad name
   const handleSubmit = async () => {
     // Check if the squad name is not empty
     if (squadName.trim() === "") {
@@ -20,9 +24,6 @@ const SquadNameModal = ({ onSquadCreated, setIsSquadCreated }) => {
         const squadId = newSquad.id; // Extract the squadId from the returned object
         // Step 2: Add the game ID to the squad
         await addGameIdToSquad(squadId, selectedGameId);
-
-        // Squad creation and game addition were successful
-        console.log("Squad created and game added to the squad.");
 
         // Notify the parent component that a squad has been created
         onSquadCreated();

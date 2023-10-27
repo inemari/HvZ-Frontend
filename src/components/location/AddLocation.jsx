@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 
+// AddLocation component allows users to input coordinates for a new location marker
 const AddLocation = ({ onAddLocation, closeModal }) => {
   const locationEntity = {
     xCoordinate: "",
     yCoordinate: "",
   };
+
+  // State to manage the location form data
   const [locationFormData, setLocationFormData] = useState(locationEntity);
 
+  // Handle input changes and update the location form data
   const handleInputChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -26,6 +30,8 @@ const AddLocation = ({ onAddLocation, closeModal }) => {
 
     // Close the modal after successfully adding the marker
     closeModal();
+
+    // Reset the location form data to its initial state
     setLocationFormData(locationEntity);
   };
 

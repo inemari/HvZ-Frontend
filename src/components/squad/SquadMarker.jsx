@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import locationService from "../../api/services/locationService";
 import playerService from "../../api/services/playerService";
 
+// Initialize state variables to manage player and marker data
 const SquadMarker = ({ playerId }) => {
   const [playerData, setPlayerData] = useState(null);
   const [isPopOverVisible, setIsPopOverVisible] = useState(false);
   const [x, setX] = useState(null);
   const [y, setY] = useState(null);
 
+  // useEffect to fetch player and location data when 'playerId' changes
   useEffect(() => {
+    // Define an asynchronous function 'fetchData' to retrieve player and location data
     async function fetchData() {
       try {
         const player = await playerService.getById(playerId);
@@ -24,7 +27,6 @@ const SquadMarker = ({ playerId }) => {
 
         player.location = location;
         setPlayerData(player);
-        console.log("player: ", player);
       } catch (error) {
         console.error("Failed to fetch player or location:", error);
       }
@@ -33,9 +35,10 @@ const SquadMarker = ({ playerId }) => {
     fetchData();
   }, [playerId]);
 
+  // Function 'handleMarkerClick' is used to toggle the visibility of the popover
   const handleMarkerClick = (e) => {
     e.preventDefault();
-    setIsPopOverVisible(!isPopOverVisible); // Toggle the popover visibility
+    setIsPopOverVisible(!isPopOverVisible);
   };
 
   return (

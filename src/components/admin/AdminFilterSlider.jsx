@@ -1,6 +1,12 @@
 import React from 'react';
 
+
+// AdminFilterSlider component provides a filter slider for selecting between "Create Game" and "Edit Game"
+// Props:
+// - activeTab: The currently active tab (selected option)
+// - handleTabChange: A function to handle tab changes
 const AdminFilterSlider = ({ activeTab, handleTabChange }) => {
+  // List of available filter options
   const filterOptions = ['Create Game', 'Edit Game'];
 
   return (
