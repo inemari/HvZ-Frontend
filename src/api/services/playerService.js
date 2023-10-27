@@ -15,6 +15,22 @@ export const getPlayerByBiteCode = async (bitecode) => {
     }
   };
 
+export const changePlayerState = async (id, state) => {
+  try {
+    const response = await api.put(`/player/${id}/update-state`, state, {
+      headers: {
+        'Content-Type': 'application/json', // Set the content type to JSON
+      },
+    });
+    return response.data;
+  } catch (error)  {
+    if (error.response) {
+      console.error("Failed to update player state:", error.response.data);
+    }
+    throw error;
+  }
+}
+
 export const setZombieToTrue = async (bitecode, gameId) => {
     try {
       // Fetch the player by bitecode

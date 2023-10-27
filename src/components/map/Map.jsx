@@ -14,13 +14,7 @@ const Map = ({ locationHubConnection }) => {
         setRerenderMap((prev) => prev + 1);
       });
     }
-
-    return () => {
-      if (locationHubConnection) {
-        locationHubConnection.off("ReceiveLocationUpdate");
-      }
-    };
-  }, [locationHubConnection]);
+  });
 
   return (
     <div className="rounded-lg bg-cover object-cover bg-clip-content relative w-full aspect-video" style={{ backgroundImage: `url(${map})` }}>
