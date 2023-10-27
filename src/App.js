@@ -34,7 +34,7 @@ const App = () => {
       if (initialized && keycloak.authenticated) {
         const newConnection = new signalR.HubConnectionBuilder()
           .withUrl(process.env.REACT_APP_LOCATIONHUB_URL)
-          .configureLogging(signalR.LogLevel.Debug)
+          //.configureLogging(signalR.LogLevel.Debug)
           .build();
         try {
           await newConnection.start();
@@ -58,7 +58,7 @@ const App = () => {
       if (initialized && keycloak.authenticated) {
         const newConnection = new signalR.HubConnectionBuilder()
           .withUrl(process.env.REACT_APP_CHATHUB_URL)
-          .configureLogging(signalR.LogLevel.Debug)
+          //.configureLogging(signalR.LogLevel.Debug)
           .build();
 
         newConnection.on("ReceiveMessage", (user, message) => {

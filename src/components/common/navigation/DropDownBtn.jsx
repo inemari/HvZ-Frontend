@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 
 const Dropdown = ({ label, options, onClickOption }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [setSelectedOption] = useState(null);
 
     // Function to toggle the dropdown's open/closed state.
     const toggleDropdown = () => {
@@ -17,7 +16,7 @@ const Dropdown = ({ label, options, onClickOption }) => {
 
     // Function to  update the selected option, close the dropdown, and invoke the provided onClickOption callback if available.
     const handleOptionClick = (option) => {
-        setSelectedOption(option);
+       
         toggleDropdown();
 
         if (onClickOption) {
