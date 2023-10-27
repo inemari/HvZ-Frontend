@@ -1,27 +1,15 @@
-import clearSessionStorageData from '../helpers/SessionStorageUtils';
-import React, { useState, useEffect } from 'react';
-import Games from '../components/game/Games'; // Adjust the import path
-import GameTabs from '../components/game/GameTabs';
-import { fetchGamesByState } from '../api/services/gameService';
-import Container from '../components/common/Container';
+import clearSessionStorageData from "../helpers/SessionStorageUtils";
+import React, { useState } from "react";
+import Games from "../components/game/Games"; 
+import GameTabs from "../components/game/GameTabs";
+import Container from "../components/common/Container";
 
-
+// Component that serves as the entry point for the application.
 const LandingPage = () => {
   clearSessionStorageData();
-  const [activeTab, setActiveTab] = useState('Registration');
-  const [games, setGames] = useState([]);
 
-  useEffect(() => {
-    async function fetchGamesData() {
-      try {
-        const gamesData = await fetchGamesByState(activeTab);
-        setGames(gamesData);
-      } catch (error) {
-        console.error('Error fetching games:', error);
-      }
-    }
-    fetchGamesData();
-  }, [activeTab]); // Run effect whenever activeTab changes
+  // Initialize the 'activeTab' state variable to manage the currently active tab.
+  const [activeTab, setActiveTab] = useState("Registration");
 
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
@@ -30,10 +18,9 @@ const LandingPage = () => {
   return (
     <>
       <GameTabs activeTab={activeTab} handleTabChange={handleTabChange} />
-      <Container >
+      <Container>
         <Games activeTab={activeTab} />
       </Container>
-
     </>
   );
 };

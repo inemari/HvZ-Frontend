@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import SquadNameModal from './SquadNameModal';
 
+
+// Functional component that allows the creation of a new squad
 const SquadCreate = ({ onSquadCreated }) => {
+    // Initialize a state variable 'isSquadCreated' to keep track of the squad creation status
     const [isSquadCreated, setIsSquadCreated] = useState(false);
   
     // Handler to reset the squad creation status

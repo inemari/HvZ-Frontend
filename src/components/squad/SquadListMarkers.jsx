@@ -1,23 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
 import { fetchPlayerLocationsForGame } from "../../services/mapService";
 import SquadMarker from "./SquadMarker";
-import { useLocationContext } from "../../LocationContext";
 import gameService from "../../api/services/gameService";
 
+// The component responsible for rendering markers on the map for squad members.
 const SquadListMarkers = ({ rerenderMap }) => {
-  const { locationHubConnection } = useLocationContext();
   const [playerData, setPlayerData] = useState([]);
-  const [game, setGame] = useState(null);
   const previousPlayerDataRef = useRef([]);
   const [loading, setLoading] = useState(false);
 
+  // useEffect to fetch player and game data when 'rerenderMap' changes
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-
+       // Retrieve the selected game from local storage
       const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
+
+      // Fetch detailed game data by calling 'gameService.getById' with the game's ID
       const gameData = await gameService.getById(selectedGame.id);
-      setGame(gameData);
       const playerIds = gameData.playerIds;
 
       try {

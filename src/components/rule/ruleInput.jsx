@@ -2,13 +2,18 @@ import React, { useState } from "react";
 import InputAdmin from "../common/CustomInput";
 import CustomButton from "../common/CustomButton";
 
+// Allows users to input data for creating a game rule
 const RuleInput = ({ onAddRule, closeModal }) => {
+  // Define a rule entity with default empty values
   const ruleEntity = {
     title: "",
     description: "",
   };
+
+   // State to manage the form data for creating a new rule
   const [ruleFormData, setRuleFormData] = useState(ruleEntity);
 
+   // Handle user input changes for rule title and description
   const handleInputChange = (e) => {
     const updatedFormData = { ...ruleFormData };
     updatedFormData[e.target.name] = e.target.value;

@@ -6,18 +6,16 @@ import MissionContainer from "../../common/ModalContainer";
 import RuleContainer from "../../common/ModalContainer";
 import Map from "../../map/Map";
 import RuleInput from "../../rule/ruleInput";
-import { createGame, editGame } from "../../../services/adminService"; // Import the createGame function
+import { createGame, editGame } from "../../../services/adminService";
 import CustomButton from "../../common/CustomButton";
 import noImage from "../../../assets/ui/noImage.png";
 import GameInfoInput from "./GameInfoInput";
-import InputAdmin from "../../common/CustomInput";
 import { useLocation, useNavigate } from "react-router-dom";
 import SuccessMessage from "../../common/feedback/successMessage";
-import ListObjects from "./ListObjects";
-import { fetchGameRulesByIds, useFetchGameRules } from "../../../api/services/ruleService";
-import { getGameMissions, useFetchGameMissions } from "../../../api/services/missionService";
-import { fetchMissionsForGame } from "../../../services/mapService";
+import { fetchGameRulesByIds } from "../../../api/services/ruleService";
+import { getGameMissions } from "../../../api/services/missionService";
 
+// GameEditor component is used for creating or editing a game.
 const GameEditor = () => {
   const navigate = useNavigate();
   const location = useLocation().pathname;
@@ -31,17 +29,12 @@ const GameEditor = () => {
   const [gameCreated, setGameCreated] = useState(false);
   const [gameId, setGameId] = useState(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [pictureURL, setPictureURL] = useState(
-    noImage
-  ); // State to store the image URL
+  const [pictureURL, setPictureURL] = useState(noImage); // State to store the image URL
 
-
-
-
+  // useEffect to initialize data when in edit mode
   useEffect(() => {
     if (editMode) {
       // In edit mode, load existing rules and missions from the selectedGame
-      console.log("in edit mode", selectedGame.rules);
       setGameFormData({
         title: selectedGame.title,
         description: selectedGame.description,
@@ -49,14 +42,16 @@ const GameEditor = () => {
         mapURL: selectedGame.mapURL || "",
       });
 
-      // Use your custom hooks here
+      // Define a function to load existing rules and missions
       const loadRulesAndMissions = async () => {
         const rules = await fetchGameRulesByIds(selectedGame.ruleIds);
         const missions = await getGameMissions(selectedGame.missionIds);
+        // Update state with the loaded rules and missions
         setRuleObjects(rules);
         setMissionObjects(missions);
       };
 
+      // Call the function to load rules and missions
       loadRulesAndMissions();
     }
   }, []);
@@ -65,9 +60,7 @@ const GameEditor = () => {
     title: editMode ? selectedGame.title : "",
     description: editMode ? selectedGame.description : "",
     pictureURL: editMode ? selectedGame.pictureURL : "",
-    mapURL: editMode ? selectedGame.mapURL : ""
-    //gameRules: editMode ? fetchedGameRules : [],
-    //gameMissions: editMode ? fetchedGameMissions : [],
+    mapURL: editMode ? selectedGame.mapURL : "",
   };
   const [gameFormData, setGameFormData] = useState(gameEntity);
   const handleImageUrlChange = (e) => {
@@ -75,26 +68,33 @@ const GameEditor = () => {
     setPictureURL(e.target.value);
     handleInputChange(e);
   };
+  // Open the mission modal
   const openMissionModal = () => {
     setIsMissionModalOpen(true);
   };
+  // Open the rule modal
   const openRuleModal = () => {
     setIsRuleModalOpen(true);
   };
+  // Close the mission and rule modals
   const closeModal = () => {
     setIsMissionModalOpen(false);
     setIsRuleModalOpen(false);
   };
+  // Add a new mission and location
   const handleAddMission = (missionData, locationData) => {
     setMissionObjects((prevMissions) => [...prevMissions, missionData]);
     setLocationObjects((prevLocations) => [...prevLocations, locationData]);
   };
+  // Add a new rule
   const handleAddRule = (ruleData) => {
     setRuleObjects((prevRules) => [...prevRules, ruleData]);
   };
+  // Add a new marker location
   const handleAddMarker = (locationData) => {
     setLocationObjects((prevLocations) => [...prevLocations, locationData]);
   };
+  // Handle changes in input fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setGameFormData((prevGameData) => ({
@@ -102,6 +102,7 @@ const GameEditor = () => {
       [name]: value,
     }));
   };
+  // Handle the form submission for creating a new game
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -130,6 +131,7 @@ const GameEditor = () => {
     }
   };
 
+  // Handle the form submission for editing an existing game
   const handleEditSubmit = async (e) => {
     e.preventDefault();
 
@@ -138,7 +140,8 @@ const GameEditor = () => {
       gameFormData,
       missionObjects,
       ruleObjects,
-      locationObjects, parseInt(selectedGame.id)
+      locationObjects,
+      parseInt(selectedGame.id)
     );
     if (gameId) {
       setGameCreated(true);
@@ -161,6 +164,7 @@ const GameEditor = () => {
   return (
     <>
       {" "}
+      {/* Display a success message after creating or editing an game */}
       {showSuccessMessage && (
         <SuccessMessage
           header="Game created successfully! "
@@ -182,8 +186,6 @@ const GameEditor = () => {
               gameFormData={gameFormData}
               handleInputChange={handleInputChange}
               placeholder={gameCreated}
-              //defaultTitle={gameEntity.title}
-              //defaultDescription={gameEntity.description}
             />
 
             {/* Rule and mission section */}
@@ -200,8 +202,6 @@ const GameEditor = () => {
                     </ul>
                   </div>
                 ))}
-
-                {/* <ListObjects list={gameEntity.gameRules} /> */}
                 <AddNew action={openRuleModal} label="Add Rule" />
               </div>
               <div className="flex flex-col">
@@ -216,7 +216,6 @@ const GameEditor = () => {
                     </ul>
                   </div>
                 ))}
-                {/* <ListObjects list={gameEntity.gameMissions} /> */}
                 <AddNew action={openMissionModal} label="Add Mission" />
               </div>
             </div>

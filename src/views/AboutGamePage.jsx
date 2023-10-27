@@ -1,5 +1,3 @@
-// AboutGame.js
-
 import React, { useState, useEffect } from "react";
 import CustomBtn from "../components/common/CustomButton";
 import { useKeycloak } from "@react-keycloak/web";
@@ -16,22 +14,26 @@ import { useFetchGameRules } from "../api/services/ruleService";
 import ListObjects from "../components/admin/createGame/ListObjects";
 import ModalContainer from "../components/common/ModalContainer";
 
+// Component responsible for displaying information and actions related to a selected game
 function AboutGame() {
   const { keycloak } = useKeycloak();
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const [showModal, setShowModal] = useState(false);
-  const gameRules = useFetchGameRules(selectedGame?.ruleIds || []); // Using the custom hook
+  const gameRules = useFetchGameRules(selectedGame?.ruleIds || []); 
   const navigate = useNavigate();
   const gameMissions = useFetchGameMissions(selectedGame?.missionIds || []);
 
+  // Function 'handleButtonClick' is used to open the modal when a button is clicked
   const handleButtonClick = () => {
     setShowModal(true);
   };
 
+  // Function 'handleCloseModal' is used to close the modal
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
+  // useEffect to clear any session storage data when the component is mounted
   useEffect(() => {
     clearSessionStorageData();
   }, []);

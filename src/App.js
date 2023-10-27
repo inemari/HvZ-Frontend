@@ -17,7 +17,7 @@ import { LocationProvider } from "./LocationContext";
 import CreateGame from "./views/admin/CreateGame";
 import EditGame from "./views/admin/EditGame";
 import KeycloakRoute from "./routes/KeyCloakRoute";
-import Dashboard from "./views/admin/Dashboard";
+import Dashboard from "./views/admin/DashBoard";
 
 const App = () => {
   const { keycloak, initialized } = useKeycloak(); // Use the hook to get keycloak instance

@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import AddLocation from "../location/AddLocation";
 import InputAdmin from "../common/CustomInput";
 
+// MissionInput component allows users to input mission details and create a mission
+// Props:
+// - gameId: The ID of the game to which the mission belongs
+// - onAddMission: A function to handle adding a mission with its location data
+// - closeModal: A function to close the modal
 const MissionInput = ({ gameId, onAddMission, closeModal }) => {
   const missionEntity = {
     name: "",
@@ -9,6 +14,7 @@ const MissionInput = ({ gameId, onAddMission, closeModal }) => {
   };
   const [missionFormData, setMissionFormData] = useState(missionEntity);
 
+  // handleInputChange function is used to update the missionFormData state when input fields change
   const handleInputChange = (e) => {
     const updatedFormData = { ...missionFormData };
     updatedFormData[e.target.name] = e.target.value;

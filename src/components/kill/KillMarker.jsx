@@ -4,6 +4,7 @@ import locationService from "../../api/services/locationService";
 import playerService from "../../api/services/playerService";
 import killService from "../../api/services/killService";
 
+// Displays a marker on the map for a player's kill
 const KillMarker = ({ killId }) => {
   const [killData, setKillData] = useState(null);
   const [isPopOverVisible, setIsPopOverVisible] = useState(false);
@@ -14,6 +15,7 @@ const KillMarker = ({ killId }) => {
   useEffect(() => {
     async function fetchData() {
       try {
+        // Fetch kill data, location, and player information
         const kill = await killService.getById(killId);
         const location = await locationService.getById(kill.locationId);
         const player = await playerService.getById(kill.playerId);
@@ -36,10 +38,11 @@ const KillMarker = ({ killId }) => {
 
     fetchData();
   }, [killId]);
-
+  
+  // Handle click on the marker to toggle popover visibility
   const handleMarkerClick = (e) => {
     e.preventDefault();
-    setIsPopOverVisible(!isPopOverVisible); // Toggle the popover visibility
+    setIsPopOverVisible(!isPopOverVisible);
   };
 
   return (
@@ -51,7 +54,7 @@ const KillMarker = ({ killId }) => {
           style={{
             left: `${x}%`,
             top: `${y}%`,
-            zIndex: isPopOverVisible ? 2 : 1, // Set a higher zIndex when the text box is visible
+            zIndex: isPopOverVisible ? 2 : 1, 
           }}
           onClick={handleMarkerClick}
         >

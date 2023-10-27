@@ -2,7 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import * as signalR from "@microsoft/signalr";
 import CustomButton from "../common/CustomButton";
 import CustomInput from "../common/CustomInput";
-const ChatComponent = ({ hubConnection, isMember,isZombie}) => {
+
+// ChatComponent displays a chat interface for users to communicate in a lobby.
+// Props:
+// - hubConnection: The SignalR hub connection.
+// - isMember: Indicates if the user is a member of the lobby.
+// - isZombie: Indicates if the user is a zombie in the lobby.
+const ChatComponent = ({ hubConnection, isMember, isZombie }) => {
+  // State variables
   const [newMessage, setNewMessage] = useState("");
   const [lobby, setLobby] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
@@ -12,7 +19,11 @@ const ChatComponent = ({ hubConnection, isMember,isZombie}) => {
   const [username, setUsername] = useState(
     sessionStorage.getItem("username") || "Mr.Default"
   );
+
+  // Reference to the chat container
   const chatContainerRef = useRef(null);
+
+  // Handle user data before unloading the page
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (username) {
@@ -25,6 +36,8 @@ const ChatComponent = ({ hubConnection, isMember,isZombie}) => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [username]);
+
+  // Set up user list when hub connection and lobby are established
   useEffect(() => {
     if (hubConnection && lobby) {
       setUsers([]);
@@ -37,6 +50,8 @@ const ChatComponent = ({ hubConnection, isMember,isZombie}) => {
       };
     }
   }, [hubConnection, lobby]);
+
+  // Listen for incoming messages
   useEffect(() => {
     if (hubConnection) {
       hubConnection.on("ReceiveMessage", (user, message, roomName) => {
@@ -44,6 +59,8 @@ const ChatComponent = ({ hubConnection, isMember,isZombie}) => {
       });
     }
   }, [hubConnection, receivedMessages]);
+
+  // Send a chat message
   const sendMessage = () => {
     if (
       hubConnection &&
@@ -65,6 +82,8 @@ const ChatComponent = ({ hubConnection, isMember,isZombie}) => {
       setNewMessage("");
     }
   };
+
+  // Handle sending messages on Enter key press
   const handleKeyDown = (e) => {
   if (e.key === "Enter") {
     // Enter key SEND MESSAGE
@@ -72,33 +91,45 @@ const ChatComponent = ({ hubConnection, isMember,isZombie}) => {
     // Reset the input field
     setNewMessage("");
   }
-};
+  };
+  
+  // Change the lobby
   const changeLobby = (newLobby) => {
     if (hubConnection && hubConnection.state === signalR.HubConnectionState.Connected) {
       if (lobby) {
+        // Leave the current lobby if the user is in one
         hubConnection
           .invoke("LeaveRoom", lobby, username)
           .catch((error) => {
             console.error("Error leaving the lobby: " + error);
           });
       }
+      // Join the new lobby
       hubConnection
         .invoke("JoinRoom", newLobby, username)
         .catch((error) => {
           console.error("Error joining the lobby: " + error);
         });
+      
+      // Update the list of users in the lobby
       const updatedUsers = [...users, username];
       setUsers(updatedUsers);
     }
+    // Update the active lobby and reset chat messages
     setLobby(newLobby);
     setReceivedMessages([]);
+
+    // Close the lobby change menu
     setShowMenu(false);
   };
+
+  // Handle username change and store it in session storage
   const handleUsernameChange = (e) => {
     const newUsername = e.target.value;
     setUsername(newUsername);
     sessionStorage.setItem("username", newUsername);
   };
+
   return (
     <div className="h-fit w-fit m-auto max-w-xs ">
       {lobby && (
