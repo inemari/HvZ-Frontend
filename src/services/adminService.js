@@ -1,14 +1,20 @@
-import gameService, { addMissionToGame, addRuleToGame } from "../api/services/gameService";
-import missionService, { addLocationToMission } from "../api/services/missionService";
+import gameService, {
+  addMissionToGame,
+  addRuleToGame,
+} from "../api/services/gameService";
+import missionService, {
+  addLocationToMission,
+} from "../api/services/missionService";
 import ruleService from "../api/services/ruleService";
 import locationService from "../api/services/locationService";
 import { useNavigate } from "react-router-dom";
 
 export const createGame = async (gameData, missions, rules, locations) => {
   try {
+    console.log("createdata", gameData);
     // Step 1: Create the game
     const gameResponse = await gameService.add(gameData);
-
+    console.log("createdata2", gameData);
     if (gameResponse && gameResponse.id) {
       const gameId = gameResponse.id;
 
@@ -86,8 +92,63 @@ export const createGame = async (gameData, missions, rules, locations) => {
   }
 };
 
+export const editGame = async (
+  gameData,
+  missions,
+  rules,
+  locations,
+  gameId
+) => {
+  try {
+    const editedGameData = {
+      id: gameId,
+      ...gameData,
+    };
+    console.log("gameId: ", gameId);
+    console.log("editdata: ", editedGameData);
+
+    // Step 1: Update the game
+    const gameResponse = await gameService.updateById(gameId, editedGameData);
+
+    /*    if (false) {
+      console.log("gamerespons");
+      const gameId = gameResponse.id;
+
+      const ruleIds = [];
+      for (const ruleData of rules) {
+        const editedRuleData = {
+          id: ruleData.id,
+          ...ruleData,
+        };
+        try {
+          console.log("ruleId", editedRuleData.id, "data", editedRuleData)
+          const response = await ruleService.updateById(editedRuleData.id, editedRuleData);
+          if (response && response.id) {
+            ruleIds.push(response.id);
+          } else {
+            console.error("Failed to update rule1:", ruleData);
+          }
+        } catch (error) {
+          console.error("Failed to update rule2:", error);
+        }
+      }
+
+      // Additional steps can be added here if needed.
+
+      return gameId;
+    } else {
+      console.error("Failed to update the game");
+      return null;
+    } */
+    return gameId;
+  } catch (error) {
+    console.error("Failed to update the game:", error);
+    return null;
+  }
+};
+
 export const setEditGame = (game, navigate) => {
   // Save game information to localStorage when a game is clicked
-  localStorage.setItem('selectedGame', JSON.stringify(game));
-  navigate('/EditGame');
+  localStorage.setItem("selectedGame", JSON.stringify(game));
+  navigate("/EditGame");
 };

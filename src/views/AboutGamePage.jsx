@@ -37,7 +37,6 @@ function AboutGame() {
   }, []);
 
   return (
-
     <Container>
       <div className="flex flex-row  text-white h-fit justify-center border-b pb-3 mb-3">
         <h1 className="text-3xl md:text-4xl font-bold mt-2 pr-3 ">
@@ -48,14 +47,12 @@ function AboutGame() {
         </p>
       </div>
 
-
       <div className="grid grid-cols-5 gap-3 mx-auto w-full ">
-
-        <div className='col-span-1 grid'>
-          <div className=' flex'>
+        <div className="col-span-1 grid">
+          <div className=" flex">
             <GameImage game={selectedGame} maxW={"max-w-xs "} square={true} />
-
-          </div></div>
+          </div>
+        </div>
 
         {selectedGame && (
           <div className=" rounded w-full ml-auto mr-auto grid col-span-4">
@@ -66,15 +63,17 @@ function AboutGame() {
               </div>
               <div className="grid grid-cols-2 gap-2 ">
                 <div className="grid col-span-1 mt-0 h-fit ">
-                  <h2 className="text-lg font-bold">RULES</h2><ListObjects list={gameRules} /></div>
-                <div className="grid col-span-1 mt-0 h-fit"><h2 className="text-lg font-bold">MISSIONS
-                </h2><ListObjects list={gameMissions} /></div>
-
+                  <h2 className="text-lg font-bold">RULES</h2>
+                  <ListObjects list={gameRules} />
+                </div>
+                <div className="grid col-span-1 mt-0 h-fit">
+                  <h2 className="text-lg font-bold">MISSIONS</h2>
+                  <ListObjects list={gameMissions} />
+                </div>
               </div>
             </div>
           </div>
         )}
-
       </div>
       <div className=" justify-center mx-auto px-auto pb-20 text-center">
         <h2 className="text-lg font-bold pb-3">MAP</h2>
@@ -82,13 +81,16 @@ function AboutGame() {
       </div>
 
       {showModal && (
-        <ModalContainer showModal={showModal} handleCloseModal={handleCloseModal}>
+        <ModalContainer
+          showModal={showModal}
+          handleCloseModal={handleCloseModal}
+        >
           <UserNameModal onClose={handleCloseModal} />
         </ModalContainer>
       )}
 
       <div className="mb-20 mr-8 space-y-5 fixed bottom-0 right-0 flex flex-row">
-        {/* {keycloak.authenticated && keycloak.hasRealmRole("admin") && (
+        {keycloak.authenticated && keycloak.hasRealmRole("admin") && (
           <CustomBtn
             label={"Edit game"}
             icon={editIcon}
@@ -96,7 +98,7 @@ function AboutGame() {
             rounded={"3xl"}
             onClick={() => navigate("/EditGame")}
           />
-        )} */}
+        )}
         {keycloak.authenticated && (
           <CustomBtn
             onClick={handleButtonClick}
@@ -108,7 +110,6 @@ function AboutGame() {
           />
         )}
       </div>
-
     </Container>
   );
 }
