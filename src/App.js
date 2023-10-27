@@ -43,12 +43,6 @@ const App = () => {
             console.log(
               `Received location update from ${playerId}: x - ${x}, y - ${y}`
             );
-
-            // Trigger the re-render of the map when a location update is received
-            if (locationHubConnection) {
-              locationHubConnection.off("ReceiveLocationUpdate");
-            }
-            setTriggerBool((prev) => !prev);
           });
         } catch (error) {
           console.error("Error connecting to SignalR locationhub: ", error);
