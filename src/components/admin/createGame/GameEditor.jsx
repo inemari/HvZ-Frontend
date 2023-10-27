@@ -30,22 +30,24 @@ const GameEditor = () => {
   const [gameCreated, setGameCreated] = useState(false);
   const [gameId, setGameId] = useState(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  //const [pictureURL, setPictureURL] = useState(""); // State to store the image URL
+  const [pictureURL, setPictureURL] = useState(
+    "https://fastly.picsum.photos/id/1/200/300.jpg?hmac=jH5bDkLr6Tgy3oAg5khKCHeunZMHq0ehBZr6vGifPLY"
+  ); // State to store the image URL
   const fetchedGameMissions = useFetchGameMissions(selectedGame?.missionIds);
   const fetchedGameRules = useFetchGameRules(selectedGame?.ruleIds || []);
   const gameEntity = {
     title: editMode ? selectedGame.title : "",
     description: editMode ? selectedGame.description : "",
-    pictureURL: editMode ? selectedGame.pictureURL : "",
+    pictureURL: editMode ? selectedGame.pictureURL : pictureURL,
     mapURL: editMode ? selectedGame.mapURL : "",
     gameRules: editMode ? fetchedGameRules : [],
     gameMissions: editMode ? fetchedGameMissions : [],
   };
   const [gameFormData, setGameFormData] = useState(gameEntity);
-/*   const handleImageUrlChange = (e) => {
+  const handleImageUrlChange = (e) => {
     // Update the imageUrl state when the input value changes
     setPictureURL(e.target.value);
-  }; */
+  };
   const openMissionModal = () => {
     setIsMissionModalOpen(true);
   };
@@ -76,30 +78,29 @@ const GameEditor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-      // Create the game and get the game ID
-      const gameId = await createGame(
-        gameFormData,
-        missionObjects,
-        ruleObjects,
-        locationObjects
-      );
-      if (gameId) {
-        setGameCreated(true);
-        setGameId(gameId);
-        // Show the success message
-        setShowSuccessMessage(true);
-        // Update the placeholders and reset the form
-        setGameFormData(gameEntity);
-        setMissionObjects([]);
-        setRuleObjects([]);
-        setLocationObjects([]);
-        // Hide the success message after 3 seconds
-        setTimeout(() => {
-          setShowSuccessMessage(false);
-          navigate("/LandingPage");
-        }, 3000);
-      }
-    
+    // Create the game and get the game ID
+    const gameId = await createGame(
+      gameFormData,
+      missionObjects,
+      ruleObjects,
+      locationObjects
+    );
+    if (gameId) {
+      setGameCreated(true);
+      setGameId(gameId);
+      // Show the success message
+      setShowSuccessMessage(true);
+      // Update the placeholders and reset the form
+      setGameFormData(gameEntity);
+      setMissionObjects([]);
+      setRuleObjects([]);
+      setLocationObjects([]);
+      // Hide the success message after 3 seconds
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+        navigate("/LandingPage");
+      }, 3000);
+    }
   };
 
   return (
@@ -111,12 +112,10 @@ const GameEditor = () => {
           message="You will be redirected to the landingPage"
         />
       )}
-      <form
-        className="justify-center flex-wrap w-full flex "
-      >
+      <form className="justify-center flex-wrap w-full flex ">
         <div className="lg:grid md:grid-cols-7 pt-3  gap-3 w-full relative ">
           <img
-            src={gameEntity.pictureURL || noImage}
+            src={pictureURL || noImage}
             id="imgURL"
             alt="Game"
             className="aspect-square col-span-2 justify-center p-3"
@@ -124,6 +123,7 @@ const GameEditor = () => {
           <div className="grid lg:col-span-5 lg:gap-3">
             {/* Title and description section */}
             <GameInfoInput
+              handleImageUrlChange={handleImageUrlChange}
               gameFormData={gameFormData}
               handleInputChange={handleInputChange}
               placeholder={gameCreated}
@@ -186,44 +186,43 @@ const GameEditor = () => {
             onClick={handleSubmit}
           />
         </div>
-     
-      {/* add Mission modal */}
-      <MissionContainer
-        children={
-          <>
-            <div className="grid lg:grid-cols-3 grid-cols-1 items-center gap-2">
-              <MissionInput
-                gameId={gameId}
-                onAddMission={handleAddMission}
-                onAddLocation={handleAddMarker}
-                closeModal={closeModal}
-                showModal={isMissionModalOpen}
-              />
-              <div className="grid col-span-full lg:col-span-2 h-full items-center lg:p-5">
-                <Map creating={missionObjects.length > 0} />
+
+        {/* add Mission modal */}
+        <MissionContainer
+          children={
+            <>
+              <div className="grid lg:grid-cols-3 grid-cols-1 items-center gap-2">
+                <MissionInput
+                  gameId={gameId}
+                  onAddMission={handleAddMission}
+                  onAddLocation={handleAddMarker}
+                  closeModal={closeModal}
+                  showModal={isMissionModalOpen}
+                />
+                <div className="grid col-span-full lg:col-span-2 h-full items-center lg:p-5">
+                  <Map creating={missionObjects.length > 0} />
+                </div>
               </div>
-            </div>
-          </>
-        }
-        showModal={isMissionModalOpen}
-        handleCloseModal={closeModal}
-      />
-      {/* add rule modal */}
-      <RuleContainer
-        children={
-          <RuleInput
-            gameId={gameId}
-            onAddRule={handleAddRule}
-            closeModal={closeModal}
-            showModal={isRuleModalOpen}
-          />
-        }
-        showModal={isRuleModalOpen}
-        handleCloseModal={closeModal}
+            </>
+          }
+          showModal={isMissionModalOpen}
+          handleCloseModal={closeModal}
         />
-         </form>
-      </>
-      
+        {/* add rule modal */}
+        <RuleContainer
+          children={
+            <RuleInput
+              gameId={gameId}
+              onAddRule={handleAddRule}
+              closeModal={closeModal}
+              showModal={isRuleModalOpen}
+            />
+          }
+          showModal={isRuleModalOpen}
+          handleCloseModal={closeModal}
+        />
+      </form>
+    </>
   );
 };
 export default GameEditor;

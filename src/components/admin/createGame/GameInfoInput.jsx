@@ -6,6 +6,7 @@ const GameInfoInput = ({
   handleInputChange,
   defaultDescription,
   defaultTitle,
+  handleImageUrlChange
 }) => {
   return (
     <div className="flex flex-col pb-5 w-full justify-between top-0 gap-3">
@@ -34,13 +35,12 @@ const GameInfoInput = ({
       />
 
       <InputAdmin
-        
         label="Image URL"
         textComponent="input"
         type="url"
-        fieldName="pictureURL" // Use the correct field name here
+        fieldname="pictureURL" // Use the correct field name here
         value={gameFormData.pictureURL}
-        onChange={handleInputChange}
+        onChange={handleImageUrlChange}
         id="pictureURL"
         TooltipContent={
           "Insert a URL for the image you would like to represent the game."

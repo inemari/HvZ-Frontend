@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import GameCard from "../../game/GameCard";
 import ModalContainer from "../../common/ModalContainer";
-import { fetchGames } from "../../../services/api";
 import { setEditGame } from "../../../services/adminService";
+import gameService from "../../../api/services/gameService";
 
 const ChooseGameModal = ({ closeModal }) => {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ const ChooseGameModal = ({ closeModal }) => {
     useEffect(() => {
         const fetchGamesData = async () => {
             try {
-                const gamesData = await fetchGames();
+                const gamesData = await gameService.getAll();
                 setGames(gamesData);
             } catch (error) {
                 console.error('Error fetching games:', error);
