@@ -28,13 +28,17 @@ const MissionList = () => {
 
   return (
     <ul>
-      {missionData.map((mission) => (
-        <li key={mission.id}>
-          <MissionMarker missionId={mission.id} />
-        </li>
-      ))}
+      {(sessionStorage.getItem("joinedGame") || false) ? (
+        missionData.map((mission) => (
+          <li key={mission.id}>
+            <MissionMarker missionId={mission.id} />
+          </li>
+        ))
+      ) : (
+        <p></p>
+      )}
     </ul>
   );
-};
+}
 
 export default MissionList;

@@ -32,13 +32,17 @@ const KillList = () => {
 
   return (
     <ul>
-      {killData.map((kill) => (
-        <li key={kill.id}>
-          <KillMarker killId={kill.id} />
-        </li>
-      ))}
+      {(sessionStorage.getItem("joinedGame") || false) ? (
+        killData.map((kill) => (
+          <li key={kill.id}>
+            <KillMarker killId={kill.id} />
+          </li>
+        ))
+      ) : (
+        <p></p>
+      )}
     </ul>
   );
-};
+}
 
 export default KillList;
