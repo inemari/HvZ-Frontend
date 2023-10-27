@@ -1,21 +1,24 @@
-import logo from '../../assets/icons/logo2.png';
+import logo from '../../../assets/icons/logo2.png';
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import AuthButtons from './AuthButtons.jsx';
+import AuthButtons from './AuthButtons.jsx.jsx';
 import Dropdown from './DropDownBtn.jsx';
 import { NavLink } from 'react-router-dom';
 import { useKeycloak } from '@react-keycloak/web';
 
+
+// NavBar navigation bar adapting its content based on user roles and the current page with responsive design.
 const NavBar = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
     const disallowedPaths = ['/', '/LandingPage', '/AboutGame', '/EditGame', '/CreateGame', '/Dashboard'];
+    const { keycloak } = useKeycloak();
+
+    // Function to toggle the hamburger menu displayed on small screens.
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
-    const { keycloak } = useKeycloak();
-
 
     return (
         <nav className="bg-black bg-opacity-70 sticky inset-0 z-10 block w-full max-w-full mb-5 shadow-lg">

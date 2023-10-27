@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
+// Container component provides a dynamic container with adjustable height and scrolling based on the current page.
 const Container = ({ children }) => {
     const location = useLocation();
     const containerSize = {

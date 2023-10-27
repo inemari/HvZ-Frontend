@@ -1,6 +1,9 @@
 import React from 'react';
 
+// PlayerStatus component displays information about a player, including their name, team (Zombie or Human), and status.
 const PlayerStatus = ({ playerName, playerStatus, playerTeam }) => {
+
+  // Determine the color based on the player's team (Zombie or Human)
   const statusColor = playerTeam === 'Zombie' ? 'text-red-500' : 'text-green-500';
 
   return (
@@ -11,5 +14,4 @@ const PlayerStatus = ({ playerName, playerStatus, playerTeam }) => {
     </div>
   );
 };
-
 export default PlayerStatus;

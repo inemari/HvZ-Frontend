@@ -1,5 +1,9 @@
 import React from 'react';
 
+// SuccessMessage component displays a success message with a header and a message.
+// Props:
+// - header: The header text for the success message.
+// - message: The message text for the success message.
 const SuccessMessage = ({ header, message }) => {
 
     return (

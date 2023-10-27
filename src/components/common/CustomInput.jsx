@@ -1,6 +1,17 @@
 import React from 'react';
 import infoicon from '../../assets/ui/info.png';
 
+// CustomInput component is used to create a customizable input or textarea element.
+// Props:
+// - textComponent: Specifies whether the input is a text input or a textarea.
+// - fieldname: The name of the input field.
+// - placeholder: The placeholder text for the input.
+// - id: The unique identifier for the input.
+// - label: The label text for the input.
+// - TooltipContent: The content to display as a tooltip when hovering over the info icon.
+// - defaultContent: The default content for the input.
+// - value: The value of the input.
+// - className: Additional CSS classes to be applied.
 const CustomInput = ({
     textComponent,
     fieldname,

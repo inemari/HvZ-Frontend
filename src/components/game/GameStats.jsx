@@ -2,8 +2,12 @@ import React from 'react';
 import { useFetchGameRules } from '../../api/services/ruleService';
 import ListObjects from '../admin/createGame/ListObjects';
 
+// GameStats component displays game statistics and information for a selected game.
 const GameStats = () => {
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
+  const gameRules = useFetchGameRules(selectedGame?.ruleIds || []);
+
+  // A simple utility function to count the number of values in an array.
   const StatNumbers = (values) => {
     let i = 0;
     for (const value of values) {
@@ -11,9 +15,6 @@ const GameStats = () => {
     }
     return i;
   };
-  const gameRules = useFetchGameRules(selectedGame?.ruleIds || []);
-
-
 
   return (
     <div className="grid grid-cols-2 justify-center gap-2 text-white w-full pb-3">

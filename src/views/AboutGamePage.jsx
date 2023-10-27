@@ -1,5 +1,3 @@
-// AboutGame.js
-
 import React, { useState, useEffect } from "react";
 import CustomBtn from "../components/common/CustomButton";
 import { useKeycloak } from "@react-keycloak/web";
@@ -16,7 +14,7 @@ import { useFetchGameRules } from "../api/services/ruleService";
 import ListObjects from "../components/admin/createGame/ListObjects";
 import ModalContainer from "../components/common/ModalContainer";
 
-function AboutGame() {
+const AboutGame = () => {
   const { keycloak } = useKeycloak();
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const [showModal, setShowModal] = useState(false);

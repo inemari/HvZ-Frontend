@@ -7,39 +7,38 @@ import MapPage from "./views/Game/MapPage";
 import SquadRegistration from "./views/Game/Squad/SquadRegistration.jsx";
 import SquadDetails from "./views/Game/Squad/SquadDetails";
 import BiteCode from "./views/Game/BiteCode";
-// import AuthenticatedRoute from './helpers/AuthenticatedRoute';
-import { useKeycloak } from "@react-keycloak/web"; // Import useKeycloak
-import NavBar from "./components/common/NavBar";
+import { useKeycloak } from "@react-keycloak/web";
+import NavBar from "./components/common//navigation/NavBar";
 import ChatComponent from "./components/chat/Chat";
-
 import * as signalR from "@microsoft/signalr";
 import { LocationProvider } from "./LocationContext";
 import CreateGame from "./views/admin/CreateGame";
 import EditGame from "./views/admin/EditGame";
 import KeycloakRoute from "./routes/KeyCloakRoute";
-import Dashboard from "./views/admin/Dashboard";
+import Dashboard from "./views/admin/DashBoard";
 
+/**
+ * The `App` component is the root component of the application.
+ * It sets up the routing for different views, handles authentication using Keycloak, and initializes SignalR connections
+ * for real-time communication features like chat and location updates.
+ */
 const App = () => {
   const { keycloak, initialized } = useKeycloak(); // Use the hook to get keycloak instance
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [locationHubConnection, setLocationHubConnection] = useState(null);
   const [hubConnection, setHubConnection] = useState(null);
-  const [triggerBool, setTriggerBool] = useState(false);
-  // const location = useLocation().pathname;
-  // const disallowedPaths = ['/', '/LandingPage', '/AboutGame', '/EditGame', '/CreateGame', '/Dashboard'];
+
   useEffect(() => {
+
+    // Function to create a new SignalR hub connection for location updates
     const createLocationHubConnection = async () => {
       if (initialized && keycloak.authenticated) {
         const newConnection = new signalR.HubConnectionBuilder()
-          .withUrl("https://localhost:7041/locationhub")
+          .withUrl(process.env.REACT_APP_API_URL)
           .configureLogging(signalR.LogLevel.Debug)
           .build();
-
         try {
           await newConnection.start();
-          console.log("Connected to SignalR locationhub!");
           setLocationHubConnection(newConnection);
-
           newConnection.on("ReceiveLocationUpdate", (playerId, x, y) => {
             console.log(
               `Received location update from ${playerId}: x - ${x}, y - ${y}`
@@ -50,20 +49,15 @@ const App = () => {
         }
       }
     };
-
     createLocationHubConnection();
-  }, [initialized, keycloak.authenticated]); // Listen for changes in authentication status
+  }, [initialized, keycloak.authenticated]);
 
   useEffect(() => {
+    // Function to create a new SignalR hub connection for chat messages
     const createHubConnection = async () => {
       if (initialized && keycloak.authenticated) {
-        // Only create SignalR connection if authenticated
         const newConnection = new signalR.HubConnectionBuilder()
-          .withUrl("https://localhost:7041/chathub", {
-            /*                 skipNegotiation: true,
-    transport: signalR.HttpTransportType.WebSockets  */
-          })
-
+          .withUrl(process.env.REACT_APP_CHATHUB)
           .configureLogging(signalR.LogLevel.Debug)
           .build();
 
@@ -80,9 +74,8 @@ const App = () => {
         }
       }
     };
-
     createHubConnection();
-  }, [initialized, keycloak.authenticated]); // Listen for changes in authentication status
+  }, [initialized, keycloak.authenticated]);
 
   return (
     <BrowserRouter>
