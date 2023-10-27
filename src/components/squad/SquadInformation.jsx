@@ -13,8 +13,7 @@ import { updatePlayerLocation } from "../../api/services/playerService";
 
 const SquadInformation = ({
   squadId,
-  locationHubConnection,
-  hubConnection,
+  locationHubConnection
 }) => {
   const [squadDetails, setSquadDetails] = useState(null);
   const [isMember, setIsMember] = useState(false); // A flag to track squad membership
@@ -57,13 +56,29 @@ const SquadInformation = ({
       if (isMember) {
         // Leave the squad
         await leaveSquad(squadId, playerId);
+        sessionStorage.setItem("joinedSquadId", "");
       } else {
         // Join the squad
         await joinSquad(squadId, playerId);
+        sessionStorage.setItem("joinedSquadId", squadId);
+  
+        if (
+          locationHubConnection &&
+          locationHubConnection.state === signalR.HubConnectionState.Connected
+        ) {
+  
+          // Add the client to the group on the frontend
+          locationHubConnection
+            .invoke("AddToGroup", playerId)
+            .catch((error) => {
+              console.error("Error adding to group: " + error);
+            });
+        }
+        
+  
+        // Refetch squad details to update the information
+        await fetchSquadDetails();
       }
-
-      // Refetch squad details to update the information
-      await fetchSquadDetails();
     } catch (error) {
       console.error("Error joining or leaving the squad:", error);
     }
