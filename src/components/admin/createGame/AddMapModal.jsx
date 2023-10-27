@@ -20,7 +20,7 @@ const AddMap = ({ handleInputChange }) => {
             alt={path}
             onClick={() => {
               setSelectedImageKey(path); // Set the selected image key
-              handleInputChange({ target: { name: "pictureURL", value: mapFolder(path) } });
+              handleInputChange({ target: { name: "mapURL", value: mapFolder(path) } });
             }}
             className={`object-cover rounded aspect-video ${selectedImageKey === path ? "border-4 border-customOrange" : ""}`}
           />

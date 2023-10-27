@@ -1,38 +1,24 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import createCrudService from "../ICrudService";
+import api from "../axios";
 
-const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
-});
+const missionService = createCrudService("Mission");
 
-export const postMission = async (missionData) => {
-  try {
-    const response = await api.post("/mission", missionData, {
-      headers: { "Content-Type": "application/json" },
-    });
-    return response.data;
-  } catch (error) {
-    if (error.response) {
-      console.error("Failed to post Mission:", error.response.data);
-    }
-    throw error;
-  }
-};
 
 export const addLocationToMission = async (missionId, locationId) => {
-  try {
-    const response = await api.put(
-      `/mission/${missionId}/add-location/${locationId}`
-    );
-    return response.data;
-  } catch (error) {
-    if (error.response) {
-      console.error("'Failed to add location to mission'", error.response.data);
+    try {
+      const response = await api.put(
+        `/mission/${missionId}/add-location/${locationId}`
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        console.error("'Failed to add location to mission'", error.response.data);
+      }
+      throw new Error("Failed to add location to mission");
     }
-    throw new Error("Failed to add location to mission");
-  }
 };
-
+  
 export const getGameMissions = async (missionIds) => {
   try {
     const missions = [];
@@ -63,3 +49,6 @@ export const useFetchGameMissions = (ruleIds) => {
 
   return gameMissions;
 };
+
+  
+export default missionService;

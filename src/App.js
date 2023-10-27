@@ -16,7 +16,8 @@ import * as signalR from "@microsoft/signalr";
 import { LocationProvider } from "./LocationContext";
 import CreateGame from "./views/admin/CreateGame";
 import EditGame from "./views/admin/EditGame";
-
+import KeycloakRoute from "./routes/KeyCloakRoute";
+import DashBoard from "./views/admin/DashBoard";
 
 const App = () => {
   const { keycloak, initialized } = useKeycloak(); // Use the hook to get keycloak instance
@@ -28,8 +29,6 @@ const App = () => {
   useEffect(() => {
     const createLocationHubConnection = async () => {
       if (initialized && keycloak.authenticated) {
-        const playerId = "12"; //parseInt(sessionStorage.getItem("playerId"), 10);
-
         const newConnection = new signalR.HubConnectionBuilder()
           .withUrl("https://localhost:7041/locationhub")
           .configureLogging(signalR.LogLevel.Debug)
@@ -41,15 +40,10 @@ const App = () => {
           setLocationHubConnection(newConnection);
 
           newConnection.on("ReceiveLocationUpdate", (playerId, x, y) => {
-            console.log(`Received location update from ${playerId}: x - ${x}, y - ${y}`);
-
-            // Trigger the re-render of the map when a location update is received
-            if (locationHubConnection) {
-              locationHubConnection.off("ReceiveLocationUpdate");
-            }
-            setTriggerBool((prev) => !prev);
+            console.log(
+              `Received location update from ${playerId}: x - ${x}, y - ${y}`
+            );
           });
-
         } catch (error) {
           console.error("Error connecting to SignalR locationhub: ", error);
         }
@@ -97,27 +91,73 @@ const App = () => {
           <div className="background-image absolute top-0 left-0 "></div>
           <NavBar />
         </div>
-        <div className="m-5 space-y-5 break-words">
-
+        <div className="m-5 space-y-5 break-words static">
           <Routes>
             <Route path="/LandingPage" element={<LandingPage />} />
             <Route path="/" element={<LandingPage />} />
             <Route path="/AboutGame" element={<AboutGame />} />
-            <Route path="/Map" element={<MapPage locationHubConnection={locationHubConnection} />} />
-            <Route path="/SquadRegistration" element={<SquadRegistration />} />
+            <Route
+              path="/Map"
+              element={
+                <KeycloakRoute role="user" requiresGameJoin={true}>
+                  <MapPage locationHubConnection={locationHubConnection} />
+                </KeycloakRoute>
+              }
+            />
+            <Route
+              path="/SquadRegistration"
+              element={
+                <KeycloakRoute role="user" requiresGameJoin={true}>
+                  <SquadRegistration />
+                </KeycloakRoute>
+              }
+            />
             <Route
               path="/SquadDetails"
               element={
-                <SquadDetails locationHubConnection={locationHubConnection} />
+                <KeycloakRoute role="user" requiresGameJoin={true}>
+                  <SquadDetails locationHubConnection={locationHubConnection} />
+                </KeycloakRoute>
               }
             />
-            <Route path="/BiteCode" element={<BiteCode />} />
-            <Route path="/CreateGame" element={<CreateGame />} />
-            <Route path="/EditGame" element={<EditGame />} />
-          </Routes></div>
+            <Route
+              path="/BiteCode"
+              element={
+                <KeycloakRoute role="user" requiresGameJoin={true}>
+                  <BiteCode />
+                </KeycloakRoute>
+              }
+            />
+            <Route
+              path="/CreateGame"
+              element={
+                <KeycloakRoute role="admin">
+                  <CreateGame />
+                </KeycloakRoute>
+              }
+            />
+            <Route
+              path="/EditGame"
+              element={
+                <KeycloakRoute role="admin">
+                  <EditGame />
+                </KeycloakRoute>
+              }
+            />
+            <Route
+              path="/Dashboard"
+              element={
+                // <KeycloakRoute role="admin">
+                <DashBoard />
+                // </KeycloakRoute>
+              }
+            />
+          </Routes>
+        </div>
 
         <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
-          <ChatComponent hubConnection={hubConnection} /></div>
+          {/* <ChatComponent hubConnection={hubConnection} /> */}
+        </div>
       </LocationProvider>
     </BrowserRouter>
   );

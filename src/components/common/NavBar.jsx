@@ -9,7 +9,7 @@ const NavBar = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
-
+    const disallowedPaths = ['/', '/AboutGame', '/EditGame', '/CreateGame'];
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
@@ -53,7 +53,7 @@ const NavBar = () => {
 
                 <div className={`text-white md:flex md:mr-0 md:ml-auto w-full md:w-auto pb-3 `}>
                     <ul className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 justify-center rounded md:bg-transparent md:p-0 ">
-                        {location.pathname !== '/' && location.pathname !== '/AboutGame' && (
+                        {!disallowedPaths.includes(location.pathname) && (
                             <>
                                 <li>
                                     <NavLink

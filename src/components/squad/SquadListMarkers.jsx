@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { fetchPlayerLocationsForGame } from "../../services/mapService";
 import SquadMarker from "./SquadMarker";
-import { useKeycloak } from "@react-keycloak/web";
 import { useLocationContext } from "../../LocationContext";
-import { getGame } from "../../services/gameService";
+import gameService from "../../api/services/gameService";
 
 const SquadListMarkers = ({ rerenderMap }) => {
   const { locationHubConnection } = useLocationContext();
   const [playerData, setPlayerData] = useState([]);
-  const { keycloak, initialized } = useKeycloak();
   const [game, setGame] = useState(null);
   const previousPlayerDataRef = useRef([]);
   const [loading, setLoading] = useState(false);
@@ -18,7 +16,7 @@ const SquadListMarkers = ({ rerenderMap }) => {
       setLoading(true);
 
       const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
-      const gameData = await getGame(selectedGame.id);
+      const gameData = await gameService.getById(selectedGame.id);
       setGame(gameData);
       const playerIds = gameData.playerIds;
 

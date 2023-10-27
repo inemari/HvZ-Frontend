@@ -1,12 +1,13 @@
-import { postGame, addMissionToGame, addRuleToGame } from "./gameService";
-import { postMission, addLocationToMission } from "./missionService";
-import { postLocation } from "./locationService";
-import { postRule } from "./ruleService";
+import gameService, { addMissionToGame, addRuleToGame } from "../api/services/gameService";
+import missionService, { addLocationToMission } from "../api/services/missionService";
+import ruleService from "../api/services/ruleService";
+import locationService from "../api/services/locationService";
+import { useNavigate } from "react-router-dom";
 
 export const createGame = async (gameData, missions, rules, locations) => {
   try {
     // Step 1: Create the game
-    const gameResponse = await postGame(gameData);
+    const gameResponse = await gameService.add(gameData);
 
     if (gameResponse && gameResponse.id) {
       const gameId = gameResponse.id;
@@ -15,7 +16,7 @@ export const createGame = async (gameData, missions, rules, locations) => {
       const missionIds = [];
       for (const missionData of missions) {
         try {
-          const response = await postMission(missionData);
+          const response = await missionService.add(missionData);
           if (response && response.id) {
             missionIds.push(response.id);
           } else {
@@ -30,7 +31,7 @@ export const createGame = async (gameData, missions, rules, locations) => {
       const ruleIds = [];
       for (const ruleData of rules) {
         try {
-          const response = await postRule(ruleData);
+          const response = await ruleService.add(ruleData);
           if (response && response.id) {
             ruleIds.push(response.id);
           } else {
@@ -45,7 +46,7 @@ export const createGame = async (gameData, missions, rules, locations) => {
       for (let i = 0; i < locations.length; i++) {
         const locationData = locations[i];
         try {
-          const response = await postLocation(locationData);
+          const response = await locationService.add(locationData);
           if (response && response.id) {
             const locationId = response.id;
 
@@ -83,4 +84,10 @@ export const createGame = async (gameData, missions, rules, locations) => {
     console.error("Failed to create the game:", error);
     return null;
   }
+};
+
+export const setEditGame = (game, navigate) => {
+  // Save game information to localStorage when a game is clicked
+  localStorage.setItem('selectedGame', JSON.stringify(game));
+  navigate('/EditGame');
 };

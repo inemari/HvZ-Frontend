@@ -1,7 +1,6 @@
 // useGames.js
 import { useState, useEffect } from 'react';
-import { getGamesByState } from './gameService'; // Adjusted import path
-
+import { getGamesByState } from "../api/services/gameService.js";
 import { useNavigate } from 'react-router-dom';
 
 const useGames = (activeTab) => {

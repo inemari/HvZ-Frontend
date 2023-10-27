@@ -14,6 +14,7 @@ const MissionList = () => {
   useEffect(() => {
     async function fetchMissionData() {
       try {
+        console.log("idsids", missionIds);
         const missionData = await fetchMissionsForGame(missionIds);
         setMissionData(missionData);
         console.log("Missiondata", missionData);
@@ -22,18 +23,22 @@ const MissionList = () => {
       }
     }
 
-    fetchMissionData(); 
+    fetchMissionData();
   }, []);
 
   return (
     <ul>
-      {missionData.map((mission) => (
-        <li key={mission.id}>
-          <MissionMarker missionId={mission.id} />
-        </li>
-      ))}
+      {(sessionStorage.getItem("joinedGame") || false) ? (
+        missionData.map((mission) => (
+          <li key={mission.id}>
+            <MissionMarker missionId={mission.id} />
+          </li>
+        ))
+      ) : (
+        <p></p>
+      )}
     </ul>
   );
-};
+}
 
 export default MissionList;

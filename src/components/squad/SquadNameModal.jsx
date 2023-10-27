@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CustomButton from "../common/CustomButton";
 import InputField from "../common/InputField";
-import { addGameIdToSquad, createNewSquad } from "../../services/squadService";
+import squadService, { addGameIdToSquad } from "../../api/services/squadService";
 
 const SquadNameModal = ({ onSquadCreated, setIsSquadCreated }) => {
   const [squadName, setSquadName] = useState("");
@@ -16,7 +16,7 @@ const SquadNameModal = ({ onSquadCreated, setIsSquadCreated }) => {
     } else {
       try {
         // Step 1: Create a new squad
-        const newSquad = await createNewSquad(squadName); // Assuming createNewSquad returns the new squad object
+        const newSquad = await squadService.add({SquadName: squadName}); // Assuming createNewSquad returns the new squad object
         const squadId = newSquad.id; // Extract the squadId from the returned object
         // Step 2: Add the game ID to the squad
         await addGameIdToSquad(squadId, selectedGameId);

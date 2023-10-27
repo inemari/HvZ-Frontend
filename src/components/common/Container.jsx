@@ -1,10 +1,16 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 const Container = ({ children }) => {
+    const location = useLocation();
+    const containerSize = {
+        height: location.pathname !== 'LandingPage' ? '80vh' : '90vh',
+        overflowY: 'auto',
+    };
     return (
-        <div className="p-10 h-full bg-black bg-opacity-60 rounded-lg text-white w-full mb-5 justify-center" style={{ height: '80vh', maxHeight: '100vh', overflowY: 'auto' }}>
+        <div className="mt-auto  align-self-center my-auto p-10 bg-black bg-opacity-60 rounded-lg text-white w-full justify-center shadow-customLightBrown shadow-sm" style={containerSize}>
             {children}
-        </div>
+        </div >
     );
 };
 

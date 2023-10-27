@@ -1,4 +1,4 @@
-//api.js
+
 import axios from 'axios';
 import keycloak from '../Keycloak';
 
@@ -17,7 +17,7 @@ api.interceptors.request.use((config) => {
 // Function to fetch player information
 export async function fetchPlayerInfo(playerId) {
   try {
-    const response = await api.get(`/players/${playerId}`);
+    const response = await api.get(`/player/${playerId}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching player info', error);
@@ -27,7 +27,7 @@ export async function fetchPlayerInfo(playerId) {
 
 export async function modifyPlayer(playerId, playerData) {
   try {
-    const response = await api.put(`/players/${playerId}`, playerData);
+    const response = await api.put(`/player/${playerId}`, playerData);
     return response.data;
   } catch (error) {
     console.error('Error updating player info', error);
@@ -39,7 +39,7 @@ export async function modifyPlayer(playerId, playerData) {
 export async function changeZombieStateOfPlayer(playerId, updatedData) {
   try {
     // Send a PUT request to update the player's status to zombie
-    const response = await api.put(`/players/${playerId}/update-zombiestate?zombie=${updatedData.zombie}&biteCode=${updatedData.biteCode}`);
+    const response = await api.put(`/player/${playerId}/update-zombiestate?zombie=${updatedData.zombie}&biteCode=${updatedData.biteCode}`);
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -70,7 +70,7 @@ export const fetchGamesByState = async (gameState) => {
 
 export const createPlayer = async (userName, gameId ) => {
   try {
-    const response = await api.post('/players', { username: userName, gameId: gameId});
+    const response = await api.post('/player', { username: userName, gameId: gameId});
     return response.data;
   } catch (error) {
     throw error;
@@ -79,7 +79,7 @@ export const createPlayer = async (userName, gameId ) => {
 
 export const getPlayerById = async (playerId) => {
   try {
-    const response = await api.get(`/players/${playerId}`);
+    const response = await api.get(`/player/${playerId}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -159,4 +159,5 @@ export const createUser = async () => {
 
 
 
-export default api;
+export default api; 
+ 
