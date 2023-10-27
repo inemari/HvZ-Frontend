@@ -2,10 +2,12 @@
 import axios from 'axios';
 import keycloak from '../Keycloak';
 
+// Create an instance of Axios for making API requests
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 
+// Intercept and add an authorization token to the request
 api.interceptors.request.use((config) => {
   const token = keycloak.token;
   if (token) {
@@ -24,7 +26,7 @@ export async function fetchPlayerInfo(playerId) {
     throw error;
   }
 }
-
+// Function to modify player information by player ID
 export async function modifyPlayer(playerId, playerData) {
   try {
     const response = await api.put(`/player/${playerId}`, playerData);
@@ -35,7 +37,7 @@ export async function modifyPlayer(playerId, playerData) {
   }
 }
 
-
+// Function to change the zombie state of a player
 export async function changeZombieStateOfPlayer(playerId, updatedData) {
   try {
     // Send a PUT request to update the player's status to zombie
@@ -50,6 +52,7 @@ export async function changeZombieStateOfPlayer(playerId, updatedData) {
   }
 }
 
+// Function to fetch all games
 export async function fetchGames() {
   try {
     const response = await api.get('/game');
@@ -58,7 +61,7 @@ export async function fetchGames() {
     throw error;
   }
 }
-
+// Function to fetch games by a specific game state
 export const fetchGamesByState = async (gameState) => {
   try {
     const response = await api.get(`/game/filterbystates/${gameState}`);
@@ -68,6 +71,7 @@ export const fetchGamesByState = async (gameState) => {
   }
 };
 
+// Function to create a new player
 export const createPlayer = async (userName, gameId ) => {
   try {
     const response = await api.post('/player', { username: userName, gameId: gameId});
@@ -77,6 +81,7 @@ export const createPlayer = async (userName, gameId ) => {
   }
 }
 
+// Function to get player information by player ID
 export const getPlayerById = async (playerId) => {
   try {
     const response = await api.get(`/player/${playerId}`);
@@ -86,6 +91,7 @@ export const getPlayerById = async (playerId) => {
   }
 };
 
+// Function to fetch all squads
 export const fetchSquads = async () => {
   try {
     const response = await api.get('/Squad');
@@ -95,6 +101,7 @@ export const fetchSquads = async () => {
   }
 };
 
+// Function to get squad information by squad ID
 export const getSquadById = async (squadId) => {
   try {
     const response = await api.get(`/Squad/${squadId}`);
@@ -104,6 +111,7 @@ export const getSquadById = async (squadId) => {
   }
 };
 
+// Function to create a new squad
 export const createSquad = async (squadName) => {
   try {
     const response = await api.post('/Squad', { SquadName: squadName });
@@ -113,6 +121,7 @@ export const createSquad = async (squadName) => {
   }
 }
 
+// Function to add a player to a squad
 export const addPlayerToSquad = async (id, playerId) => {
   try {
     const response = await api.put(`/Squad/${id}/add-player/${playerId}`);
@@ -123,6 +132,7 @@ export const addPlayerToSquad = async (id, playerId) => {
   }
 }
 
+// Function to remove a player from a squad
 export const removePlayerFromSquad = async (id, playerId) => {
   try {
     const response = await api.put(`/Squad/${id}/remove-player/${playerId}`);
@@ -133,6 +143,7 @@ export const removePlayerFromSquad = async (id, playerId) => {
   }
 }
 
+// Function to check user existence
 export const checkUserExistence = async () => {
   try {
     const response = await api.get('/AppUser/exists');
@@ -146,7 +157,7 @@ export const checkUserExistence = async () => {
     throw error;
   }
 }
-
+// Function to create a new user
 export const createUser = async () => {
   try {
     const response = await api.post('/AppUser/register');

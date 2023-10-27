@@ -1,6 +1,8 @@
 module.exports = {
+  // Define the content that this configuration applies to, including JS, JSX, and HTML files.
   content: ["./src/**/*.{js,jsx,html}"],
   theme: {
+    // Extend the default Tailwind CSS theme with custom colors and fonts.
     extend: {
       colors: {
         customOrange: '#AE5C2E',
@@ -15,6 +17,6 @@ module.exports = {
     },
   },
   plugins: [
-    // Other plugins if needed
+    // Other plugins can be added here if needed.
   ],
 };

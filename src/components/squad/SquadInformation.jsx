@@ -15,21 +15,23 @@ const SquadInformation = ({
   squadId,
   locationHubConnection
 }) => {
+  // Initialize state variables to manage component behavior
   const [squadDetails, setSquadDetails] = useState(null);
   const [isMember, setIsMember] = useState(false); // A flag to track squad membership
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [xCoordinate, setXCoordinate] = useState("");
   const [yCoordinate, setYCoordinate] = useState("");
-  const [receivedLocations, setReceivedLocations] = useState([]);
 
+  // Retrieve selected game and player ID from local storage
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const playerId = parseInt(sessionStorage.getItem("playerId"), 10);
 
+  // Function to toggle the visibility of a modal
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
 
-  // Define fetchSquadDetails here
+  // Function to fetch squad details when the component mounts
   const fetchSquadDetails = async () => {
     try {
       const details = await getSquadDetailsById(squadId);
@@ -39,7 +41,6 @@ const SquadInformation = ({
         details.playerIds.some((player) => player.playerId === playerId)
       );
 
-      console.log("PlayerID:", playerId);
     } catch (error) {
       console.error("Error fetching squad details:", error);
     }
@@ -84,6 +85,7 @@ const SquadInformation = ({
     }
   };
 
+  // Function to update the player's location marker and send real-time updates
   const handleLeaveMarker = async (event) => {
     event.preventDefault();
     try {
@@ -97,6 +99,7 @@ const SquadInformation = ({
       locationHubConnection &&
       locationHubConnection.state === signalR.HubConnectionState.Connected
     ) {
+       // Send the location update to the server
       locationHubConnection
         .invoke(
           "SendLocationUpdate",

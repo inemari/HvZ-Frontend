@@ -1,20 +1,24 @@
-import logo from '../../assets/icons/logo2.png';
+import logo from '../../../assets/icons/logo2.png';
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import AuthButtons from './AuthButtons.jsx';
+import AuthButtons from './AuthButtons.jsx.jsx';
 import Dropdown from './DropDownBtn.jsx';
 import { NavLink } from 'react-router-dom';
+import { useKeycloak } from '@react-keycloak/web';
 
+
+// NavBar navigation bar adapting its content based on user roles and the current page with responsive design.
 const NavBar = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
-    const disallowedPaths = ['/', '/AboutGame', '/EditGame', '/CreateGame'];
+    const disallowedPaths = ['/', '/LandingPage', '/AboutGame', '/EditGame', '/CreateGame', '/Dashboard'];
+    const { keycloak } = useKeycloak();
+
+    // Function to toggle the hamburger menu displayed on small screens.
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
-
-
 
     return (
         <nav className="bg-black bg-opacity-70 sticky inset-0 z-10 block w-full max-w-full mb-5 shadow-lg">
@@ -53,11 +57,20 @@ const NavBar = () => {
 
                 <div className={`text-white md:flex md:mr-0 md:ml-auto w-full md:w-auto pb-3 `}>
                     <ul className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 justify-center rounded md:bg-transparent md:p-0 ">
+
+                        <li>
+                            <NavLink
+                                to={"/LandingPage"}
+                                className={`aria-[current=page]:font-bold aria-[current=page]:hover:font-bold hover:font-semibold`}
+                            >
+                                LandingPage
+                            </NavLink>
+                        </li>
                         {!disallowedPaths.includes(location.pathname) && (
                             <>
                                 <li>
                                     <NavLink
-                                        to={'/Map'}
+                                        to={'/MapPage'}
                                         className={`aria-[current=page]:font-bold aria-[current=page]:hover:font-bold hover:font-semibold`}
                                     >
                                         Map
@@ -86,9 +99,21 @@ const NavBar = () => {
                                         Bite code actions
                                     </NavLink>
                                 </li>
+
                             </>
                         )}
-                    </ul>
+
+
+                        {keycloak.authenticated && keycloak.hasRealmRole("admin") && (
+                            <li>
+                                <NavLink
+                                    to={"/Dashboard"}
+                                    className={`aria-[current=page]:font-bold aria-[current=page]:hover:font-bold hover:font-semibold`}
+                                >
+                                    Dashboard
+                                </NavLink>
+                            </li>
+                        )}</ul>
                     <div className="space-y-2 md:space-y-0 md:space-x-6 space-x-2 md:flex-row md:flex pl-4 ">
                         <AuthButtons type="button" />
                     </div>

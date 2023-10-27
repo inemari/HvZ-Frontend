@@ -7,38 +7,38 @@ import MapPage from "./views/Game/MapPage";
 import SquadRegistration from "./views/Game/Squad/SquadRegistration.jsx";
 import SquadDetails from "./views/Game/Squad/SquadDetails";
 import BiteCode from "./views/Game/BiteCode";
-// import AuthenticatedRoute from './helpers/AuthenticatedRoute';
-import { useKeycloak } from "@react-keycloak/web"; // Import useKeycloak
-import NavBar from "./components/common/NavBar";
+import { useKeycloak } from "@react-keycloak/web";
+import NavBar from "./components/common//navigation/NavBar";
 import ChatComponent from "./components/chat/Chat";
-
 import * as signalR from "@microsoft/signalr";
 import { LocationProvider } from "./LocationContext";
 import CreateGame from "./views/admin/CreateGame";
 import EditGame from "./views/admin/EditGame";
 import KeycloakRoute from "./routes/KeyCloakRoute";
-import DashBoard from "./views/admin/DashBoard";
+import Dashboard from "./views/admin/DashBoard";
 
+/**
+ * The `App` component is the root component of the application.
+ * It sets up the routing for different views, handles authentication using Keycloak, and initializes SignalR connections
+ * for real-time communication features like chat and location updates.
+ */
 const App = () => {
   const { keycloak, initialized } = useKeycloak(); // Use the hook to get keycloak instance
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [locationHubConnection, setLocationHubConnection] = useState(null);
   const [hubConnection, setHubConnection] = useState(null);
-  const [triggerBool, setTriggerBool] = useState(false);
 
   useEffect(() => {
+
+    // Function to create a new SignalR hub connection for location updates
     const createLocationHubConnection = async () => {
       if (initialized && keycloak.authenticated) {
         const newConnection = new signalR.HubConnectionBuilder()
-          .withUrl("https://localhost:7041/locationhub")
+          .withUrl(process.env.REACT_APP_LOCATIONHUB_URL)
           .configureLogging(signalR.LogLevel.Debug)
           .build();
-
         try {
           await newConnection.start();
-          console.log("Connected to SignalR locationhub!");
           setLocationHubConnection(newConnection);
-
           newConnection.on("ReceiveLocationUpdate", (playerId, x, y) => {
             console.log(
               `Received location update from ${playerId}: x - ${x}, y - ${y}`
@@ -49,20 +49,15 @@ const App = () => {
         }
       }
     };
-
     createLocationHubConnection();
-  }, [initialized, keycloak.authenticated]); // Listen for changes in authentication status
+  }, [initialized, keycloak.authenticated]);
 
   useEffect(() => {
+    // Function to create a new SignalR hub connection for chat messages
     const createHubConnection = async () => {
       if (initialized && keycloak.authenticated) {
-        // Only create SignalR connection if authenticated
         const newConnection = new signalR.HubConnectionBuilder()
-          .withUrl("https://localhost:7041/chathub", {
-            /*                 skipNegotiation: true,
-    transport: signalR.HttpTransportType.WebSockets  */
-          })
-
+          .withUrl(process.env.REACT_APP_CHATHUB_URL)
           .configureLogging(signalR.LogLevel.Debug)
           .build();
 
@@ -79,9 +74,8 @@ const App = () => {
         }
       }
     };
-
     createHubConnection();
-  }, [initialized, keycloak.authenticated]); // Listen for changes in authentication status
+  }, [initialized, keycloak.authenticated]);
 
   return (
     <BrowserRouter>
@@ -97,10 +91,13 @@ const App = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/AboutGame" element={<AboutGame />} />
             <Route
-              path="/Map"
+              path="/MapPage"
               element={
                 <KeycloakRoute role="user" requiresGameJoin={true}>
                   <MapPage locationHubConnection={locationHubConnection} />
+                  <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
+                    <ChatComponent hubConnection={hubConnection} />
+                  </div>
                 </KeycloakRoute>
               }
             />
@@ -109,6 +106,9 @@ const App = () => {
               element={
                 <KeycloakRoute role="user" requiresGameJoin={true}>
                   <SquadRegistration />
+                  <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
+                    <ChatComponent hubConnection={hubConnection} />
+                  </div>
                 </KeycloakRoute>
               }
             />
@@ -117,6 +117,9 @@ const App = () => {
               element={
                 <KeycloakRoute role="user" requiresGameJoin={true}>
                   <SquadDetails locationHubConnection={locationHubConnection} />
+                  <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
+                    <ChatComponent hubConnection={hubConnection} />
+                  </div>
                 </KeycloakRoute>
               }
             />
@@ -125,6 +128,17 @@ const App = () => {
               element={
                 <KeycloakRoute role="user" requiresGameJoin={true}>
                   <BiteCode />
+                  <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
+                    <ChatComponent hubConnection={hubConnection} />
+                  </div>
+                </KeycloakRoute>
+              }
+            />
+            <Route
+              path="/DashBoard"
+              element={
+                <KeycloakRoute role="admin">
+                  <Dashboard />
                 </KeycloakRoute>
               }
             />
@@ -144,19 +158,7 @@ const App = () => {
                 </KeycloakRoute>
               }
             />
-            <Route
-              path="/Dashboard"
-              element={
-                // <KeycloakRoute role="admin">
-                <DashBoard />
-                // </KeycloakRoute>
-              }
-            />
           </Routes>
-        </div>
-
-        <div className="m-5 space-y-5 break-words absolute bottom-0 right-0 z-50">
-          {/* <ChatComponent hubConnection={hubConnection} /> */}
         </div>
       </LocationProvider>
     </BrowserRouter>

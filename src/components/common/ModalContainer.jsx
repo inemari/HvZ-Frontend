@@ -1,13 +1,19 @@
 import React from 'react';
 
+// ModalContainer component provides a flexible modal container for displaying content as a modal.
+// Props:
+// - children: The content to be displayed within the modal.
+// - showModal: A boolean indicating whether to display the modal.
+// - handleCloseModal: A callback function to close the modal.
+// - newBackground: An optional custom background color for the modal container.
 const ModalContainer = ({ children, showModal, handleCloseModal, newBackground }) => {
 
     return (
-        <div className='justify-center  '>
-            {/* Background Overlay */}
+        <div className='justify-center'>
+            {/* Background Overlay making content behind dark*/}
             {showModal && (
                 <div
-                    className="fixed inset-0 z-20 bg-black bg-opacity-60  overflow-y-auto h-screen w-screen "
+                    className="fixed inset-0 z-20 bg-black bg-opacity-60  overflow-y-auto h-screen w-screen"
                     id="my-modal"
                 ></div>
             )}
@@ -18,10 +24,10 @@ const ModalContainer = ({ children, showModal, handleCloseModal, newBackground }
             >
                 <div className={`relative p-5 rounded-2xl shadow-xl min-w-fit h-fit container ${newBackground ? newBackground : 'bg-customLightBrown'}`}>
 
-                    {/* Close (X) Button */}
+                    {/* Close button */}
                     <button
                         type="button"
-                        className=" absolute top-3 right-2.5 text-gray-400 bg-transparent  hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center  dark:hover:text-white"
+                        className=" absolute top-3 right-2.5 text-gray-400 bg-transparent rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center hover:text-white"
                         data-modal-hide="authentication-modal"
                         onClick={handleCloseModal}
                     >
@@ -30,9 +36,6 @@ const ModalContainer = ({ children, showModal, handleCloseModal, newBackground }
                         </svg>
                         <span className="sr-only">Close modal</span>
                     </button>
-
-
-
                     {children}
 
                 </div>

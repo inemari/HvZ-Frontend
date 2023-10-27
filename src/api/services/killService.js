@@ -24,7 +24,6 @@ export const getKillsInGame = async (gameId) => {
           }
         })
       );
-      console.log("KillIds", killIds);
       return killIds;
     } catch (error) {
       // Handle errors or return an error message as needed

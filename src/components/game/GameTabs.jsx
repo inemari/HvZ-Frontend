@@ -1,12 +1,16 @@
-// FilterSlider.jsx
-
 import React, { useEffect, useState } from "react";
 import { getGameStatusValues } from "../../api/services/gameService.js";
 
+// GameTabs component provides a set of tabs for filtering games by their status.
+// Props:
+// - activeTab: The currently active tab (game state).
+// - handleTabChange: A callback function to handle tab changes.
 const GameTabs = ({ activeTab, handleTabChange }) => {
   const [filterOptions, setFilterOptions] = useState([]);
 
   useEffect(() => {
+
+    // Asynchronously fetch game status values and populate the filter options.
     async function fetchGameStatusValues() {
       try {
         const gameStatusValues = await getGameStatusValues();
@@ -18,6 +22,8 @@ const GameTabs = ({ activeTab, handleTabChange }) => {
         );
       }
     }
+
+    // Trigger the data fetching when the component mounts.
     fetchGameStatusValues();
   }, []);
 

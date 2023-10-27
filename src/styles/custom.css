@@ -62,6 +62,7 @@ body {
   background: #555;
 }
 
+/* For overwriting border-radius on components */
 .rounded-3xl {
   border-radius: 40px;
 }

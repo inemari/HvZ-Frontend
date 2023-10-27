@@ -1,4 +1,3 @@
-// DashBoard.js
 import React, { useState } from 'react';
 import Container from '../../components/common/Container';
 import NewGameBtn from '../../components/admin/newGameBtn';
@@ -7,8 +6,11 @@ import editIcon from "../../assets/ui/edit.png";
 import ChooseGameModal from '../../components/admin/editGame/ChooseGameModal';
 import playerService, { changePlayerState } from "../../api/services/playerService";
 
-
-function DashBoard() {
+/**
+ * The `DashBoard` component represents the admin-dashboard of the application.
+ * It provides options to create new games, edit existing games, and manage player states (Human or Zombie)..
+ */
+const DashBoard = () => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [confirmationMessage, setConfirmationMessage] = useState('');
     const [error, setError] = useState('');
@@ -39,7 +41,7 @@ function DashBoard() {
             }
 
             const player = await playerService.getById(playerId);
-            
+
             if (!player) {
                 setError('Player not found. Please check the Player ID.');
                 setConfirmationMessage('');
@@ -47,7 +49,7 @@ function DashBoard() {
             } else {
                 await changePlayerState(playerId, playerState);
                 setConfirmationMessage(`State of player: ${playerId}, has been updated to ${playerState ? 'Zombie' : 'Human'}.`);
-                setError(''); 
+                setError('');
             }
 
         } catch (error) {
@@ -75,29 +77,29 @@ function DashBoard() {
                     <p>Edit player state</p>
                     <div>
                         <label htmlFor="playerId" className="block mb-2 text-sm mr-2 whitespace-nowrap font-medium text-white">Player ID</label>
-                            <input
+                        <input
                             type="integer"
                             id="playerId"
                             placeholder="Enter Player ID"
                             value={playerId}
                             onChange={(e) => setPlayerId(e.target.value)}
-                            className="border w-full col-span-full border-gray-300 text-gray-900 text-sm rounded-lg focus:ring--customOrange focus:border-customOrange block p-2.5 bg-customBrown dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-customOrange dark:focus:border-customOrange"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="playerState" className="block mb-2 text-sm mr-2 whitespace-nowrap font-medium text-white">Game State</label>
-                            <select
+                            className="text-white border w-full col-span-full border-gray-300 text-sm rounded-lg focus:ring--customOrange focus:border-customOrange block p-2.5 bg-customBrown dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-customOrange dark:focus:border-customOrange"
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="playerState" className="block mb-2 text-sm mr-2 whitespace-nowrap font-medium text-white">Game State</label>
+                        <select
                             id="playerState"
                             value={playerState === true ? "true" : playerState === false ? "false" : ""}
                             onChange={(e) => setPlayerState(e.target.value === "true")}
-                            className="border w-full col-span-full border-gray-300 text-gray-900 text-sm rounded-lg focus:ring--customOrange focus:border-customOrange block p-2.5 bg-customBrown dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-customOrange dark:focus:border-customOrange"
-                            >
-                                <option value="">Select a state</option> 
-                                <option value="false">Human</option>
-                                <option value="true">Zombie</option>
-                            </select>
-                        </div>
-                    <CustomButton type="submit" label="Update Player State" onClick={handleSubmit} />  
+                            className="border w-full col-span-full border-gray-300 text-white text-sm rounded-lg focus:ring--customOrange focus:border-customOrange block p-2.5 bg-customBrown dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-customOrange dark:focus:border-customOrange"
+                        >
+                            <option value="">Select a state</option>
+                            <option value="false">Human</option>
+                            <option value="true">Zombie</option>
+                        </select>
+                    </div>
+                    <CustomButton type="submit" label="Update Player State" onClick={handleSubmit} />
                     {error && (
                         <p className="text-red-500">{error}</p>
                     )}

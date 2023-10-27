@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import locationService from "../../api/services/locationService";
 import playerService from "../../api/services/playerService";
 
+// Initialize state variables to manage player and marker data
 const SquadMarker = ({ playerId }) => {
   const [playerData, setPlayerData] = useState(null);
   const [isPopOverVisible, setIsPopOverVisible] = useState(false);
   const [x, setX] = useState(null);
   const [y, setY] = useState(null);
 
+  // useEffect to fetch player and location data when 'playerId' changes
   useEffect(() => {
+    // Define an asynchronous function 'fetchData' to retrieve player and location data
     async function fetchData() {
       try {
         const player = await playerService.getById(playerId);
@@ -24,7 +27,6 @@ const SquadMarker = ({ playerId }) => {
 
         player.location = location;
         setPlayerData(player);
-        console.log("player: ", player);
       } catch (error) {
         console.error("Failed to fetch player or location:", error);
       }
@@ -33,9 +35,10 @@ const SquadMarker = ({ playerId }) => {
     fetchData();
   }, [playerId]);
 
+  // Function 'handleMarkerClick' is used to toggle the visibility of the popover
   const handleMarkerClick = (e) => {
     e.preventDefault();
-    setIsPopOverVisible(!isPopOverVisible); // Toggle the popover visibility
+    setIsPopOverVisible(!isPopOverVisible);
   };
 
   return (
@@ -53,14 +56,14 @@ const SquadMarker = ({ playerId }) => {
           P{playerId}
           {isPopOverVisible && playerData && (
             <div
-              className="text-black absolute whitespace-normal bg-white  border-gray-200  dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 break-words rounded-lg border font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
+              className="absolute whitespace-normal  text-gray-400 border-gray-600 bg-gray-800 break-words rounded-lg border font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
               style={{
                 left: `${x}px`, // Adjust the popover position if needed
                 top: `${y + 30}px`, // Adjust the popover position if needed
               }}
             >
-              <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
-                <h3 className="font-semibold text-gray-900 dark:text-white">
+              <div className="px-3 py-2  border-b  rounded-t-lg border-gray-600 bg-gray-700">
+                <h3 className="font-semibold  text-white">
                   {" "}
                   {playerData.username}
                 </h3>

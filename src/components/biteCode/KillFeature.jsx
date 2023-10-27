@@ -6,7 +6,9 @@ import locationService from "../../api/services/locationService";
 import playerService, { setZombieToTrue, getPlayerByBiteCode }from "../../api/services/playerService";
 import killService from "../../api/services/killService";
 
+// KillFeature component provides a feature for handling kills within a game.
 const KillFeature = () => {
+  // State variables for managing kill feature data and interaction
   const [bitecode, setBitecode] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
@@ -14,10 +16,12 @@ const KillFeature = () => {
   const [killInfo, setKillInfo] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [player, setPlayer] = useState("");
-
+  
+   // Retrieve the selected game from local storage
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const gameId = selectedGame.id;
-
+  
+  // Function to handle the process of a player being killed
   const handleKill = async () => {
     try {
       if (bitecode.trim() === "") {
@@ -41,7 +45,8 @@ const KillFeature = () => {
       console.error("Error handling kill:", error);
     }
   };
-
+  
+  // Function to handle the creation of a kill
   const handleCreateKill = async () => {
     const player = await getPlayerByBiteCode(bitecode);
     setPlayer(player);
@@ -59,7 +64,8 @@ const KillFeature = () => {
     // Clear the description and reset the state when the user successfully creates a kill
     setDescription("");
   };
-
+  
+  // Function to create a kill with player and location information
   async function createKill(playerId, locationId) {
     try {
       const date = new Date();
@@ -71,7 +77,8 @@ const KillFeature = () => {
         timeOfKill: formattedTime,
         locationId: locationId,
       };
-
+      
+      // Attempt to create a new kill record with the provided killData
       const killResponse = await killService.add(killData);
       setShowModal(false);
       return killResponse;

@@ -8,17 +8,21 @@ const SquadList = ({ squadListUpdated }) => {
   const selectedGame = JSON.parse(localStorage.getItem("selectedGame"));
   const selectedGameId = selectedGame.id;
 
+  // This useEffect is responsible for fetching data about squads based on the selected game ID
   useEffect(() => {
+     // Define an asynchronous function 'fetchSquadsData' to fetch squads data
     const fetchSquadsData = async () => {
       try {
+        // Attempt to fetch squads data by calling 'fetchSquadsByGameId' with the selected game ID
         const squadsData = await fetchSquadsByGameId(selectedGameId);
+
+        // Update the state variable 'squads' with the retrieved data
         setSquads(squadsData);
       } catch (error) {
         console.error("Error fetching squads:", error);
       }
     };
 
- 
       fetchSquadsData();
     
   }, [squadListUpdated, selectedGameId]);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getSquadMarkers } from "../../services/mapService";
 import gravestoneIcon from "../../assets/icons/gravestone1.png";
 
+// Displays gravestones on the map to mark player kills
 const GravestoneMarker = () => {
   const [killLocations, setKillLocations] = useState([]);
   const [error, setError] = useState(null);
