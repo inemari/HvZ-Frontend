@@ -13,7 +13,6 @@ import { updatePlayerLocation } from "../../api/services/playerService";
 
 const SquadInformation = ({
   squadId,
-  locationHubConnection,
   hubConnection,
 }) => {
   const [squadDetails, setSquadDetails] = useState(null);
@@ -51,23 +50,40 @@ const SquadInformation = ({
     fetchSquadDetails();
   }, [squadId]);
 
-  // Function to join or leave the squad
-  const handleJoinOrLeaveSquad = async () => {
-    try {
-      if (isMember) {
-        // Leave the squad
-        await leaveSquad(squadId, playerId);
-      } else {
-        // Join the squad
-        await joinSquad(squadId, playerId);
+ // Function to join or leave the squad
+const handleJoinOrLeaveSquad = async () => {
+  try {
+    if (isMember) {
+      // Leave the squad
+      await leaveSquad(squadId, playerId);
+      sessionStorage.setItem("joinedSquadId", "");
+    } else {
+      // Join the squad
+      await joinSquad(squadId, playerId);
+      sessionStorage.setItem("joinedSquadId", squadId);
+
+      if (
+        hubConnection &&
+        hubConnection.state === signalR.HubConnectionState.Connected
+      ) {
+
+        // Add the client to the group on the frontend
+        hubConnection
+          .invoke("AddToGroup", playerId)
+          .catch((error) => {
+            console.error("Error adding to group: " + error);
+          });
       }
+      
 
       // Refetch squad details to update the information
       await fetchSquadDetails();
-    } catch (error) {
-      console.error("Error joining or leaving the squad:", error);
     }
-  };
+  } catch (error) {
+    console.error("Error joining or leaving the squad:", error);
+  }
+};
+
 
   const handleLeaveMarker = async (event) => {
     event.preventDefault();
@@ -79,10 +95,10 @@ const SquadInformation = ({
       console.error("Error leaving a marker:", error);
     }
     if (
-      locationHubConnection &&
-      locationHubConnection.state === signalR.HubConnectionState.Connected
+      hubConnection &&
+      hubConnection.state === signalR.HubConnectionState.Connected
     ) {
-      locationHubConnection
+      hubConnection
         .invoke(
           "SendLocationUpdate",
           parseInt(playerId),

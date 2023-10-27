@@ -5,7 +5,7 @@ import { useLocationContext } from "../../LocationContext";
 import gameService from "../../api/services/gameService";
 
 const SquadListMarkers = ({ rerenderMap }) => {
-  const { locationHubConnection } = useLocationContext();
+  const { hubConnection } = useLocationContext();
   const [playerData, setPlayerData] = useState([]);
   const [game, setGame] = useState(null);
   const previousPlayerDataRef = useRef([]);

@@ -4,26 +4,18 @@ import MissionList from "../missions/MissionList";
 import SquadListMarkers from "../squad/SquadListMarkers";
 import KillList from "../kill/KillList";
 import gravestone from "../../assets/icons/gravestone1.png";
-const Map = ({ locationHubConnection }) => {
+const Map = ({ hubConnection }) => {
   const [rerenderMap, setRerenderMap] = useState(0);
 
-  useEffect(() => {
+ useEffect(() => {
     // When a message is received through locationHubConnection, trigger a re-render
-    if (locationHubConnection) {
+    if (hubConnection) {
       console.log("useeffect triggers134");
-      locationHubConnection.on("ReceiveLocationUpdate", () => {
+      hubConnection.on("receivelocationupdate", () => {
         setRerenderMap((prev) => prev + 1);
       });
     }
-
-
-    return () => {
-      // Clean up the event listener when the component unmounts
-      if (locationHubConnection) {
-        locationHubConnection.off("ReceiveLocationUpdate");
-      }
-    };
-  }, [locationHubConnection]);
+  }, [hubConnection]); 
 
   return (
     <div className="rounded-lg bg-cover object-cover bg-clip-content relative w-full  aspect-video" style={{ backgroundImage: `url(${map})` }}>
@@ -44,7 +36,7 @@ const Map = ({ locationHubConnection }) => {
       <KillList />
       <SquadListMarkers
         key={rerenderMap}
-        locationHubConnection={locationHubConnection}
+        hubConnection={hubConnection} 
       />
     </div>
   );

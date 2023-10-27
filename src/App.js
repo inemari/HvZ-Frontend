@@ -26,44 +26,11 @@ const App = () => {
   const [triggerBool, setTriggerBool] = useState(false);
 
   useEffect(() => {
-    const createLocationHubConnection = async () => {
-      if (initialized && keycloak.authenticated) {
-        const newConnection = new signalR.HubConnectionBuilder()
-          .withUrl("https://localhost:7041/locationhub")
-          .configureLogging(signalR.LogLevel.Debug)
-          .build();
-
-        try {
-          await newConnection.start();
-          console.log("Connected to SignalR locationhub!");
-          setLocationHubConnection(newConnection);
-
-          newConnection.on("ReceiveLocationUpdate", (playerId, x, y) => {
-            console.log(
-              `Received location update from ${playerId}: x - ${x}, y - ${y}`
-            );
-
-            // Trigger the re-render of the map when a location update is received
-            if (locationHubConnection) {
-              locationHubConnection.off("ReceiveLocationUpdate");
-            }
-            setTriggerBool((prev) => !prev);
-          });
-        } catch (error) {
-          console.error("Error connecting to SignalR locationhub: ", error);
-        }
-      }
-    };
-
-    createLocationHubConnection();
-  }, [initialized, keycloak.authenticated]); // Listen for changes in authentication status
-
-  useEffect(() => {
     const createHubConnection = async () => {
       if (initialized && keycloak.authenticated) {
         // Only create SignalR connection if authenticated
         const newConnection = new signalR.HubConnectionBuilder()
-          .withUrl("https://localhost:7041/chathub", {
+          .withUrl("https://localhost:7041/hub", {
             /*                 skipNegotiation: true,
     transport: signalR.HttpTransportType.WebSockets  */
           })
@@ -71,16 +38,21 @@ const App = () => {
           .configureLogging(signalR.LogLevel.Debug)
           .build();
 
+          newConnection.on("receivelocationupdate", (playerId, x, y) => {
+            console.log(
+              `Received location update from ${playerId}: x - ${x}, y - ${y}`);
+            });
+
         newConnection.on("ReceiveMessage", (user, message) => {
           console.log(`Received message from ${user}: ${message}`);
         });
 
         try {
           await newConnection.start();
-          console.log("Connected to SignalR chathub!");
+          console.log("Connected to SignalR hub!");
           setHubConnection(newConnection);
         } catch (error) {
-          console.error("Error connecting to SignalR chathub: ", error);
+          console.error("Error connecting to SignalR hub: ", error);
         }
       }
     };
@@ -105,7 +77,7 @@ const App = () => {
               path="/Map"
               element={
                 <KeycloakRoute role="user" requiresGameJoin={true}>
-                  <MapPage locationHubConnection={locationHubConnection} />
+                  <MapPage hubConnection={hubConnection}  />
                 </KeycloakRoute>
               }
             />
@@ -121,7 +93,7 @@ const App = () => {
               path="/SquadDetails"
               element={
                 <KeycloakRoute role="user" requiresGameJoin={true}>
-                  <SquadDetails locationHubConnection={locationHubConnection} />
+                  <SquadDetails hubConnection={hubConnection}  />
                 </KeycloakRoute>
               }
             />
